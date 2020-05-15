@@ -1,0 +1,473 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0426C36D246E75940090E1EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C36C246E75940090E1EC /* AppDelegate.m */; };
+		0426C370246E75940090E1EC /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C36F246E75940090E1EC /* SceneDelegate.m */; };
+		0426C373246E75940090E1EC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C372246E75940090E1EC /* ViewController.m */; };
+		0426C376246E75940090E1EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0426C374246E75940090E1EC /* Main.storyboard */; };
+		0426C378246E75950090E1EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0426C377246E75950090E1EC /* Assets.xcassets */; };
+		0426C37B246E75950090E1EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0426C379246E75950090E1EC /* LaunchScreen.storyboard */; };
+		0426C37E246E75950090E1EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C37D246E75950090E1EC /* main.m */; };
+		0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0426C384246E75960090E1EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0426C360246E75940090E1EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0426C367246E75940090E1EC;
+			remoteInfo = "Zalo-ChatBox";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0426C368246E75940090E1EC /* Zalo-ChatBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zalo-ChatBox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0426C36B246E75940090E1EC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0426C36C246E75940090E1EC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0426C36E246E75940090E1EC /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		0426C36F246E75940090E1EC /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		0426C371246E75940090E1EC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0426C372246E75940090E1EC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0426C375246E75940090E1EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0426C377246E75950090E1EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0426C37A246E75950090E1EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0426C37C246E75950090E1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0426C37D246E75950090E1EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0426C383246E75960090E1EC /* Zalo-ChatBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Zalo-ChatBoxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zalo_ChatBoxTests.m; sourceTree = "<group>"; };
+		0426C389246E75960090E1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0426C365246E75940090E1EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0426C380246E75960090E1EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0426C35F246E75940090E1EC = {
+			isa = PBXGroup;
+			children = (
+				0426C36A246E75940090E1EC /* Zalo-ChatBox */,
+				0426C386246E75960090E1EC /* Zalo-ChatBoxTests */,
+				0426C369246E75940090E1EC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0426C369246E75940090E1EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0426C368246E75940090E1EC /* Zalo-ChatBox.app */,
+				0426C383246E75960090E1EC /* Zalo-ChatBoxTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0426C36A246E75940090E1EC /* Zalo-ChatBox */ = {
+			isa = PBXGroup;
+			children = (
+				0426C36B246E75940090E1EC /* AppDelegate.h */,
+				0426C36C246E75940090E1EC /* AppDelegate.m */,
+				0426C36E246E75940090E1EC /* SceneDelegate.h */,
+				0426C36F246E75940090E1EC /* SceneDelegate.m */,
+				0426C371246E75940090E1EC /* ViewController.h */,
+				0426C372246E75940090E1EC /* ViewController.m */,
+				0426C374246E75940090E1EC /* Main.storyboard */,
+				0426C377246E75950090E1EC /* Assets.xcassets */,
+				0426C379246E75950090E1EC /* LaunchScreen.storyboard */,
+				0426C37C246E75950090E1EC /* Info.plist */,
+				0426C37D246E75950090E1EC /* main.m */,
+			);
+			path = "Zalo-ChatBox";
+			sourceTree = "<group>";
+		};
+		0426C386246E75960090E1EC /* Zalo-ChatBoxTests */ = {
+			isa = PBXGroup;
+			children = (
+				0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */,
+				0426C389246E75960090E1EC /* Info.plist */,
+			);
+			path = "Zalo-ChatBoxTests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0426C367246E75940090E1EC /* Zalo-ChatBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0426C38C246E75960090E1EC /* Build configuration list for PBXNativeTarget "Zalo-ChatBox" */;
+			buildPhases = (
+				0426C364246E75940090E1EC /* Sources */,
+				0426C365246E75940090E1EC /* Frameworks */,
+				0426C366246E75940090E1EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Zalo-ChatBox";
+			productName = "Zalo-ChatBox";
+			productReference = 0426C368246E75940090E1EC /* Zalo-ChatBox.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0426C382246E75960090E1EC /* Zalo-ChatBoxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0426C38F246E75960090E1EC /* Build configuration list for PBXNativeTarget "Zalo-ChatBoxTests" */;
+			buildPhases = (
+				0426C37F246E75960090E1EC /* Sources */,
+				0426C380246E75960090E1EC /* Frameworks */,
+				0426C381246E75960090E1EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0426C385246E75960090E1EC /* PBXTargetDependency */,
+			);
+			name = "Zalo-ChatBoxTests";
+			productName = "Zalo-ChatBoxTests";
+			productReference = 0426C383246E75960090E1EC /* Zalo-ChatBoxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0426C360246E75940090E1EC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = "Trần Đình Tôn Hiếu";
+				TargetAttributes = {
+					0426C367246E75940090E1EC = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+					0426C382246E75960090E1EC = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = 0426C367246E75940090E1EC;
+					};
+				};
+			};
+			buildConfigurationList = 0426C363246E75940090E1EC /* Build configuration list for PBXProject "Zalo-ChatBox" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0426C35F246E75940090E1EC;
+			productRefGroup = 0426C369246E75940090E1EC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0426C367246E75940090E1EC /* Zalo-ChatBox */,
+				0426C382246E75960090E1EC /* Zalo-ChatBoxTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0426C366246E75940090E1EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0426C37B246E75950090E1EC /* LaunchScreen.storyboard in Resources */,
+				0426C378246E75950090E1EC /* Assets.xcassets in Resources */,
+				0426C376246E75940090E1EC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0426C381246E75960090E1EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0426C364246E75940090E1EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0426C373246E75940090E1EC /* ViewController.m in Sources */,
+				0426C36D246E75940090E1EC /* AppDelegate.m in Sources */,
+				0426C37E246E75950090E1EC /* main.m in Sources */,
+				0426C370246E75940090E1EC /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0426C37F246E75960090E1EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0426C385246E75960090E1EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0426C367246E75940090E1EC /* Zalo-ChatBox */;
+			targetProxy = 0426C384246E75960090E1EC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0426C374246E75940090E1EC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0426C375246E75940090E1EC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0426C379246E75950090E1EC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0426C37A246E75950090E1EC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0426C38A246E75960090E1EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		0426C38B246E75960090E1EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0426C38D246E75960090E1EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VC54UPHUD4;
+				INFOPLIST_FILE = "Zalo-ChatBox/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "zalo.hieutdt.Zalo-ChatBox";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0426C38E246E75960090E1EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VC54UPHUD4;
+				INFOPLIST_FILE = "Zalo-ChatBox/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "zalo.hieutdt.Zalo-ChatBox";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0426C390246E75960090E1EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VC54UPHUD4;
+				INFOPLIST_FILE = "Zalo-ChatBoxTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "zalo.hieutdt.Zalo-ChatBoxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zalo-ChatBox.app/Zalo-ChatBox";
+			};
+			name = Debug;
+		};
+		0426C391246E75960090E1EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VC54UPHUD4;
+				INFOPLIST_FILE = "Zalo-ChatBoxTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "zalo.hieutdt.Zalo-ChatBoxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zalo-ChatBox.app/Zalo-ChatBox";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0426C363246E75940090E1EC /* Build configuration list for PBXProject "Zalo-ChatBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0426C38A246E75960090E1EC /* Debug */,
+				0426C38B246E75960090E1EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0426C38C246E75960090E1EC /* Build configuration list for PBXNativeTarget "Zalo-ChatBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0426C38D246E75960090E1EC /* Debug */,
+				0426C38E246E75960090E1EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0426C38F246E75960090E1EC /* Build configuration list for PBXNativeTarget "Zalo-ChatBoxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0426C390246E75960090E1EC /* Debug */,
+				0426C391246E75960090E1EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0426C360246E75940090E1EC /* Project object */;
+}
