@@ -1,0 +1,6 @@
+framework module Pods_Zalo_ChatBox {
+  umbrella header "Pods-Zalo-ChatBox-umbrella.h"
+
+  export *
+  module * { export * }
+}
