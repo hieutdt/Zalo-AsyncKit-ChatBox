@@ -103,10 +103,10 @@
 
 - (void)fitContactsData:(NSMutableArray<Contact *> *)contacts
          toSectionArray:(NSMutableArray<NSMutableArray *> *)sections {
-    #if DEBUG
-        assert(sections);
-        assert(sections.count == ALPHABET_SECTIONS_NUMBER);
-    #endif
+#if DEBUG
+    assert(sections);
+    assert(sections.count == ALPHABET_SECTIONS_NUMBER);
+#endif
     
     if (!contacts || !sections)
         return;
@@ -131,9 +131,9 @@
 }
 
 - (void)resigterContactDidChangedDelegate:(id<ContactDidChangedDelegate>)delegate {
-    #if DEBUG
-        assert(delegate);
-    #endif
+#if DEBUG
+    assert(delegate);
+#endif
     
     if (!delegate)
         return;
@@ -142,9 +142,9 @@
 }
 
 - (void)removeContactDidChangedDelegate:(id<ContactDidChangedDelegate>)delegate {
-    #if DEBUG
-        assert(delegate);
-    #endif
+#if DEBUG
+    assert(delegate);
+#endif
     
     if (!delegate)
         return;

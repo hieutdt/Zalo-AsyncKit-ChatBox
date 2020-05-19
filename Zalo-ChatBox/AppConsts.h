@@ -22,6 +22,20 @@ typedef NS_ENUM(NSInteger, ContactAuthorState) {
     ContactAuthorStateNotDetermined
 };
 
+typedef NS_ENUM(NSInteger, MessageCellStyle) {
+    MessageCellStyleTextSend,
+    MessageCellStyleTextReceive,
+    MessageCellStyleImageSend,
+    MessageCellStyleImageReceive,
+    MessageCellStyleTimeSection
+};
+
+typedef NS_ENUM(NSInteger, MessageStyle) {
+    MessageStyleText,
+    MessageStyleImage,
+    MessageStyleSection
+};
+
 #define AVATAR_IMAGE_HEIHGT     60
 #define CHECKER_IMAGE_HEIGHT    30
 
@@ -32,7 +46,11 @@ typedef NS_ENUM(NSInteger, ContactAuthorState) {
 #define kGradientColorOrange   2
 #define kGradientColorGreen    3
 
+#define kCurrentUser @"CurrentUser"
+
 #define NEXT_BUTTON_HEIGHT 50
+
+#define kMessageSectionTimeSpace        5*60 // 5 minutes
 
 static const int FIRST_ALPHABET_ASCII_CODE = 97;
 static const int ALPHABET_SECTIONS_NUMBER = 27;

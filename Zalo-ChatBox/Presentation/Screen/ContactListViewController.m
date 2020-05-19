@@ -57,6 +57,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
     
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 80, 50)];

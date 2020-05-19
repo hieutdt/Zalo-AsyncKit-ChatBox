@@ -11,8 +11,8 @@
 		041CB1E1246E79E400D09B58 /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1DF246E79E400D09B58 /* ContactListViewController.m */; };
 		041CB1E8246E79FD00D09B58 /* ChatBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1E7246E79FD00D09B58 /* ChatBoxViewController.m */; };
 		041CB1E9246E79FD00D09B58 /* ChatBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1E7246E79FD00D09B58 /* ChatBoxViewController.m */; };
-		041CB1F8246E8D3800D09B58 /* Contact.mm in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1F6246E8D3800D09B58 /* Contact.mm */; };
-		041CB1F9246E8D3800D09B58 /* Contact.mm in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1F6246E8D3800D09B58 /* Contact.mm */; };
+		041CB1F8246E8D3800D09B58 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1F6246E8D3800D09B58 /* Contact.m */; };
+		041CB1F9246E8D3800D09B58 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1F6246E8D3800D09B58 /* Contact.m */; };
 		041CB200246E8ED600D09B58 /* ContactAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1FF246E8ED600D09B58 /* ContactAdapter.m */; };
 		041CB201246E8ED600D09B58 /* ContactAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CB1FF246E8ED600D09B58 /* ContactAdapter.m */; };
 		041CB203246E8F0000D09B58 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 041CB202246E8F0000D09B58 /* Contacts.framework */; };
@@ -34,8 +34,20 @@
 		0426C37B246E75950090E1EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0426C379246E75950090E1EC /* LaunchScreen.storyboard */; };
 		0426C37E246E75950090E1EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C37D246E75950090E1EC /* main.m */; };
 		0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */; };
+		042978B32473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
+		042978B42473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
+		042978B72473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
+		042978B82473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
+		04516EF52472896B005603C8 /* MessageEditText.m in Sources */ = {isa = PBXBuildFile; fileRef = 04516EF42472896B005603C8 /* MessageEditText.m */; };
+		04516EF62472896B005603C8 /* MessageEditText.m in Sources */ = {isa = PBXBuildFile; fileRef = 04516EF42472896B005603C8 /* MessageEditText.m */; };
+		04516EFA24728B1F005603C8 /* MessageTableNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04516EF924728B1F005603C8 /* MessageTableNode.m */; };
+		04516EFB24728B1F005603C8 /* MessageTableNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04516EF924728B1F005603C8 /* MessageTableNode.m */; };
 		045181D5247192700019FDEE /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 045181D4247192700019FDEE /* ImageCache.m */; };
 		045181D6247192700019FDEE /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 045181D4247192700019FDEE /* ImageCache.m */; };
+		046466D224727B0B00E18118 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 046466D124727B0B00E18118 /* Message.m */; };
+		046466D324727B0B00E18118 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 046466D124727B0B00E18118 /* Message.m */; };
+		04E2D0982472DF92004B1BE9 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* MessageCellNode.m */; };
+		04E2D0992472DF92004B1BE9 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* MessageCellNode.m */; };
 		2707F9F271D0F72F7DDA83F2 /* Pods_Zalo_ChatBoxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6DB516F4E6D324812DC13E /* Pods_Zalo_ChatBoxTests.framework */; };
 		3A86B21C75C441CF13489D32 /* Pods_Zalo_ChatBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563326FC7745839793EED3EA /* Pods_Zalo_ChatBox.framework */; };
 /* End PBXBuildFile section */
@@ -55,7 +67,7 @@
 		041CB1DF246E79E400D09B58 /* ContactListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactListViewController.m; sourceTree = "<group>"; };
 		041CB1E6246E79FD00D09B58 /* ChatBoxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatBoxViewController.h; sourceTree = "<group>"; };
 		041CB1E7246E79FD00D09B58 /* ChatBoxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatBoxViewController.m; sourceTree = "<group>"; };
-		041CB1F6246E8D3800D09B58 /* Contact.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Contact.mm; path = ../Contact.mm; sourceTree = "<group>"; };
+		041CB1F6246E8D3800D09B58 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Contact.m; path = ../Contact.m; sourceTree = "<group>"; };
 		041CB1F7246E8D3800D09B58 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Contact.h; path = ../Contact.h; sourceTree = "<group>"; };
 		041CB1FA246E8D5500D09B58 /* AppConsts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConsts.h; sourceTree = "<group>"; };
 		041CB1FE246E8ED600D09B58 /* ContactAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactAdapter.h; sourceTree = "<group>"; };
@@ -86,8 +98,20 @@
 		0426C383246E75960090E1EC /* Zalo-ChatBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Zalo-ChatBoxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zalo_ChatBoxTests.m; sourceTree = "<group>"; };
 		0426C389246E75960090E1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		042978B12473B9250030EE56 /* LayoutHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayoutHelper.h; sourceTree = "<group>"; };
+		042978B22473B9250030EE56 /* LayoutHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutHelper.m; sourceTree = "<group>"; };
+		042978B52473E67F0030EE56 /* TimeSectionCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSectionCellNode.h; sourceTree = "<group>"; };
+		042978B62473E67F0030EE56 /* TimeSectionCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSectionCellNode.m; sourceTree = "<group>"; };
+		04516EF32472896B005603C8 /* MessageEditText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageEditText.h; sourceTree = "<group>"; };
+		04516EF42472896B005603C8 /* MessageEditText.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageEditText.m; sourceTree = "<group>"; };
+		04516EF824728B1F005603C8 /* MessageTableNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTableNode.h; sourceTree = "<group>"; };
+		04516EF924728B1F005603C8 /* MessageTableNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTableNode.m; sourceTree = "<group>"; };
 		045181D3247192700019FDEE /* ImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
 		045181D4247192700019FDEE /* ImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		046466D024727B0B00E18118 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		046466D124727B0B00E18118 /* Message.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		04E2D0962472DF92004B1BE9 /* MessageCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCellNode.h; sourceTree = "<group>"; };
+		04E2D0972472DF92004B1BE9 /* MessageCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCellNode.m; sourceTree = "<group>"; };
 		563326FC7745839793EED3EA /* Pods_Zalo_ChatBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zalo_ChatBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		688C625E3281BDC911161408 /* Pods-Zalo-ChatBoxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zalo-ChatBoxTests.debug.xcconfig"; path = "Target Support Files/Pods-Zalo-ChatBoxTests/Pods-Zalo-ChatBoxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7CDD3847A7E20073CB3BDCA8 /* Pods-Zalo-ChatBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zalo-ChatBox.release.xcconfig"; path = "Target Support Files/Pods-Zalo-ChatBox/Pods-Zalo-ChatBox.release.xcconfig"; sourceTree = "<group>"; };
@@ -180,6 +204,8 @@
 				041CB208246E8FD100D09B58 /* StringHelper.m */,
 				045181D3247192700019FDEE /* ImageCache.h */,
 				045181D4247192700019FDEE /* ImageCache.m */,
+				042978B12473B9250030EE56 /* LayoutHelper.h */,
+				042978B22473B9250030EE56 /* LayoutHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -187,12 +213,10 @@
 		041CB20F246E909800D09B58 /* Fragment */ = {
 			isa = PBXGroup;
 			children = (
-				041CB21A246E925C00D09B58 /* UIImage+Additions.h */,
-				041CB21B246E925C00D09B58 /* UIImage+Additions.m */,
-				041CB21E246E96E400D09B58 /* ContactTableNode.h */,
-				041CB21F246E96E400D09B58 /* ContactTableNode.m */,
-				041CB210246E90EA00D09B58 /* ContactTableCellNode.h */,
-				041CB211246E90EA00D09B58 /* ContactTableCellNode.m */,
+				04516EF22472893F005603C8 /* MessageEditText */,
+				04516EF124728935005603C8 /* ContactList */,
+				04516EF724728AFB005603C8 /* MessageList */,
+				04516EF02472892D005603C8 /* UIImage */,
 			);
 			path = Fragment;
 			sourceTree = "<group>";
@@ -210,7 +234,9 @@
 			isa = PBXGroup;
 			children = (
 				041CB1F7246E8D3800D09B58 /* Contact.h */,
-				041CB1F6246E8D3800D09B58 /* Contact.mm */,
+				041CB1F6246E8D3800D09B58 /* Contact.m */,
+				046466D024727B0B00E18118 /* Message.h */,
+				046466D124727B0B00E18118 /* Message.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -238,10 +264,10 @@
 		0426C36A246E75940090E1EC /* Zalo-ChatBox */ = {
 			isa = PBXGroup;
 			children = (
-				041CB206246E8FBB00D09B58 /* Helper */,
 				041CB1DB246E782500D09B58 /* Presentation */,
 				041CB1DA246E781F00D09B58 /* Business */,
 				041CB1D9246E781600D09B58 /* DataAcess */,
+				041CB206246E8FBB00D09B58 /* Helper */,
 				041CB1F5246E8D0000D09B58 /* Model */,
 				041CB1FA246E8D5500D09B58 /* AppConsts.h */,
 				0426C36B246E75940090E1EC /* AppDelegate.h */,
@@ -263,6 +289,48 @@
 				0426C389246E75960090E1EC /* Info.plist */,
 			);
 			path = "Zalo-ChatBoxTests";
+			sourceTree = "<group>";
+		};
+		04516EF02472892D005603C8 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				041CB21A246E925C00D09B58 /* UIImage+Additions.h */,
+				041CB21B246E925C00D09B58 /* UIImage+Additions.m */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
+		04516EF124728935005603C8 /* ContactList */ = {
+			isa = PBXGroup;
+			children = (
+				041CB21E246E96E400D09B58 /* ContactTableNode.h */,
+				041CB21F246E96E400D09B58 /* ContactTableNode.m */,
+				041CB210246E90EA00D09B58 /* ContactTableCellNode.h */,
+				041CB211246E90EA00D09B58 /* ContactTableCellNode.m */,
+			);
+			path = ContactList;
+			sourceTree = "<group>";
+		};
+		04516EF22472893F005603C8 /* MessageEditText */ = {
+			isa = PBXGroup;
+			children = (
+				04516EF32472896B005603C8 /* MessageEditText.h */,
+				04516EF42472896B005603C8 /* MessageEditText.m */,
+			);
+			path = MessageEditText;
+			sourceTree = "<group>";
+		};
+		04516EF724728AFB005603C8 /* MessageList */ = {
+			isa = PBXGroup;
+			children = (
+				04516EF824728B1F005603C8 /* MessageTableNode.h */,
+				04516EF924728B1F005603C8 /* MessageTableNode.m */,
+				04E2D0962472DF92004B1BE9 /* MessageCellNode.h */,
+				04E2D0972472DF92004B1BE9 /* MessageCellNode.m */,
+				042978B52473E67F0030EE56 /* TimeSectionCellNode.h */,
+				042978B62473E67F0030EE56 /* TimeSectionCellNode.m */,
+			);
+			path = MessageList;
 			sourceTree = "<group>";
 		};
 		8E06C0F317C472BB0061391B /* Pods */ = {
@@ -455,17 +523,23 @@
 				041CB20D246E904C00D09B58 /* ContactBusiness.m in Sources */,
 				041CB21C246E925C00D09B58 /* UIImage+Additions.m in Sources */,
 				041CB200246E8ED600D09B58 /* ContactAdapter.m in Sources */,
+				042978B32473B9250030EE56 /* LayoutHelper.m in Sources */,
 				0426C36D246E75940090E1EC /* AppDelegate.m in Sources */,
 				041CB220246E96E400D09B58 /* ContactTableNode.m in Sources */,
 				041CB1E0246E79E400D09B58 /* ContactListViewController.m in Sources */,
 				045181D5247192700019FDEE /* ImageCache.m in Sources */,
+				046466D224727B0B00E18118 /* Message.m in Sources */,
 				041CB1E8246E79FD00D09B58 /* ChatBoxViewController.m in Sources */,
 				0426C37E246E75950090E1EC /* main.m in Sources */,
-				041CB1F8246E8D3800D09B58 /* Contact.mm in Sources */,
+				041CB1F8246E8D3800D09B58 /* Contact.m in Sources */,
+				04516EFA24728B1F005603C8 /* MessageTableNode.m in Sources */,
 				041CB209246E8FD100D09B58 /* StringHelper.m in Sources */,
+				04516EF52472896B005603C8 /* MessageEditText.m in Sources */,
 				041CB218246E917900D09B58 /* ContactTableViewModel.m in Sources */,
 				0426C370246E75940090E1EC /* SceneDelegate.m in Sources */,
 				041CB212246E90EA00D09B58 /* ContactTableCellNode.m in Sources */,
+				042978B72473E67F0030EE56 /* TimeSectionCellNode.m in Sources */,
+				04E2D0982472DF92004B1BE9 /* MessageCellNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,15 +549,21 @@
 			files = (
 				041CB201246E8ED600D09B58 /* ContactAdapter.m in Sources */,
 				0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */,
+				042978B82473E67F0030EE56 /* TimeSectionCellNode.m in Sources */,
 				041CB1E9246E79FD00D09B58 /* ChatBoxViewController.m in Sources */,
 				041CB21D246E925C00D09B58 /* UIImage+Additions.m in Sources */,
+				04516EF62472896B005603C8 /* MessageEditText.m in Sources */,
 				041CB213246E90EA00D09B58 /* ContactTableCellNode.m in Sources */,
 				041CB1E1246E79E400D09B58 /* ContactListViewController.m in Sources */,
+				04E2D0992472DF92004B1BE9 /* MessageCellNode.m in Sources */,
 				041CB20A246E8FD100D09B58 /* StringHelper.m in Sources */,
 				041CB221246E96E400D09B58 /* ContactTableNode.m in Sources */,
-				041CB1F9246E8D3800D09B58 /* Contact.mm in Sources */,
+				041CB1F9246E8D3800D09B58 /* Contact.m in Sources */,
+				04516EFB24728B1F005603C8 /* MessageTableNode.m in Sources */,
+				042978B42473B9250030EE56 /* LayoutHelper.m in Sources */,
 				041CB219246E917900D09B58 /* ContactTableViewModel.m in Sources */,
 				045181D6247192700019FDEE /* ImageCache.m in Sources */,
+				046466D324727B0B00E18118 /* Message.m in Sources */,
 				041CB20E246E904C00D09B58 /* ContactBusiness.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

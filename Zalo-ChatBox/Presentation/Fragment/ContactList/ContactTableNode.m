@@ -149,8 +149,7 @@ titleForHeaderInSection:(NSInteger)section {
 #pragma mark - ASTableDelegate
 
 // We handle this event manualy by PickerTableCellNodeDelegate, this method can't be called
-- (void)tableNode:(ASTableNode *)tableNode
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
 }
 
@@ -172,8 +171,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     view.tintColor = [UIColor whiteColor];
 }
 
-- (void)tableNode:(ASTableNode *)tableNode
-didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableNode:(ASTableNode *)tableNode didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     ContactTableCellNode *cell = [tableNode nodeForRowAtIndexPath:indexPath];
     [UIView animateWithDuration:0.25 animations:^{
         [cell setBackgroundColor:[UIColor colorWithRed:235/255.f
@@ -183,8 +181,7 @@ didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     }];
 }
 
-- (void)tableNode:(ASTableNode *)tableNode
-didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableNode:(ASTableNode *)tableNode didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     ContactTableCellNode *cell = [tableNode nodeForRowAtIndexPath:indexPath];
     [cell setBackgroundColor:[UIColor whiteColor]];
 }

@@ -7,10 +7,13 @@
 //
 
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
+#import "Contact.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ChatBoxViewController : ASViewController
+
+@property (nonatomic, strong) Contact *messageToContact;
 
 @end
 
