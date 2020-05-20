@@ -59,12 +59,14 @@ static const int kVericalPadding = 5;
     
     if (_messageStyle == MessageCellStyleTextSend) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
-        return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, 5)
-                                                      child:overlaySpec];
+        return [ASInsetLayoutSpec
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, 5)
+                child:overlaySpec];
     } else if (_messageStyle == MessageCellStyleTextReceive) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
-        return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, 5, kVericalPadding, INFINITY)
-                                                      child:overlaySpec];
+        return [ASInsetLayoutSpec
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, 5, kVericalPadding, INFINITY)
+                child:overlaySpec];
     } else {
         return nil;
     }

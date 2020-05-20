@@ -8,11 +8,12 @@
 
 #import "MessageTableNode.h"
 #import "MessageCellNode.h"
+#import "TimeSectionCellNode.h"
+
 #import "AppConsts.h"
 #import "LayoutHelper.h"
 
 static const int kFontSize = 18;
-static const int kTimeFontSize = 15;
 static NSString *kFontName = @"HelveticaNeue";
 
 @interface MessageTableNode () <ASTableDelegate, ASTableDataSource>
@@ -67,30 +68,34 @@ static NSString *kFontName = @"HelveticaNeue";
 }
 
 - (void)generateSectionData {
+    // Insert section lines between message groups that are separated by time
     if (!_messages)
         return;
     if (_messages.count == 0)
         return;
     
     NSMutableArray *cellModels = [[NSMutableArray alloc] init];
-    [cellModels addObject:[[Message alloc] initWithMessage:@"" from:@"" to:@""
-                                                 timestamp:_messages[0].timestamp
-                                                     style:MessageStyleSection]];
-    [cellModels addObject:_messages[0]];
     
-    for (int i = 1; i < _messages.count; i++) {
-        if (_messages[i].timestamp - _messages[i - 1].timestamp >= kMessageSectionTimeSpace) {
-            [cellModels addObject:[[Message alloc] initWithMessage:@"" from:@"" to:@""
-                                                         timestamp:_messages[i].timestamp
-                                                             style:MessageStyleSection]];
-        }
-        
+    for (int i = 0; i < _messages.count - 1; i++) {
         [cellModels addObject:_messages[i]];
+        if (_messages[i].timestamp - _messages[i + 1].timestamp >= kMessageSectionTimeSpace) {
+            Message *sectionRow = [self sectionRowByTimestamp:_messages[i].timestamp];
+            [cellModels addObject:sectionRow];
+        }
     }
+    
+    Message *sectionRow = [self sectionRowByTimestamp:_messages[_messages.count - 1].timestamp];
+    [cellModels addObject:sectionRow];
     
     _models = cellModels;
 }
 
+- (Message *)sectionRowByTimestamp:(NSTimeInterval)timestamp {
+    Message *sectionRow = [[Message alloc] initWithMessage:@"" from:@"" to:@""
+                                                 timestamp:timestamp
+                                                     style:MessageStyleSection];
+    return sectionRow;
+}
 
 #pragma mark - PublicMethods
 
@@ -128,13 +133,25 @@ static NSString *kFontName = @"HelveticaNeue";
         return nil;
     
     Message *mess = self.models[indexPath.item];
-    ASCellNode *(^cellNodeBlock)(void) = ^ASCellNode *() {
-        MessageCellNode *cellNode = [[MessageCellNode alloc] init];
-        [cellNode setMessage:mess];
-        cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        return cellNode;
-    };
+    ASCellNode *(^cellNodeBlock)(void) = nil;
+    
+    if (mess.style == MessageStyleText) {
+        cellNodeBlock = ^ASCellNode *() {
+            MessageCellNode *cellNode = [[MessageCellNode alloc] init];
+            [cellNode setMessage:mess];
+            cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+            return cellNode;
+        };
+    } else if (mess.style == MessageStyleSection) {
+        cellNodeBlock = ^ASCellNode *() {
+            TimeSectionCellNode *cellNode = [[TimeSectionCellNode alloc] init];
+            [cellNode setTimestamp:mess.timestamp];
+            cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cellNode;
+        };
+    }
     
     return cellNodeBlock;
 }
@@ -144,44 +161,22 @@ static NSString *kFontName = @"HelveticaNeue";
         return ASSizeRangeZero;
     
     Message *mess = self.models[indexPath.item];
-    NSString *text = mess.message;
     
-    CGSize size = CGSizeMake(self.view.frame.size.width * 0.7, 1000);
-    CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:text
-                                                          font:[UIFont fontWithName:kFontName size:kFontSize]
-                                                   parrentSize:size];
+    if (mess.style == MessageStyleSection) {
+        return ASSizeRangeMake(CGSizeMake(self.view.bounds.size.width, SECTION_HEADER_HEIGHT));
+        
+    } else if (mess.style == MessageStyleText) {
+        NSString *text = mess.message;
+        CGSize size = CGSizeMake(self.view.frame.size.width * 0.7, 1000);
+        CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:text
+                                                              font:[UIFont fontWithName:kFontName size:kFontSize]
+                                                       parrentSize:size];
     
-    return ASSizeRangeMake(CGSizeMake(estimatedFrame.size.width + 10, estimatedFrame.size.height + 20));
+        return ASSizeRangeMake(CGSizeMake(estimatedFrame.size.width + 10, estimatedFrame.size.height + 20));
+    }
+    
+    return ASSizeRangeZero;
 }
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//
-//    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, SECTION_HEADER_HEIGHT)];
-//    headerLabel.textAlignment = NSTextAlignmentCenter;
-//    headerLabel.textColor = [UIColor grayColor];
-//    headerLabel.font = [UIFont fontWithName:kFontName size:kTimeFontSize];
-//
-//    Message *firstMessOfSection =  (Message *)[_messageSections[section] firstObject];
-//    NSTimeInterval tsForSection = firstMessOfSection.timestamp;
-//
-//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:tsForSection];
-//    NSDateFormatter *formatter = [NSDateFormatter new];
-//    formatter.timeZone = [NSTimeZone localTimeZone];
-//
-//    if ([[NSCalendar currentCalendar] isDateInToday:date]) {
-//        formatter.dateFormat = @"HH:mm 'Hôm nay'";
-//    } else if ([[NSCalendar currentCalendar] isDateInYesterday:date]) {
-//        formatter.dateFormat = @"HH:mm 'Hôm qua'";
-//    } else {
-//        formatter.dateFormat = @"HH:mm dd/MM/YYYY";
-//    }
-//
-//    [headerLabel setText:[formatter stringFromDate:date]];
-//    headerLabel.transform = CGAffineTransformScale(headerLabel.transform, 1, -1);
-//
-//    return headerLabel;
-//}
-
 
 #pragma mark - ASTableDelegate
 
