@@ -16,11 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MessageCellNodeDelegate <NSObject>
 
-- (void)didSelectMessageCellNode:(MessageCellNode *)cellNode
-                         atIndex:(NSInteger)index;
+@required
+- (void)didSelectMessageCellNode:(MessageCellNode *)cellNode;
 
-- (void)didUnselectMessageCellNode:(MessageCellNode *)cellNode
-                           atIndex:(NSInteger)index;
+- (void)didUnselectMessageCellNode:(MessageCellNode *)cellNode;
 
 @end
 
@@ -28,12 +27,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) id<MessageCellNodeDelegate> delegate;
 
+@property (nonatomic, assign) BOOL choosing;
+
 - (void)setMessage:(Message *)message;
 
 - (void)showAvatarImage:(UIImage *)image;
 
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName;
+
+- (void)addTopSpacing:(int)topSpace;
+
+- (void)selectCell;
+
+- (void)deselectCell;
 
 @end
 

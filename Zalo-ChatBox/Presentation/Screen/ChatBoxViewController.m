@@ -23,9 +23,6 @@
 @property (nonatomic, strong) Conversation *conversation;
 @property (nonatomic, strong) MessageBusiness *messageBusiness;
 
-@property (nonatomic, strong) ASImageNode *avatarImageNode;
-@property (nonatomic, strong) ASTextNode *nameTextNode;
-
 @end
 
 @implementation ChatBoxViewController
@@ -57,6 +54,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = _messageToContact.name;
+    
     if (_friendImage) {
         [_tableNode setFriendAvatarImage:_friendImage];
     } else {
@@ -85,13 +84,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
-
-#pragma mark - UpdateNavigationBar
-
-- (void)initNavigationBar {
-    _avatarImageNode = [[ASImageNode alloc] init];
-    _nameTextNode = [[ASTextNode alloc] init];
 }
 
 #pragma mark - MessageTableNodeDelegate

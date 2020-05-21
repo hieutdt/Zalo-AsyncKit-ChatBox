@@ -16,7 +16,7 @@
 static const int kFontSize = 18;
 static NSString *kFontName = @"HelveticaNeue";
 
-@interface MessageTableNode () <ASTableDelegate, ASTableDataSource>
+@interface MessageTableNode () <ASTableDelegate, ASTableDataSource, MessageCellNodeDelegate>
 
 @property (nonatomic, strong) NSMutableArray<Message *> *messages;
 @property (nonatomic, strong) NSMutableArray<Message *> *models;
@@ -176,6 +176,7 @@ static NSString *kFontName = @"HelveticaNeue";
             MessageCellNode *cellNode = [[MessageCellNode alloc] init];
             [cellNode setMessage:mess];
             cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
+            cellNode.delegate = self;
             
             if (indexPath.item == 0 ||
                 weakSelf.models[indexPath.item - 1].fromPhoneNumber != mess.fromPhoneNumber) {
@@ -240,6 +241,64 @@ static NSString *kFontName = @"HelveticaNeue";
             [self.delegate tableNodeNeedLoadMoreData];
         }
     }
+}
+
+#pragma mark - MessageCellNodeDelegate
+
+- (void)didSelectMessageCellNode:(MessageCellNode *)cellNode {
+    for (int i = 0; i < _models.count; i++) {
+        ASCellNode *node = [_tableNode nodeForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        if ([node isKindOfClass:[MessageCellNode class]]) {
+            MessageCellNode *messNode = (MessageCellNode *)node;
+            if (messNode.choosing) {
+                [messNode deselectCell];
+                [self removeSectionCellForUnselectCell:messNode];
+            }
+        }
+    }
+    
+    [cellNode selectCell];
+    NSInteger index = [_tableNode indexPathForNode:cellNode].item;
+    if (index == _messages.count - 1)
+        return;
+    
+    if (_models[index + 1].style == MessageStyleSection) {
+        return;
+    }
+    
+    [_models insertObject:[[Message alloc] initWithMessage:@"" from:@"" to:@""
+                                                 timestamp:_models[index].timestamp
+                                                     style:MessageStyleSection]
+                  atIndex:index + 1];
+    
+    [_tableNode performBatchUpdates:^{
+        [_tableNode insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 1 inSection:0]]
+                          withRowAnimation:YES];
+    } completion:nil];
+}
+
+- (void)didUnselectMessageCellNode:(MessageCellNode *)cellNode {
+    [cellNode deselectCell];
+    [self removeSectionCellForUnselectCell:cellNode];
+}
+
+- (void)removeSectionCellForUnselectCell:(MessageCellNode *)cellNode {
+    NSInteger index = [_tableNode indexPathForNode:cellNode].item;
+    if (index >= _models.count - 2)
+        return;
+    
+    if (_models[index + 1].style != MessageStyleSection)
+        return;
+    else if (_models[index + 1].timestamp - _models[index + 2].timestamp >= kMessageSectionTimeSpace)
+        return;
+    
+    [_models removeObjectAtIndex:index + 1];
+    
+    [_tableNode performBatchUpdates:^{
+        [_tableNode deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 1 inSection:0]]
+                          withRowAnimation:YES];
+    } completion:nil];
+
 }
 
 @end

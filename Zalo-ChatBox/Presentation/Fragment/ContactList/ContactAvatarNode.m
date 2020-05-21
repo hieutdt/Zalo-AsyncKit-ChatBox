@@ -10,6 +10,9 @@
 #import "UIImage+Additions.h"
 #import "AppConsts.h"
 
+
+static const int kFontSize = 16;
+
 @interface ContactAvatarNode ()
 
 @property (nonatomic, strong) ASTextNode *shortNameLabel;
@@ -58,7 +61,7 @@
 
 - (void)setGradientAvatarWithColorCode:(int)colorCode
                           andShortName:(NSString *)shortName {
-    NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:20],
+    NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:kFontSize],
                                       NSForegroundColorAttributeName : [UIColor whiteColor] };
     NSAttributedString *string = [[NSAttributedString alloc]
                                   initWithString:shortName

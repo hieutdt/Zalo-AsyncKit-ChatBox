@@ -11,7 +11,8 @@
 #import "ContactAvatarNode.h"
 
 static const int kFontSize = 18;
-static const int kVericalPadding = 5;
+static const int kVericalPadding = 3;
+static const int kHorizontalPadding = 10;
 
 @interface MessageCellNode ()
 
@@ -44,7 +45,12 @@ static const int kVericalPadding = 5;
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
         
+        _choosing = NO;
+        
         _controlNode = [[ASControlNode alloc] init];
+        [_controlNode addTarget:self
+                         action:@selector(touchUpInside)
+               forControlEvents:ASControlNodeEventTouchUpInside];
     }
     return self;
 }
@@ -58,23 +64,25 @@ static const int kVericalPadding = 5;
                                                           font:[UIFont fontWithName:@"HelveticaNeue" size:kFontSize]
                                                    parrentSize:boundingSize];
     
-    _backgroundNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, maxConstrainedSize.height);
-    _controlNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, maxConstrainedSize.height);
+    _backgroundNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, estimatedFrame.size.height + 10);
+    _controlNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, estimatedFrame.size.height);
     
-    ASOverlayLayoutSpec *overlaySpec = [ASOverlayLayoutSpec
+    ASOverlayLayoutSpec *overlayTextSpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
-                                        overlay:[ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 8, 5, 8)
-                                                                                       child:_editTextNode]];
+                                        overlay:[ASInsetLayoutSpec
+                                                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 8, 5, 8)
+                                                 child:_editTextNode]];
     
     ASOverlayLayoutSpec *overlayControlSppec = [ASOverlayLayoutSpec
-                                                overlayLayoutSpecWithChild:overlaySpec
+                                                overlayLayoutSpecWithChild:overlayTextSpec
                                                 overlay:_controlNode];
     
     if (_messageStyle == MessageCellStyleTextSend) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, 10)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
                 child:overlayControlSppec];
+        
     } else if (_messageStyle == MessageCellStyleTextReceive) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
         
@@ -87,7 +95,7 @@ static const int kVericalPadding = 5;
                                         children:@[_avatarNode, overlayControlSppec]];
         
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, 10, kVericalPadding, INFINITY)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
                 child:stackSpec];
     } else {
         return nil;
@@ -141,6 +149,40 @@ static const int kVericalPadding = 5;
     [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
                                    andShortName:shortName];
     _avatarNode.hidden = NO;
+}
+
+- (void)selectCell {
+    _choosing = YES;
+    if (_messageStyle == MessageCellStyleTextSend) {
+        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:31/255.f green:97/255.f blue:141/255.f alpha:1]];
+    } else {
+        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:179/255.f green:182/255.f blue:183/255.f alpha:1]];
+    }
+}
+
+- (void)deselectCell {
+    _choosing = NO;
+    if (_messageStyle == MessageCellStyleTextSend) {
+        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1]];
+    } else {
+        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1]];
+    }
+}
+
+#pragma mark - Action
+
+- (void)touchUpInside {
+    if (self.choosing) {
+        if (self.delegate &&
+            [self.delegate conformsToProtocol:@protocol(MessageCellNodeDelegate)]) {
+            [self.delegate didUnselectMessageCellNode:self];
+        }
+    } else {
+        if (self.delegate &&
+            [self.delegate conformsToProtocol:@protocol(MessageCellNodeDelegate)]) {
+            [self.delegate didSelectMessageCellNode:self];
+        }
+    }
 }
 
 @end
