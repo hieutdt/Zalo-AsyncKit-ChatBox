@@ -18,11 +18,16 @@ static NSString *kFontName = @"HelveticaNeue";
 
 @interface MessageTableNode () <ASTableDelegate, ASTableDataSource>
 
-@property (nonatomic, strong) NSArray<Message *> *messages;
+@property (nonatomic, strong) NSMutableArray<Message *> *messages;
 @property (nonatomic, strong) NSMutableArray<Message *> *models;
 @property (nonatomic, strong) NSMutableArray<NSString *> *sectionTitles;
 
 @property (nonatomic, strong) ASTableNode *tableNode;
+
+@property (nonatomic, assign) BOOL canLoadMore;
+@property (nonatomic, strong) UIImage *friendAvatarImage;
+@property (nonatomic, assign) int gradientColorCode;
+@property (nonatomic, strong) NSString *friendShortName;
 
 @end
 
@@ -37,6 +42,8 @@ static NSString *kFontName = @"HelveticaNeue";
         _tableNode.inverted = YES;
         _tableNode.dataSource = self;
         _tableNode.delegate = self;
+        
+        _canLoadMore = YES;
         
         _models = [[NSMutableArray alloc] init];
         _sectionTitles = [[NSMutableArray alloc] init];
@@ -64,7 +71,7 @@ static NSString *kFontName = @"HelveticaNeue";
 - (void)sortNeareastTimeFirst {
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
     NSArray *sortedArray = [_messages sortedArrayUsingDescriptors:@[sortDescriptor]];
-    _messages = sortedArray;
+    _messages = [NSMutableArray arrayWithArray:sortedArray];
 }
 
 - (void)generateSectionData {
@@ -99,8 +106,9 @@ static NSString *kFontName = @"HelveticaNeue";
 
 #pragma mark - PublicMethods
 
-- (void)setMessages:(NSArray<Message *> *)messages {
+- (void)setMessagesToTable:(NSArray<Message *> *)messages {
     if (messages) {
+        [_messages removeAllObjects];
         _messages = [NSMutableArray arrayWithArray:messages];
         [self sortNeareastTimeFirst];
         [self generateSectionData];
@@ -112,10 +120,37 @@ static NSString *kFontName = @"HelveticaNeue";
 }
 
 - (void)scrollToBottom {
-    [_tableNode scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_models.count - 1
-                                                          inSection:0]
+    [_tableNode scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_models.count - 1 inSection:0]
                       atScrollPosition:UITableViewScrollPositionNone
                               animated:NO];
+}
+
+- (void)updateMoreMessages:(NSArray<Message *> *)messages {
+    NSInteger currentSize = _models.count;
+    [_messages addObjectsFromArray:messages];
+    [self generateSectionData];
+    
+    NSMutableArray<NSIndexPath *> *indexPaths = [[NSMutableArray alloc] init];
+    for (NSInteger i = currentSize; i < _models.count; i++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    
+    [_tableNode performBatchUpdates:^{
+        [_tableNode insertRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+        
+    } completion:nil];
+}
+
+- (void)setFriendAvatarImage:(UIImage *)image {
+    if (image)
+        _friendAvatarImage = image;
+}
+
+- (void)setGradientColorCode:(int)gradientColorCode
+                andShortName:(NSString *)shortName {
+    _gradientColorCode = gradientColorCode;
+    _friendShortName = shortName;
+    _friendAvatarImage = nil;
 }
 
 #pragma mark - ASTableDataSource
@@ -134,12 +169,23 @@ static NSString *kFontName = @"HelveticaNeue";
     
     Message *mess = self.models[indexPath.item];
     ASCellNode *(^cellNodeBlock)(void) = nil;
+    __weak MessageTableNode *weakSelf = self;
     
     if (mess.style == MessageStyleText) {
         cellNodeBlock = ^ASCellNode *() {
             MessageCellNode *cellNode = [[MessageCellNode alloc] init];
             [cellNode setMessage:mess];
             cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            if (indexPath.item == 0 ||
+                weakSelf.models[indexPath.item - 1].fromPhoneNumber != mess.fromPhoneNumber) {
+                if (weakSelf.friendAvatarImage) {
+                    [cellNode showAvatarImage:weakSelf.friendAvatarImage];
+                } else {
+                    [cellNode showAvatarImageWithGradientColor:weakSelf.gradientColorCode
+                                                     shortName:weakSelf.friendShortName];
+                }
+            }
     
             return cellNode;
         };
@@ -180,5 +226,20 @@ static NSString *kFontName = @"HelveticaNeue";
 
 #pragma mark - ASTableDelegate
 
+- (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (void)tableNode:(ASTableNode *)tableNode willDisplayRowWithNode:(ASCellNode *)node {
+    if (!_canLoadMore)
+        return;
+    
+    NSIndexPath *indexPath = [_tableNode indexPathForNode:node];
+    if (indexPath.item == _models.count - 1) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(tableNodeNeedLoadMoreData)]) {
+            [self.delegate tableNodeNeedLoadMoreData];
+        }
+    }
+}
 
 @end

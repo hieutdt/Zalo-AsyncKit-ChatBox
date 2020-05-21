@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ChatBoxViewController : ASViewController
 
 @property (nonatomic, strong) Contact *messageToContact;
+@property (nonatomic, strong) UIImage *friendImage;
+@property (nonatomic, assign) int friendImageColorCode;
 
 @end
 

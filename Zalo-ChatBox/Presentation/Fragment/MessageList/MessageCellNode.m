@@ -8,6 +8,7 @@
 
 #import "MessageCellNode.h"
 #import "LayoutHelper.h"
+#import "ContactAvatarNode.h"
 
 static const int kFontSize = 18;
 static const int kVericalPadding = 5;
@@ -19,6 +20,8 @@ static const int kVericalPadding = 5;
 
 @property (nonatomic, strong) ASEditableTextNode *editTextNode;
 @property (nonatomic, strong) ASDisplayNode *backgroundNode;
+@property (nonatomic, strong) ASControlNode *controlNode;
+@property (nonatomic, strong) ContactAvatarNode *avatarNode;
 
 @end
 
@@ -37,6 +40,11 @@ static const int kVericalPadding = 5;
         
         _backgroundNode = [[ASDisplayNode alloc] init];
         _backgroundNode.cornerRadius = 15;
+        
+        _avatarNode = [[ContactAvatarNode alloc] init];
+        _avatarNode.hidden = YES;
+        
+        _controlNode = [[ASControlNode alloc] init];
     }
     return self;
 }
@@ -51,22 +59,36 @@ static const int kVericalPadding = 5;
                                                    parrentSize:boundingSize];
     
     _backgroundNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, maxConstrainedSize.height);
+    _controlNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, maxConstrainedSize.height);
     
     ASOverlayLayoutSpec *overlaySpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
                                         overlay:[ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 8, 5, 8)
                                                                                        child:_editTextNode]];
     
+    ASOverlayLayoutSpec *overlayControlSppec = [ASOverlayLayoutSpec
+                                                overlayLayoutSpecWithChild:overlaySpec
+                                                overlay:_controlNode];
+    
     if (_messageStyle == MessageCellStyleTextSend) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, 5)
-                child:overlaySpec];
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, 10)
+                child:overlayControlSppec];
     } else if (_messageStyle == MessageCellStyleTextReceive) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
+        
+        _avatarNode.style.preferredSize = CGSizeMake(25, 25);
+        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
+                                        stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
+                                        spacing:10
+                                        justifyContent:ASStackLayoutJustifyContentStart
+                                        alignItems:ASStackLayoutAlignItemsEnd
+                                        children:@[_avatarNode, overlayControlSppec]];
+        
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, 5, kVericalPadding, INFINITY)
-                child:overlaySpec];
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, 10, kVericalPadding, INFINITY)
+                child:stackSpec];
     } else {
         return nil;
     }
@@ -90,7 +112,7 @@ static const int kVericalPadding = 5;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentLeft;
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    
+        
     UIColor *textColor = _messageStyle == MessageCellStyleTextSend ? [UIColor whiteColor] : [UIColor blackColor];
     NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:kFontSize],
                                       NSParagraphStyleAttributeName : paragraphStyle,
@@ -101,6 +123,24 @@ static const int kVericalPadding = 5;
                                                                  attributes:attributedText];
     
     [_editTextNode setAttributedText:string];
+}
+
+- (void)showAvatarImage:(UIImage *)image {
+    if (!image || _messageStyle != MessageCellStyleTextReceive)
+        return;
+    
+    [_avatarNode setAvatar:image];
+    _avatarNode.hidden = NO;
+}
+
+- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
+                               shortName:(NSString *)shortName {
+    if (!shortName)
+        return;
+    
+    [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
+                                   andShortName:shortName];
+    _avatarNode.hidden = NO;
 }
 
 @end

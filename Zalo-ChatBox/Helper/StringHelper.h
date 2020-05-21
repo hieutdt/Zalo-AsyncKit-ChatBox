@@ -12,9 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface StringHelper : NSObject
 
-+ (NSString*)standardizeString:(NSString*)string;
++ (NSString *)standardizeString:(NSString*)string;
 
 + (NSString *)getShortName:(NSString *)name;
+
++ (NSString *)randomString:(unsigned int)lenght;
 
 @end
 

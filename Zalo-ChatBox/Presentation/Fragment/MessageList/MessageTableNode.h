@@ -11,13 +11,30 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MessageTableNode;
+
+@protocol MessageTableNodeDelegate <NSObject>
+
+- (void)tableNodeNeedLoadMoreData;
+
+@end
+
 @interface MessageTableNode : ASDisplayNode
 
-- (void)setMessages:(NSArray<Message *> *)messages;
+@property (nonatomic, assign) id<MessageTableNodeDelegate> delegate;
+
+- (void)setMessagesToTable:(NSArray<Message *> *)messages;
 
 - (void)reloadData;
 
 - (void)scrollToBottom;
+
+- (void)updateMoreMessages:(NSArray<Message *> *)messages;
+
+- (void)setFriendAvatarImage:(UIImage *)image;
+
+- (void)setGradientColorCode:(int)gradientColorCode
+                andShortName:(NSString *)shortName;
 
 @end
 

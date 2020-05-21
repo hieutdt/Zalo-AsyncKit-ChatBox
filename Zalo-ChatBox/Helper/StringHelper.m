@@ -30,4 +30,16 @@
     return shortName;
 }
 
++ (NSString *)randomString:(unsigned int)lenght {
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    NSMutableString *randomString = [NSMutableString stringWithCapacity:lenght];
+
+    for (int i=0; i<lenght; i++) {
+         [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform([letters length])]];
+    }
+
+    return randomString;
+}
+
 @end

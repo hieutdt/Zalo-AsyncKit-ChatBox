@@ -69,10 +69,7 @@
     _searchBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_searchBar];
     self.navigationItem.leftBarButtonItem = _searchBarButtonItem;
     
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:133/255.f
-                                                                           green:193/255.f
-                                                                            blue:233/255.f
-                                                                           alpha:1];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:1 alpha:0.5];
     
     [self checkPermissionAndLoadContacts];
 }
@@ -178,8 +175,39 @@
 
 - (void)contactTableNode:(ContactTableNode *)tableNode
 didSelectCellAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section >= self.contactSections.count)
+        return;
+    if (indexPath.item >= self.contactSections[indexPath.section].count)
+        return;
+    
+    Contact *contact = self.contactSections[indexPath.section][indexPath.item];
+    if (!contact)
+        return;
+    
+    NSInteger index = [_contacts indexOfObject:contact];
+    ContactTableViewModel *viewModel = _viewModels[index];
+    NSInteger gradientColorCode = viewModel.gradientColorCode;
+    
     ChatBoxViewController *vc = [[ChatBoxViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    vc.messageToContact = contact;
+    
+    UIImage *friendImage = [[ImageCache instance] imageForKey:contact.identifier];
+    if (friendImage) {
+        vc.friendImage = friendImage;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else {
+        [_contactBusiness loadContactImageByID:contact.identifier completion:^(UIImage *image, NSError *error) {
+            if (image)
+                vc.friendImage = image;
+            else
+                vc.friendImageColorCode = (int)gradientColorCode;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController pushViewController:vc animated:YES];
+            });
+        }];
+    }
 }
 
 @end

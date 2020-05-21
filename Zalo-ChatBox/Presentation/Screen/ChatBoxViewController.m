@@ -10,13 +10,21 @@
 
 #import "MessageTableNode.h"
 #import "AppConsts.h"
+#import "MessageBusiness.h"
+#import "ContactBusiness.h"
+#import "ImageCache.h"
+#import "StringHelper.h"
 
-@interface ChatBoxViewController ()
+@interface ChatBoxViewController () <MessageTableNodeDelegate>
 
 @property (nonatomic, strong) ASDisplayNode *contentNode;
 @property (nonatomic, strong) MessageTableNode *tableNode;
 
-@property (nonatomic, strong) NSMutableArray<Message *> *messages;
+@property (nonatomic, strong) Conversation *conversation;
+@property (nonatomic, strong) MessageBusiness *messageBusiness;
+
+@property (nonatomic, strong) ASImageNode *avatarImageNode;
+@property (nonatomic, strong) ASTextNode *nameTextNode;
 
 @end
 
@@ -29,7 +37,9 @@
         __weak ChatBoxViewController *weakSelf = self;
         
         _tableNode = [[MessageTableNode alloc] init];
-        _messages = [[NSMutableArray alloc] init];
+        _tableNode.delegate = self;
+        
+        _messageBusiness = [[MessageBusiness alloc] init];
         
         _contentNode.automaticallyManagesSubnodes = YES;
         [_contentNode setBackgroundColor:[UIColor systemBlueColor]];
@@ -47,53 +57,56 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initData];
+    if (_friendImage) {
+        [_tableNode setFriendAvatarImage:_friendImage];
+    } else {
+        NSString *shortName = [StringHelper getShortName:_messageToContact.name];
+        [_tableNode setGradientColorCode:_friendImageColorCode andShortName:shortName];
+    }
     
-    [_tableNode setMessages:_messages];
-    [_tableNode reloadData];
+    Contact *currentUser = [[Contact alloc] init];
+    currentUser.phoneNumber = kCurrentUser;
+    
+    _conversation = [_messageBusiness getConversationOfContact:currentUser
+                                                    andContact:_messageToContact];
+    
+    __weak ChatBoxViewController *weakSelf = self;
+    [_messageBusiness loadMessagesForConversation:_conversation
+                                         loadMore:NO
+                                completionHandler:^(NSArray<Message *> *messages, NSError *error) {
+        if (!error && messages) {
+            [weakSelf.tableNode setMessagesToTable:messages];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableNode reloadData];
+            });
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
-- (void)initData {
-    [_messages addObject:[[Message alloc] initWithMessage:@"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis metus at vestibulum tempus. Fusce mi arcu, commodo quis consectetur eget, commodo id magna."
-                                                     from:kCurrentUser
-                                                       to:_messageToContact.phoneNumber
-                                                timestamp:1589857194
-                                                    style:MessageStyleText]];
-    
-    [_messages addObject:[[Message alloc] initWithMessage:@"Fusce aliquam ut diam ac faucibus. Nullam augue urna, vestibulum imperdiet sapien eget, ultrices facilisis nibh. Nam pellentesque, ante eget accumsan sagittis, elit urna imperdiet lorem, ac fermentum nisi elit consequat ante. Vestibulum volutpat scelerisque felis, id malesuada eros varius in. Aenean sapien nisl, finibus ut porta sit amet, pellentesque vel nisi. Curabitur dictum quam in lacus placerat ultrices."
-                                                     from:_messageToContact.phoneNumber
-                                                       to:kCurrentUser
-                                                timestamp:1589857347
-                                                    style:MessageStyleText]];
-    
-    [_messages addObject:[[Message alloc] initWithMessage:@"Quisque et nibh ac ante convallis luctus. "
-                                                     from:kCurrentUser
-                                                       to:_messageToContact.phoneNumber
-                                                timestamp:1589857408
-                                                    style:MessageStyleText]];
-    
-    [_messages addObject:[[Message alloc] initWithMessage:@"Mauris dui lectus, sagittis vel interdum non, varius nec risus. Mauris porta urna sed nulla imperdiet sodales. Mauris vel tempor eros, eget rutrum dolor. Fusce tempor ipsum id sem convallis gravida. Donec tincidunt feugiat purus, et efficitur nisi rhoncus quis. Mauris sapien sem, aliquet vel tempor sit amet, lobortis vel dui."
-                                                     from:kCurrentUser
-                                                       to:_messageToContact.phoneNumber
-                                                timestamp:1589875466
-                                                    style:MessageStyleText]];
-    
-    [_messages addObject:[[Message alloc] initWithMessage:@"Aenean."
-                                                     from:_messageToContact.phoneNumber
-                                                       to:kCurrentUser
-                                                timestamp:1589875520
-                                                    style:MessageStyleText]];
-    
-    [_messages addObject:[[Message alloc] initWithMessage:@"Vivamus efficitur orci id neque blandit, vitae dignissim nulla tincidunt. Sed accumsan, tortor id commodo tempus, risus turpis sodales ex, ut pellentesque lectus odio eget nisi. Fusce vitae tortor congue, imperdiet mauris eu, vulputate ipsum. Integer sed vulputate enim, non dignissim erat. Duis sed dignissim mi. Fusce in ultrices nulla. Duis facilisis auctor nulla in tincidunt.."
-                                                     from:_messageToContact.phoneNumber
-                                                       to:kCurrentUser
-                                                timestamp:1589875631
-                                                    style:MessageStyleText]];
+#pragma mark - UpdateNavigationBar
+
+- (void)initNavigationBar {
+    _avatarImageNode = [[ASImageNode alloc] init];
+    _nameTextNode = [[ASTextNode alloc] init];
 }
 
+#pragma mark - MessageTableNodeDelegate
+
+- (void)tableNodeNeedLoadMoreData {
+    __weak ChatBoxViewController *weakSelf = self;
+    [_messageBusiness loadMessagesForConversation:_conversation
+                                         loadMore:YES
+                                completionHandler:^(NSArray<Message *> * _Nonnull messages, NSError * _Nonnull error) {
+        if (!error && messages) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+               [weakSelf.tableNode updateMoreMessages:messages];
+            });
+        }
+    }];
+}
 
 @end
