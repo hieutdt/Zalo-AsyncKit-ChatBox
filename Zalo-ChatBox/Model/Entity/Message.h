@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *toPhoneNumber;
 @property (nonatomic, assign) NSTimeInterval timestamp;
 @property (nonatomic, assign) MessageStyle style;
+@property (nonatomic, assign) CGFloat imageRatio;
 
 - (instancetype)initWithMessage:(NSString *)message
                            from:(NSString *)fromPhoneNumber

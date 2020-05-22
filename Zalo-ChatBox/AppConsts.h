@@ -52,6 +52,8 @@ typedef NS_ENUM(NSInteger, MessageStyle) {
 
 #define kMessageSectionTimeSpace        5*60 // 5 minutes
 
+#define kPhotoMessageSizeHeight         100
+
 static const int FIRST_ALPHABET_ASCII_CODE = 97;
 static const int ALPHABET_SECTIONS_NUMBER = 27;
 

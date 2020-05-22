@@ -36,8 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName;
 
-- (void)addTopSpacing:(int)topSpace;
-
 - (void)selectCell;
 
 - (void)deselectCell;

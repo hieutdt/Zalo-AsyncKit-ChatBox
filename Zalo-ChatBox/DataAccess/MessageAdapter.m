@@ -10,7 +10,7 @@
 #import "StringHelper.h"
 #import "AppConsts.h"
 
-static const int kLoadMoreCount = 20;
+static const int kLoadMoreCount = 30;
 
 @interface MessageAdapter ()
 
@@ -61,10 +61,12 @@ static const int kLoadMoreCount = 20;
             ts = timeInSeconds;
         }
         
-        NSArray<Message *> *messages = [self generateRandomMessagesForConversation:conversation
-                                                                  numberOfMessages:numberOfMessages
-                                                                            atTime:ts - 3600
-                                                                            toTime:ts];
+        NSArray<Message *> *messages = [self generateRandomMessageForConversation:conversation
+                                                                 numberOfMessages:numberOfMessages
+                                                                           atTime:ts - 3600
+                                                                           toTime:ts
+                                                                     fromTextFile:@"message_data"
+                                                                    photoUrlsFile:@"photo_data"];
         
         if (!loadMore && [weakSelf.conversations containsObject:conversation]) {
             conversation.messages = [NSMutableArray arrayWithArray:messages];
@@ -91,6 +93,8 @@ static const int kLoadMoreCount = 20;
     return conversation;
 }
 
+#pragma mark - GenerateData
+
 - (NSArray<Message *> *)generateRandomMessagesForConversation:(Conversation *)conversation
                                              numberOfMessages:(int)numberOfMessages
                                                        atTime:(NSTimeInterval)fromTs
@@ -115,7 +119,7 @@ static const int kLoadMoreCount = 20;
         NSInteger ts = RAND_FROM_TO(fromTs, toTs);
         mess.timestamp = ts;
         
-        unsigned int messLenght = RAND_FROM_TO(1, 100);
+        unsigned int messLenght = RAND_FROM_TO(5, 100);
         mess.message = [StringHelper randomString:messLenght];
         
         [messages addObject:mess];
@@ -125,6 +129,67 @@ static const int kLoadMoreCount = 20;
     NSArray *sortedArray = [messages sortedArrayUsingDescriptors:@[sortDescriptor]];
     
     return sortedArray;
+}
+
+- (NSArray<Message *> *)generateRandomMessageForConversation:(Conversation *)conversation
+                                            numberOfMessages:(int)numberOfMessages
+                                                      atTime:(NSTimeInterval)fromTs
+                                                      toTime:(NSTimeInterval)toTs
+                                                fromTextFile:(NSString *)textFilePath
+                                               photoUrlsFile:(NSString *)imageFilePath {
+    if (numberOfMessages <= 0 || !conversation)
+        return nil;
+    
+    NSArray<NSString *> *texts = [self stringsFromFile:textFilePath];
+    NSArray<NSString *> *photos = [self stringsFromFile:imageFilePath];
+    
+    NSMutableArray<Message *> *messages = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < numberOfMessages; i++) {
+        Message *mess = [[Message alloc] init];
+        
+        int sender = RAND_FROM_TO(0, 1);
+        if (sender == 0) {
+            mess.fromPhoneNumber = conversation.personA.phoneNumber;
+            mess.toPhoneNumber = conversation.personB.phoneNumber;
+        } else {
+            mess.fromPhoneNumber = conversation.personB.phoneNumber;
+            mess.toPhoneNumber = conversation.personA.phoneNumber;
+        }
+        
+        NSInteger ts = RAND_FROM_TO(fromTs, toTs);
+        mess.timestamp = ts;
+        
+        int type = RAND_FROM_TO(0, 3);
+        if (type == 0) {
+            mess.style = MessageStyleImage;
+            int index = RAND_FROM_TO(0, (int)photos.count - 1);
+            mess.message = photos[index];
+        } else {
+            mess.style = MessageStyleText;
+            int index = RAND_FROM_TO(0, (int)texts.count - 1);
+            mess.message = texts[index];
+        }
+        
+        [messages addObject:mess];
+    }
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
+    NSArray *sortedArray = [messages sortedArrayUsingDescriptors:@[sortDescriptor]];
+    
+    return sortedArray;
+}
+
+- (NSArray<NSString *> *)stringsFromFile:(NSString *)filePath {
+    NSString *path = [[NSBundle mainBundle] pathForResource:filePath
+                                                     ofType:@"txt"];
+    NSString *fileContent = [NSString stringWithContentsOfFile:path
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:nil];
+    NSMutableArray<NSString *> *strings = [NSMutableArray arrayWithArray:[fileContent componentsSeparatedByString:@"\n"]];
+    [strings removeObjectsInArray:@[@"", @" "]];
+    
+    return strings;
 }
 
 @end

@@ -1,8 +1,8 @@
 //
-//  MessageEditText.h
+//  MessageInputNode.h
 //  Zalo-ChatBox
 //
-//  Created by Trần Đình Tôn Hiếu on 5/18/20.
+//  Created by Trần Đình Tôn Hiếu on 5/21/20.
 //  Copyright © 2020 Trần Đình Tôn Hiếu. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MessageEditText : ASDisplayNode
+@interface MessageInputNode : ASDisplayNode
 
 @end
 

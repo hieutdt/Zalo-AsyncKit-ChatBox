@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIImage *)makeCircularImageWithSize:(CGSize)size;
 
++ (CGSize)sizeOfImageFromUrl:(NSString *)urlString;
+
 @end
 
 NS_ASSUME_NONNULL_END

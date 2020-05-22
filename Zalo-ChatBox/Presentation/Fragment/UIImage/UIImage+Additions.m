@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <ImageIO/ImageIO.h>
 #import "UIImage+Additions.h"
 
 @implementation UIImage (Additions)
@@ -26,6 +27,22 @@
   UIGraphicsEndImageContext();
 
   return roundedImage;
+}
+
++ (CGSize)sizeOfImageFromUrl:(NSString *)urlString {
+    NSMutableString *imageURL = [NSMutableString stringWithFormat:@"%@", urlString];
+
+    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)[NSURL URLWithString:imageURL], NULL);
+    NSDictionary* imageHeader = (__bridge NSDictionary*) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    
+    NSLog(@"Image header %@",imageHeader);
+    NSLog(@"PixelHeight %@",[imageHeader objectForKey:@"PixelHeight"]);
+    NSLog(@"PixelWidth %@", [imageHeader objectForKey:@"PixelWidth"]);
+    
+    CGFloat width = [[imageHeader objectForKey:@"PixelWidth"] doubleValue];
+    CGFloat height = [[imageHeader objectForKey:@"PixelHeight"] doubleValue];
+    
+    return CGSizeMake(width, height);
 }
 
 @end

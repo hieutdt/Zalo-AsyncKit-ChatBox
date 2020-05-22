@@ -9,9 +9,12 @@
 #import "ChatBoxViewController.h"
 
 #import "MessageTableNode.h"
-#import "AppConsts.h"
+#import "MessageInputNode.h"
+
 #import "MessageBusiness.h"
 #import "ContactBusiness.h"
+
+#import "AppConsts.h"
 #import "ImageCache.h"
 #import "StringHelper.h"
 
@@ -19,6 +22,7 @@
 
 @property (nonatomic, strong) ASDisplayNode *contentNode;
 @property (nonatomic, strong) MessageTableNode *tableNode;
+@property (nonatomic, strong) MessageInputNode *messageInputNode;
 
 @property (nonatomic, strong) Conversation *conversation;
 @property (nonatomic, strong) MessageBusiness *messageBusiness;
@@ -38,13 +42,24 @@
         
         _messageBusiness = [[MessageBusiness alloc] init];
         
+        _messageInputNode = [[MessageInputNode alloc] init];
+        
         _contentNode.automaticallyManagesSubnodes = YES;
         [_contentNode setBackgroundColor:[UIColor systemBlueColor]];
         _contentNode.layoutSpecBlock = ^ASLayoutSpec *(__kindof ASDisplayNode * _Nonnull node, ASSizeRange constrainedSize) {
-            weakSelf.tableNode.style.preferredSize = constrainedSize.max;
+            weakSelf.tableNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, constrainedSize.max.height - 50);
             weakSelf.tableNode.backgroundColor = [UIColor whiteColor];
+            
+            weakSelf.messageInputNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, 50);
+            
+            ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                                                   spacing:0
+                                                                            justifyContent:ASStackLayoutJustifyContentStart
+                                                                                alignItems:ASStackLayoutAlignItemsCenter
+                                                                                  children:@[weakSelf.tableNode, weakSelf.messageInputNode]];
+            
             return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsZero
-                                                          child:weakSelf.tableNode];
+                                                          child:stackSpec];
         };
         [_contentNode layoutSpecBlock];
     }

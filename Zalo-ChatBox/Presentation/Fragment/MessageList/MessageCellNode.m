@@ -73,7 +73,7 @@ static const int kHorizontalPadding = 10;
                                                  insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 8, 5, 8)
                                                  child:_editTextNode]];
     
-    ASOverlayLayoutSpec *overlayControlSppec = [ASOverlayLayoutSpec
+    ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
                                                 overlayLayoutSpecWithChild:overlayTextSpec
                                                 overlay:_controlNode];
     
@@ -81,7 +81,7 @@ static const int kHorizontalPadding = 10;
         _backgroundNode.backgroundColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
-                child:overlayControlSppec];
+                child:overlayControlSpec];
         
     } else if (_messageStyle == MessageCellStyleTextReceive) {
         _backgroundNode.backgroundColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
@@ -92,7 +92,7 @@ static const int kHorizontalPadding = 10;
                                         spacing:10
                                         justifyContent:ASStackLayoutJustifyContentStart
                                         alignItems:ASStackLayoutAlignItemsEnd
-                                        children:@[_avatarNode, overlayControlSppec]];
+                                        children:@[_avatarNode, overlayControlSpec]];
         
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
@@ -143,7 +143,7 @@ static const int kHorizontalPadding = 10;
 
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName {
-    if (!shortName)
+    if (!shortName || _messageStyle != MessageCellStyleTextReceive)
         return;
     
     [_avatarNode setGradientAvatarWithColorCode:gradientColorCode

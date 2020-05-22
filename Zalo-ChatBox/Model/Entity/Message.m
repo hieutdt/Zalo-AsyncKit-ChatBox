@@ -19,6 +19,7 @@
         _toPhoneNumber = [[NSString alloc] init];
         _timestamp = 0;
         _style = MessageStyleText;
+        _imageRatio = 1;
     }
     return self;
 }
@@ -36,6 +37,7 @@
         _toPhoneNumber = toPhoneNumber;
         _timestamp = timestamp;
         _style = style;
+        _imageRatio = 1;
     }
     return self;
 }

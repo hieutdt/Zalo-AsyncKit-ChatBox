@@ -11,7 +11,7 @@
 #import "AppConsts.h"
 
 
-static const int kFontSize = 16;
+static const int kFontSize = 15;
 
 @interface ContactAvatarNode ()
 
@@ -43,13 +43,12 @@ static const int kFontSize = 16;
         return [image makeCircularImageWithSize:avatarImageSize];
     };
     
-    _shortNameLabel.style.preferredSize = maxConstrainedSize;
-    ASCenterLayoutSpec *centerShortNameSpec = [ASCenterLayoutSpec
-                                               centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
-                                               sizingOptions:ASCenterLayoutSpecSizingOptionDefault
-                                               child:_shortNameLabel];
+    ASCenterLayoutSpec *centerTextSpec = [ASCenterLayoutSpec centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
+                                                                                    sizingOptions:ASCenterLayoutSpecSizingOptionDefault
+                                                                                            child:_shortNameLabel];
+    
     return [ASOverlayLayoutSpec overlayLayoutSpecWithChild:_imageNode
-                                                   overlay:centerShortNameSpec];
+                                                   overlay:centerTextSpec];
 }
 
 - (void)setAvatar:(UIImage *)image {
@@ -61,8 +60,14 @@ static const int kFontSize = 16;
 
 - (void)setGradientAvatarWithColorCode:(int)colorCode
                           andShortName:(NSString *)shortName {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    
     NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:kFontSize],
-                                      NSForegroundColorAttributeName : [UIColor whiteColor] };
+                                      NSForegroundColorAttributeName : [UIColor whiteColor],
+                                      NSParagraphStyleAttributeName : paragraphStyle
+    };
     NSAttributedString *string = [[NSAttributedString alloc]
                                   initWithString:shortName
                                   attributes:attributedText];
