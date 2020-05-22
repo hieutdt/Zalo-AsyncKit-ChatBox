@@ -45,7 +45,6 @@
         _messageInputNode = [[MessageInputNode alloc] init];
         
         _contentNode.automaticallyManagesSubnodes = YES;
-        [_contentNode setBackgroundColor:[UIColor systemBlueColor]];
         _contentNode.layoutSpecBlock = ^ASLayoutSpec *(__kindof ASDisplayNode * _Nonnull node, ASSizeRange constrainedSize) {
             weakSelf.tableNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, constrainedSize.max.height - 50);
             weakSelf.tableNode.backgroundColor = [UIColor whiteColor];
@@ -95,6 +94,10 @@
             });
         }
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleKeyboardNotification:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -113,6 +116,28 @@
                [weakSelf.tableNode updateMoreMessages:messages];
             });
         }
+    }];
+}
+
+#pragma mark - HandleKeyboardShowing
+
+- (void)handleKeyboardNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    if (userInfo) {
+        NSValue *keyboardFrame = [userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+        CGRect keyboardRect = [keyboardFrame CGRectValue];
+        
+        _contentNode.view.transform = CGAffineTransformIdentity;
+        [UIView animateWithDuration:0.5 animations:^{
+            self->_contentNode.view.transform = CGAffineTransformTranslate(self->_messageInputNode.view.transform, 0, -keyboardRect.size.height);
+        }];
+    }
+}
+
+- (void)tableNode:(MessageTableNode *)tableNode didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [_messageInputNode endEditing];
+    [UIView animateWithDuration:0.15 animations:^{
+        self->_contentNode.view.transform = CGAffineTransformIdentity;
     }];
 }
 

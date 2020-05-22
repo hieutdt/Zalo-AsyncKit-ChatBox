@@ -38,6 +38,7 @@ static const int kHorizontalPadding = 10;
         _imageNode.shouldCacheImage = YES;
         _imageNode.shouldRenderProgressImages = NO;
         _imageNode.contentMode = UIViewContentModeScaleToFill;
+        _imageNode.cornerRadius = 10;
         _imageNode.delegate = self;
         
         _controlNode = [[ASControlNode alloc] init];
@@ -73,6 +74,7 @@ static const int kHorizontalPadding = 10;
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
                 child:_imageNode];
+        
     } else if (_messageStyle == MessageCellStyleImageReceive) {
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
                                         stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal

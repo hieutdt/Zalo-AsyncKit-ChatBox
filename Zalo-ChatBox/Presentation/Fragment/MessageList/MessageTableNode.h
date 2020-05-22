@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)tableNodeNeedLoadMoreData;
 
+- (void)tableNode:(MessageTableNode *)tableNode
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 @interface MessageTableNode : ASDisplayNode

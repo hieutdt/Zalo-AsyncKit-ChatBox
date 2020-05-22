@@ -90,13 +90,13 @@ static const int kMaxMessageHeight = 300;
     if (_messages.count == 0)
         return;
     
-    NSMutableArray *cellModels = [[NSMutableArray alloc] init];
+    NSMutableArray<Message *> *cellModels = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < _messages.count - 1; i++) {
         if (_messages[i].style != MessageStyleSection)
             [cellModels addObject:_messages[i]];
         if (_messages[i].timestamp - _messages[i + 1].timestamp >= kMessageSectionTimeSpace
-            && [_models lastObject].style != MessageStyleSection) {
+            && [cellModels lastObject].style != MessageStyleSection) {
             Message *sectionRow = [self sectionRowByTimestamp:_messages[i].timestamp];
             [cellModels addObject:sectionRow];
         }
@@ -244,7 +244,8 @@ static const int kMaxMessageHeight = 300;
     Message *mess = self.models[indexPath.item];
     
     if (mess.style == MessageStyleSection) {
-        return ASSizeRangeMake(CGSizeMake(self.view.bounds.size.width, SECTION_HEADER_HEIGHT));
+        NSLog(@"TONHIEU: Set size range = 30");
+        return ASSizeRangeMake(CGSizeMake(self.view.bounds.size.width, 30));
         
     } else if (mess.style == MessageStyleText) {
         NSString *text = mess.message;
@@ -254,6 +255,7 @@ static const int kMaxMessageHeight = 300;
                                                        parrentSize:size];
     
         return ASSizeRangeMake(CGSizeMake(estimatedFrame.size.width + 10, estimatedFrame.size.height + 20));
+        
     } else if (mess.style == MessageStyleImage) {
         if ([_loadedImageMessages containsObject:mess]) {
             CGFloat whRatio = mess.imageRatio;
@@ -273,7 +275,10 @@ static const int kMaxMessageHeight = 300;
 #pragma mark - ASTableDelegate
 
 - (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    // To hide keyboard only
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didSelectItemAtIndexPath:)]) {
+        [self.delegate tableNode:self didSelectItemAtIndexPath:indexPath];
+    }
 }
 
 - (void)tableNode:(ASTableNode *)tableNode willDisplayRowWithNode:(ASCellNode *)node {
@@ -319,7 +324,12 @@ static const int kMaxMessageHeight = 300;
     [_tableNode performBatchUpdates:^{
         [_tableNode insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 1 inSection:0]]
                           withRowAnimation:YES];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didSelectItemAtIndexPath:)]) {
+            [self.delegate tableNode:self
+            didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+    }];
 }
 
 - (void)didUnselectMessageCellNode:(MessageCellNode *)cellNode {
@@ -342,7 +352,12 @@ static const int kMaxMessageHeight = 300;
     [_tableNode performBatchUpdates:^{
         [_tableNode deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 1 inSection:0]]
                           withRowAnimation:YES];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didSelectItemAtIndexPath:)]) {
+            [self.delegate tableNode:self
+            didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+    }];
 }
 
 #pragma mark - PhotoMessageCellNodeDelegate

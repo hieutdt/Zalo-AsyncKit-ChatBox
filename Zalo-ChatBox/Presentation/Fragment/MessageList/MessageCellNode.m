@@ -40,7 +40,7 @@ static const int kHorizontalPadding = 10;
         _editTextNode.scrollEnabled = NO;
         
         _backgroundNode = [[ASDisplayNode alloc] init];
-        _backgroundNode.cornerRadius = 15;
+        _backgroundNode.cornerRadius = 10;
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
@@ -153,20 +153,26 @@ static const int kHorizontalPadding = 10;
 
 - (void)selectCell {
     _choosing = YES;
-    if (_messageStyle == MessageCellStyleTextSend) {
-        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:31/255.f green:97/255.f blue:141/255.f alpha:1]];
-    } else {
-        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:179/255.f green:182/255.f blue:183/255.f alpha:1]];
-    }
+    __weak MessageCellNode *weakSelf = self;
+    [UIView animateWithDuration:0.5 animations:^{
+        if (weakSelf.messageStyle == MessageCellStyleTextSend) {
+            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:31/255.f green:97/255.f blue:141/255.f alpha:1]];
+        } else {
+            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:179/255.f green:182/255.f blue:183/255.f alpha:1]];
+        }
+    }];
 }
 
 - (void)deselectCell {
     _choosing = NO;
-    if (_messageStyle == MessageCellStyleTextSend) {
-        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1]];
-    } else {
-        [_backgroundNode setBackgroundColor:[UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1]];
-    }
+    __weak MessageCellNode *weakSelf = self;
+    [UIView animateWithDuration:0.5 animations:^{
+        if (weakSelf.messageStyle == MessageCellStyleTextSend) {
+            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1]];
+        } else {
+            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1]];
+        }
+    }];
 }
 
 #pragma mark - Action

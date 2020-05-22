@@ -157,11 +157,6 @@
             }
             
             UIImage *image = [UIImage imageWithData:contacts[0].thumbnailImageData];
-            
-            if (image) {
-                NSLog(@"TONHIEU: co gia tri ne!");
-            }
-            
             completionHandle(image, nil);
             
         } @catch (NSException *e) {

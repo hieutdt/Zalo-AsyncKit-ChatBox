@@ -29,8 +29,14 @@
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
+    NSLog(@"TONHIEU: Section size = %f - %f", constrainedSize.max.width, constrainedSize.max.height);
+    self.style.preferredSize = constrainedSize.max;
+    self.style.maxSize = constrainedSize.max;
+    ASCenterLayoutSpec *centerSpec = [ASCenterLayoutSpec centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
+                                                                                sizingOptions:ASCenterLayoutSpecSizingOptionDefault
+                                                                                        child:_textNode];
     return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 0, 0, 0)
-                                                  child:_textNode];
+                                                  child:centerSpec];
 }
 
 - (void)setTimestamp:(NSTimeInterval)ts {
@@ -58,7 +64,8 @@
         formatter.dateFormat = @"HH:mm dd/MM/YYYY";
     }
     
-    NSAttributedString *string = [[NSAttributedString alloc] initWithString:[formatter stringFromDate:date]
+    NSString *dateString = [formatter stringFromDate:date];
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:dateString
                                                                  attributes:attributedText];
     
     [_textNode setAttributedText:string];
