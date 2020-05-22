@@ -10,7 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MessageInputNodeDelegate <NSObject>
+
+- (void)sendMessage:(NSString *)message;
+
+@end
+
 @interface MessageInputNode : ASDisplayNode
+
+@property (nonatomic, assign) id<MessageInputNodeDelegate> delegate;
 
 - (void)endEditing;
 

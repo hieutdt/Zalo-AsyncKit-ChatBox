@@ -70,7 +70,7 @@ static const int kMaxMessageHeight = 300;
     _tableNode.view.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     //TODO: Need get top bar height here
-    CGFloat inset = 50;
+    CGFloat inset = 80;
     _tableNode.contentInset = UIEdgeInsetsMake(-inset, 0, inset, 0);
     _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset, 0, inset, 0);
 }
@@ -150,6 +150,24 @@ static const int kMaxMessageHeight = 300;
     [_tableNode performBatchUpdates:^{
         [_tableNode insertRowsAtIndexPaths:indexPaths
                           withRowAnimation:NO];
+    } completion:nil];
+}
+
+- (void)sendMessage:(Message *)message {
+    NSMutableArray<NSIndexPath *> *indexPaths = [[NSMutableArray alloc] init];
+    
+    if (message.timestamp - _models[0].timestamp >= kMessageSectionTimeSpace) {
+        Message *sectionRow = [self sectionRowByTimestamp:message.timestamp];
+        [_models insertObject:sectionRow atIndex:0];
+        [indexPaths addObject:[NSIndexPath indexPathForItem:0 inSection:0]];
+    }
+    
+    [_models insertObject:message atIndex:0];
+    [indexPaths addObject:[NSIndexPath indexPathForItem:0 inSection:0]];
+    
+    [_tableNode performBatchUpdates:^{
+        [_tableNode insertRowsAtIndexPaths:indexPaths
+                          withRowAnimation:UITableViewRowAnimationFade];
     } completion:nil];
 }
 
@@ -244,7 +262,6 @@ static const int kMaxMessageHeight = 300;
     Message *mess = self.models[indexPath.item];
     
     if (mess.style == MessageStyleSection) {
-        NSLog(@"TONHIEU: Set size range = 30");
         return ASSizeRangeMake(CGSizeMake(self.view.bounds.size.width, 30));
         
     } else if (mess.style == MessageStyleText) {

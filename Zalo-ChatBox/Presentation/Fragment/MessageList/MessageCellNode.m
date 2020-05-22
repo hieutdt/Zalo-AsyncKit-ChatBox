@@ -24,6 +24,11 @@ static const int kHorizontalPadding = 10;
 @property (nonatomic, strong) ASControlNode *controlNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 
+@property (nonatomic, strong) UIColor *blueColor;
+@property (nonatomic, strong) UIColor *darkBlueColor;
+@property (nonatomic, strong) UIColor *grayColor;
+@property (nonatomic, strong) UIColor *darkGrayColor;
+
 @end
 
 @implementation MessageCellNode
@@ -51,6 +56,11 @@ static const int kHorizontalPadding = 10;
         [_controlNode addTarget:self
                          action:@selector(touchUpInside)
                forControlEvents:ASControlNodeEventTouchUpInside];
+        
+        _blueColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
+        _darkBlueColor = [UIColor colorWithRed:31/255.f green:97/255.f blue:141/255.f alpha:1];
+        _grayColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
+        _darkGrayColor = [UIColor colorWithRed:179/255.f green:182/255.f blue:183/255.f alpha:1];
     }
     return self;
 }
@@ -78,13 +88,13 @@ static const int kHorizontalPadding = 10;
                                                 overlay:_controlNode];
     
     if (_messageStyle == MessageCellStyleTextSend) {
-        _backgroundNode.backgroundColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
+        _backgroundNode.backgroundColor = _blueColor;
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
                 child:overlayControlSpec];
         
     } else if (_messageStyle == MessageCellStyleTextReceive) {
-        _backgroundNode.backgroundColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
+        _backgroundNode.backgroundColor = _grayColor;
         
         _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
@@ -156,9 +166,9 @@ static const int kHorizontalPadding = 10;
     __weak MessageCellNode *weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:31/255.f green:97/255.f blue:141/255.f alpha:1]];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.darkBlueColor];
         } else {
-            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:179/255.f green:182/255.f blue:183/255.f alpha:1]];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.darkGrayColor];
         }
     }];
 }
@@ -168,9 +178,9 @@ static const int kHorizontalPadding = 10;
     __weak MessageCellNode *weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1]];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.blueColor];
         } else {
-            [weakSelf.backgroundNode setBackgroundColor:[UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1]];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.grayColor];
         }
     }];
 }

@@ -18,7 +18,7 @@
 #import "ImageCache.h"
 #import "StringHelper.h"
 
-@interface ChatBoxViewController () <MessageTableNodeDelegate>
+@interface ChatBoxViewController () <MessageTableNodeDelegate, MessageInputNodeDelegate>
 
 @property (nonatomic, strong) ASDisplayNode *contentNode;
 @property (nonatomic, strong) MessageTableNode *tableNode;
@@ -43,6 +43,7 @@
         _messageBusiness = [[MessageBusiness alloc] init];
         
         _messageInputNode = [[MessageInputNode alloc] init];
+        _messageInputNode.delegate = self;
         
         _contentNode.automaticallyManagesSubnodes = YES;
         _contentNode.layoutSpecBlock = ^ASLayoutSpec *(__kindof ASDisplayNode * _Nonnull node, ASSizeRange constrainedSize) {
@@ -139,6 +140,24 @@
     [UIView animateWithDuration:0.15 animations:^{
         self->_contentNode.view.transform = CGAffineTransformIdentity;
     }];
+}
+
+#pragma mark - MessageInputNodeDelegate
+
+- (void)sendMessage:(NSString *)message {
+    if (!message)
+        return;
+    if (message.length == 0)
+        return;
+    
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    Message *messageModel = [[Message alloc] initWithMessage:message
+                                                        from:kCurrentUser
+                                                          to:_messageToContact.phoneNumber
+                                                   timestamp:timestamp
+                                                       style:MessageStyleText];
+    
+    [_tableNode sendMessage:messageModel];
 }
 
 @end

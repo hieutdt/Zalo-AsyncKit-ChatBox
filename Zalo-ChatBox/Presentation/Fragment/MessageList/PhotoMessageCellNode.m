@@ -36,9 +36,9 @@ static const int kHorizontalPadding = 10;
         
         _imageNode = [[ASNetworkImageNode alloc] init];
         _imageNode.shouldCacheImage = YES;
-        _imageNode.shouldRenderProgressImages = NO;
         _imageNode.contentMode = UIViewContentModeScaleToFill;
         _imageNode.cornerRadius = 10;
+        _imageNode.defaultImage = [UIImage imageNamed:@"gray"];
         _imageNode.delegate = self;
         
         _controlNode = [[ASControlNode alloc] init];

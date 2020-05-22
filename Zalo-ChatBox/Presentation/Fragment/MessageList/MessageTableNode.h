@@ -39,6 +39,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)setGradientColorCode:(int)gradientColorCode
                 andShortName:(NSString *)shortName;
 
+- (void)sendMessage:(Message *)message;
+
 @end
 
 NS_ASSUME_NONNULL_END

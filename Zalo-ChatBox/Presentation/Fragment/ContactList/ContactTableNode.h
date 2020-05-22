@@ -34,8 +34,6 @@ didSelectCellAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void)setViewModels:(NSArray<ContactTableViewModel *> *)viewModels;
 
-- (void)searchByString:(NSString *)searchString;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -39,11 +39,13 @@ static const int kFontSize = 22;
         
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:@"Aa"
                                                                      attributes:attributedText];
-        _editTextNode.attributedPlaceholderText = string;
+        [_editTextNode setAttributedPlaceholderText:string];
+        [_editTextNode setPlaceholderEnabled:YES];
         
         _sendButton = [[ASButtonNode alloc] init];
         _sendButton.backgroundColor = [UIColor clearColor];
-        [_sendButton.backgroundImageNode setImage:[UIImage imageNamed:@"send"]];
+        [_sendButton setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
+        [_sendButton addTarget:self action:@selector(sendButtonTapped) forControlEvents:ASControlNodeEventTouchUpInside];
     }
     return self;
 }
@@ -73,6 +75,15 @@ static const int kFontSize = 22;
 
 - (void)endEditing {
     [_editTextNode.textView endEditing:YES];
+}
+
+#pragma mark - Action
+
+- (void)sendButtonTapped {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(sendMessage:)]) {
+        [self.delegate sendMessage:_editTextNode.textView.text];
+        _editTextNode.textView.text = @"";
+    }
 }
 
 @end
