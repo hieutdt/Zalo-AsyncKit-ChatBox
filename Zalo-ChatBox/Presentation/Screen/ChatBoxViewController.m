@@ -14,6 +14,8 @@
 #import "MessageBusiness.h"
 #import "ContactBusiness.h"
 
+#import "TextMessage.h"
+
 #import "AppConsts.h"
 #import "ImageCache.h"
 #import "StringHelper.h"
@@ -151,13 +153,13 @@
         return;
     
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
-    Message *messageModel = [[Message alloc] initWithMessage:message
-                                                        from:kCurrentUser
-                                                          to:_messageToContact.phoneNumber
-                                                   timestamp:timestamp
-                                                       style:MessageStyleText];
+
+    TextMessage *textMess = [[TextMessage alloc] initWithMessage:message
+                                           fromOwnerPhoneNumber:kCurrentUser
+                                                  toPhoneNumber:_messageToContact.phoneNumber
+                                                      timestamp:timestamp];
     
-    [_tableNode sendMessage:messageModel];
+    [_tableNode sendMessage:textMess];
 }
 
 @end

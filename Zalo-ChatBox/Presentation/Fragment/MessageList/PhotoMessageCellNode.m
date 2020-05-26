@@ -57,11 +57,13 @@ static const int kHorizontalPadding = 10;
     
     CGFloat ratio = _imageRatio;
     if (ratio >= 1) {
-        _imageNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width * 0.7, maxConstrainedSize.height);
-        _controlNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width * 0.7, maxConstrainedSize.height);
+        CGFloat width = maxConstrainedSize.width * 0.7;
+        _imageNode.style.preferredSize = CGSizeMake(width, width / ratio);
+        _controlNode.style.preferredSize = CGSizeMake(width, width / ratio);
     } else {
-        _imageNode.style.preferredSize = CGSizeMake(maxConstrainedSize.height *ratio, maxConstrainedSize.height);
-        _controlNode.style.preferredSize = CGSizeMake(maxConstrainedSize.height *ratio, maxConstrainedSize.height);
+        CGFloat height = 400;
+        _imageNode.style.preferredSize = CGSizeMake(height *ratio, height);
+        _controlNode.style.preferredSize = CGSizeMake(height *ratio, height);
     }
     
     _avatarNode.style.preferredSize = CGSizeMake(25, 25);
@@ -93,6 +95,16 @@ static const int kHorizontalPadding = 10;
 
 - (void)didLoad {
     [super didLoad];
+}
+
+#pragma mark - CellNode
+
+- (void)updateCellNodeWithObject:(id)object {
+    if ([object isKindOfClass:[SinglePhotoMessage class]]) {
+        SinglePhotoMessage *photo = (SinglePhotoMessage *)object;
+        [self setMessage:photo];
+        [self setImageUrl:photo.imageURL.absoluteString];
+    }
 }
 
 #pragma mark - Setter
@@ -147,6 +159,8 @@ static const int kHorizontalPadding = 10;
         self.loadImageFinish = YES;
         self.imageRatio = image.size.width / image.size.height;
         [self.delegate photoMessageCellNode:self didLoadImageWithSize:image.size];
+        
+        [self setNeedsLayout];
     }
 }
 

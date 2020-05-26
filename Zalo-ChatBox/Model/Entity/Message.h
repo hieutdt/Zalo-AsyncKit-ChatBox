@@ -8,24 +8,27 @@
 
 #import <Foundation/Foundation.h>
 #import "AppConsts.h"
+#import "CellNodeObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Message : NSObject
+@interface Message : CellNodeObject
 
 @property (nonatomic, strong) NSString *identifier;
-@property (nonatomic, strong) NSString *message;
 @property (nonatomic, strong) NSString *fromPhoneNumber;
 @property (nonatomic, strong) NSString *toPhoneNumber;
 @property (nonatomic, assign) NSTimeInterval timestamp;
-@property (nonatomic, assign) MessageStyle style;
-@property (nonatomic, assign) CGFloat imageRatio;
 
-- (instancetype)initWithMessage:(NSString *)message
-                           from:(NSString *)fromPhoneNumber
-                             to:(NSString *)toPhoneNumber
-                      timestamp:(NSTimeInterval)timestamp
-                          style:(MessageStyle)style;
+@property (nonatomic, assign) BOOL showAvatar;
+
+- (instancetype)initWithCellNodeClass:(Class)cellNodeClass
+                             userInfo:(_Nullable id)userInfo;
+
+- (instancetype)initWithCellNodeClass:(Class)cellNodeClass
+                             userInfo:(_Nullable id)userInfo
+                      fromPhoneNumber:(NSString *)fromPhoneNumber
+                        toPhoneNumber:(NSString *)toPhoneNumber
+                            timestamp:(NSTimeInterval)ts;
 
 @end
 

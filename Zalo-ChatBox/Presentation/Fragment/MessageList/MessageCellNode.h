@@ -9,6 +9,8 @@
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 #import "Message.h"
 #import "AppConsts.h"
+#import "CellNodeObject.h"
+#import "TextMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,13 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MessageCellNode : ASCellNode
+@interface MessageCellNode : ASCellNode <CellNode>
 
 @property (nonatomic, assign) id<MessageCellNodeDelegate> delegate;
 
 @property (nonatomic, assign) BOOL choosing;
 
-- (void)setMessage:(Message *)message;
+- (void)setMessage:(TextMessage *)message;
 
 - (void)showAvatarImage:(UIImage *)image;
 

@@ -10,36 +10,28 @@
 
 @implementation Message
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithCellNodeClass:(Class)cellNodeClass userInfo:(_Nullable id)userInfo {
+    return [self initWithCellNodeClass:cellNodeClass
+                              userInfo:userInfo
+                       fromPhoneNumber:@""
+                         toPhoneNumber:@""
+                             timestamp:0];
+}
+
+- (instancetype)initWithCellNodeClass:(Class)cellNodeClass userInfo:(_Nullable id)userInfo
+                      fromPhoneNumber:(NSString *)fromPhoneNumber
+                        toPhoneNumber:(NSString *)toPhoneNumber
+                            timestamp:(NSTimeInterval)ts {
+    self = [super initWithCellNodeClass:cellNodeClass userInfo:userInfo];
     if (self) {
         _identifier = [[NSUUID UUID] UUIDString];
-        _message = [[NSString alloc] init];
-        _fromPhoneNumber = [[NSString alloc] init];
-        _toPhoneNumber = [[NSString alloc] init];
-        _timestamp = 0;
-        _style = MessageStyleText;
-        _imageRatio = 1;
+        _fromPhoneNumber = fromPhoneNumber;
+        _toPhoneNumber = toPhoneNumber;
+        _timestamp = ts;
+        _showAvatar = NO;
     }
     return self;
 }
 
-- (instancetype)initWithMessage:(NSString *)message
-                           from:(NSString *)fromPhoneNumber
-                             to:(NSString *)toPhoneNumber
-                      timestamp:(NSTimeInterval)timestamp
-                          style:(MessageStyle)style {
-    self = [super init];
-    if (self) {
-        _identifier = [[NSUUID UUID] UUIDString];
-        _message = message;
-        _fromPhoneNumber = fromPhoneNumber;
-        _toPhoneNumber = toPhoneNumber;
-        _timestamp = timestamp;
-        _style = style;
-        _imageRatio = 1;
-    }
-    return self;
-}
 
 @end

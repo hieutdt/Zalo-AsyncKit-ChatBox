@@ -10,6 +10,9 @@
 #import "StringHelper.h"
 #import "AppConsts.h"
 
+#import "TextMessage.h"
+#import "SinglePhotoMessage.h"
+
 static const int kLoadMoreCount = 30;
 
 @interface MessageAdapter ()
@@ -95,42 +98,6 @@ static const int kLoadMoreCount = 30;
 
 #pragma mark - GenerateData
 
-- (NSArray<Message *> *)generateRandomMessagesForConversation:(Conversation *)conversation
-                                             numberOfMessages:(int)numberOfMessages
-                                                       atTime:(NSTimeInterval)fromTs
-                                                       toTime:(NSTimeInterval)toTs {
-    if (numberOfMessages <= 0 || !conversation)
-        return nil;
-    
-    NSMutableArray<Message *> *messages = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < numberOfMessages; i++) {
-        Message *mess = [[Message alloc] init];
-        
-        int sender = RAND_FROM_TO(0, 1);
-        if (sender == 0) {
-            mess.fromPhoneNumber = conversation.personA.phoneNumber;
-            mess.toPhoneNumber = conversation.personB.phoneNumber;
-        } else {
-            mess.fromPhoneNumber = conversation.personB.phoneNumber;
-            mess.toPhoneNumber = conversation.personA.phoneNumber;
-        }
-        
-        NSInteger ts = RAND_FROM_TO(fromTs, toTs);
-        mess.timestamp = ts;
-        
-        unsigned int messLenght = RAND_FROM_TO(5, 100);
-        mess.message = [StringHelper randomString:messLenght];
-        
-        [messages addObject:mess];
-    }
-
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
-    NSArray *sortedArray = [messages sortedArrayUsingDescriptors:@[sortDescriptor]];
-    
-    return sortedArray;
-}
-
 - (NSArray<Message *> *)generateRandomMessageForConversation:(Conversation *)conversation
                                             numberOfMessages:(int)numberOfMessages
                                                       atTime:(NSTimeInterval)fromTs
@@ -146,7 +113,15 @@ static const int kLoadMoreCount = 30;
     NSMutableArray<Message *> *messages = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < numberOfMessages; i++) {
-        Message *mess = [[Message alloc] init];
+        Message *mess = nil;
+        int type = RAND_FROM_TO(0, 3);
+        if (type == 0) {
+            int index = RAND_FROM_TO(0, (int)photos.count - 1);
+            mess = [[SinglePhotoMessage alloc] initWithPhotoURL:photos[index] ratio:1];
+        } else {
+            int index = RAND_FROM_TO(0, (int)texts.count - 1);
+            mess = [[TextMessage alloc] initWithMessage:texts[index]];
+        }
         
         int sender = RAND_FROM_TO(0, 1);
         if (sender == 0) {
@@ -159,17 +134,6 @@ static const int kLoadMoreCount = 30;
         
         NSInteger ts = RAND_FROM_TO(fromTs, toTs);
         mess.timestamp = ts;
-        
-        int type = RAND_FROM_TO(0, 3);
-        if (type == 0) {
-            mess.style = MessageStyleImage;
-            int index = RAND_FROM_TO(0, (int)photos.count - 1);
-            mess.message = photos[index];
-        } else {
-            mess.style = MessageStyleText;
-            int index = RAND_FROM_TO(0, (int)texts.count - 1);
-            mess.message = texts[index];
-        }
         
         [messages addObject:mess];
     }

@@ -11,6 +11,9 @@
 #import "Message.h"
 #import "AppConsts.h"
 
+#import "CellNodeObject.h"
+#import "SinglePhotoMessage.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class PhotoMessageCellNode;
@@ -22,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface PhotoMessageCellNode : ASCellNode
+@interface PhotoMessageCellNode : ASCellNode <CellNode>
 
 @property (nonatomic, assign) id<PhotoMessageCellNodeDelegate> delegate;
 

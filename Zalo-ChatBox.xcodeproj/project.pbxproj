@@ -38,6 +38,10 @@
 		042978B42473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
 		042978B72473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
 		042978B82473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
+		04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475806247CCB3A003EF581 /* CellNodeFactory.m */; };
+		0447580C247CCCA8003EF581 /* TableNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0447580B247CCCA8003EF581 /* TableNodeModel.m */; };
+		04475814247D0163003EF581 /* TimeSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475813247D0163003EF581 /* TimeSectionHeader.m */; };
+		04475815247D0163003EF581 /* TimeSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475813247D0163003EF581 /* TimeSectionHeader.m */; };
 		04516EFA24728B1F005603C8 /* MessageTableNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04516EF924728B1F005603C8 /* MessageTableNode.m */; };
 		04516EFB24728B1F005603C8 /* MessageTableNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04516EF924728B1F005603C8 /* MessageTableNode.m */; };
 		045181D5247192700019FDEE /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 045181D4247192700019FDEE /* ImageCache.m */; };
@@ -52,6 +56,11 @@
 		046AD7552476255B0062A856 /* MessageAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 046AD7532476255B0062A856 /* MessageAdapter.m */; };
 		046D2928247774BB00AA0D10 /* message_data.txt in Resources */ = {isa = PBXBuildFile; fileRef = 046D2927247774BB00AA0D10 /* message_data.txt */; };
 		046D292A24777CE700AA0D10 /* photo_data.txt in Resources */ = {isa = PBXBuildFile; fileRef = 046D292924777CE700AA0D10 /* photo_data.txt */; };
+		048F273F247CB8A400C3F9D0 /* TextMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 048F273E247CB8A400C3F9D0 /* TextMessage.m */; };
+		048F2740247CB8A400C3F9D0 /* TextMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 048F273E247CB8A400C3F9D0 /* TextMessage.m */; };
+		048F2743247CB8B500C3F9D0 /* SinglePhotoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 048F2742247CB8B500C3F9D0 /* SinglePhotoMessage.m */; };
+		048F2744247CB8B500C3F9D0 /* SinglePhotoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 048F2742247CB8B500C3F9D0 /* SinglePhotoMessage.m */; };
+		048F2747247CBECD00C3F9D0 /* CellNodeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 048F2746247CBECD00C3F9D0 /* CellNodeObject.m */; };
 		04E2D0982472DF92004B1BE9 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* MessageCellNode.m */; };
 		04E2D0992472DF92004B1BE9 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* MessageCellNode.m */; };
 		04FA55D424766102005ED189 /* ContactAvatarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D324766101005ED189 /* ContactAvatarNode.m */; };
@@ -114,6 +123,12 @@
 		042978B22473B9250030EE56 /* LayoutHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutHelper.m; sourceTree = "<group>"; };
 		042978B52473E67F0030EE56 /* TimeSectionCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSectionCellNode.h; sourceTree = "<group>"; };
 		042978B62473E67F0030EE56 /* TimeSectionCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSectionCellNode.m; sourceTree = "<group>"; };
+		04475805247CCB3A003EF581 /* CellNodeFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellNodeFactory.h; sourceTree = "<group>"; };
+		04475806247CCB3A003EF581 /* CellNodeFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellNodeFactory.m; sourceTree = "<group>"; };
+		0447580A247CCCA8003EF581 /* TableNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableNodeModel.h; sourceTree = "<group>"; };
+		0447580B247CCCA8003EF581 /* TableNodeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableNodeModel.m; sourceTree = "<group>"; };
+		04475812247D0163003EF581 /* TimeSectionHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSectionHeader.h; sourceTree = "<group>"; };
+		04475813247D0163003EF581 /* TimeSectionHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSectionHeader.m; sourceTree = "<group>"; };
 		04516EF824728B1F005603C8 /* MessageTableNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTableNode.h; sourceTree = "<group>"; };
 		04516EF924728B1F005603C8 /* MessageTableNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTableNode.m; sourceTree = "<group>"; };
 		045181D3247192700019FDEE /* ImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
@@ -128,6 +143,12 @@
 		046AD7532476255B0062A856 /* MessageAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageAdapter.m; sourceTree = "<group>"; };
 		046D2927247774BB00AA0D10 /* message_data.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = message_data.txt; sourceTree = "<group>"; };
 		046D292924777CE700AA0D10 /* photo_data.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = photo_data.txt; sourceTree = "<group>"; };
+		048F273D247CB8A400C3F9D0 /* TextMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextMessage.h; sourceTree = "<group>"; };
+		048F273E247CB8A400C3F9D0 /* TextMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextMessage.m; sourceTree = "<group>"; };
+		048F2741247CB8B500C3F9D0 /* SinglePhotoMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SinglePhotoMessage.h; sourceTree = "<group>"; };
+		048F2742247CB8B500C3F9D0 /* SinglePhotoMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinglePhotoMessage.m; sourceTree = "<group>"; };
+		048F2745247CBECD00C3F9D0 /* CellNodeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellNodeObject.h; sourceTree = "<group>"; };
+		048F2746247CBECD00C3F9D0 /* CellNodeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellNodeObject.m; sourceTree = "<group>"; };
 		04E2D0962472DF92004B1BE9 /* MessageCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCellNode.h; sourceTree = "<group>"; };
 		04E2D0972472DF92004B1BE9 /* MessageCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCellNode.m; sourceTree = "<group>"; };
 		04FA55D224766101005ED189 /* ContactAvatarNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactAvatarNode.h; sourceTree = "<group>"; };
@@ -252,8 +273,9 @@
 		041CB214246E915500D09B58 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				041CB216246E917900D09B58 /* ContactTableViewModel.h */,
-				041CB217246E917900D09B58 /* ContactTableViewModel.m */,
+				048F2749247CBEEB00C3F9D0 /* NodeModel */,
+				048F273C247CB87E00C3F9D0 /* MessageModel */,
+				048F273B247CB87000C3F9D0 /* ContactList */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -367,6 +389,41 @@
 				04FA55DB24769597005ED189 /* PhotoMessageCellNode.m */,
 			);
 			path = MessageList;
+			sourceTree = "<group>";
+		};
+		048F273B247CB87000C3F9D0 /* ContactList */ = {
+			isa = PBXGroup;
+			children = (
+				041CB216246E917900D09B58 /* ContactTableViewModel.h */,
+				041CB217246E917900D09B58 /* ContactTableViewModel.m */,
+			);
+			path = ContactList;
+			sourceTree = "<group>";
+		};
+		048F273C247CB87E00C3F9D0 /* MessageModel */ = {
+			isa = PBXGroup;
+			children = (
+				048F273D247CB8A400C3F9D0 /* TextMessage.h */,
+				048F273E247CB8A400C3F9D0 /* TextMessage.m */,
+				048F2741247CB8B500C3F9D0 /* SinglePhotoMessage.h */,
+				048F2742247CB8B500C3F9D0 /* SinglePhotoMessage.m */,
+				04475812247D0163003EF581 /* TimeSectionHeader.h */,
+				04475813247D0163003EF581 /* TimeSectionHeader.m */,
+			);
+			path = MessageModel;
+			sourceTree = "<group>";
+		};
+		048F2749247CBEEB00C3F9D0 /* NodeModel */ = {
+			isa = PBXGroup;
+			children = (
+				048F2745247CBECD00C3F9D0 /* CellNodeObject.h */,
+				048F2746247CBECD00C3F9D0 /* CellNodeObject.m */,
+				0447580A247CCCA8003EF581 /* TableNodeModel.h */,
+				0447580B247CCCA8003EF581 /* TableNodeModel.m */,
+				04475805247CCB3A003EF581 /* CellNodeFactory.h */,
+				04475806247CCB3A003EF581 /* CellNodeFactory.m */,
+			);
+			path = NodeModel;
 			sourceTree = "<group>";
 		};
 		8E06C0F317C472BB0061391B /* Pods */ = {
@@ -558,6 +615,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0447580C247CCCA8003EF581 /* TableNodeModel.m in Sources */,
+				048F273F247CB8A400C3F9D0 /* TextMessage.m in Sources */,
+				04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */,
 				04FA55D824768D0B005ED189 /* MessageInputNode.m in Sources */,
 				041CB20D246E904C00D09B58 /* ContactBusiness.m in Sources */,
 				041CB21C246E925C00D09B58 /* UIImage+Additions.m in Sources */,
@@ -569,9 +629,12 @@
 				041CB1E0246E79E400D09B58 /* ContactListViewController.m in Sources */,
 				045181D5247192700019FDEE /* ImageCache.m in Sources */,
 				046466D224727B0B00E18118 /* Message.m in Sources */,
+				048F2747247CBECD00C3F9D0 /* CellNodeObject.m in Sources */,
 				041CB1E8246E79FD00D09B58 /* ChatBoxViewController.m in Sources */,
+				048F2743247CB8B500C3F9D0 /* SinglePhotoMessage.m in Sources */,
 				0426C37E246E75950090E1EC /* main.m in Sources */,
 				041CB1F8246E8D3800D09B58 /* Contact.m in Sources */,
+				04475814247D0163003EF581 /* TimeSectionHeader.m in Sources */,
 				04516EFA24728B1F005603C8 /* MessageTableNode.m in Sources */,
 				041CB209246E8FD100D09B58 /* StringHelper.m in Sources */,
 				04FA55DC24769597005ED189 /* PhotoMessageCellNode.m in Sources */,
@@ -600,9 +663,12 @@
 				041CB21D246E925C00D09B58 /* UIImage+Additions.m in Sources */,
 				041CB213246E90EA00D09B58 /* ContactTableCellNode.m in Sources */,
 				046AD7552476255B0062A856 /* MessageAdapter.m in Sources */,
+				048F2740247CB8A400C3F9D0 /* TextMessage.m in Sources */,
 				041CB1E1246E79E400D09B58 /* ContactListViewController.m in Sources */,
 				04E2D0992472DF92004B1BE9 /* MessageCellNode.m in Sources */,
 				041CB20A246E8FD100D09B58 /* StringHelper.m in Sources */,
+				048F2744247CB8B500C3F9D0 /* SinglePhotoMessage.m in Sources */,
+				04475815247D0163003EF581 /* TimeSectionHeader.m in Sources */,
 				041CB221246E96E400D09B58 /* ContactTableNode.m in Sources */,
 				04FA55DD24769597005ED189 /* PhotoMessageCellNode.m in Sources */,
 				041CB1F9246E8D3800D09B58 /* Contact.m in Sources */,

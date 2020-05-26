@@ -16,7 +16,7 @@ static const int kHorizontalPadding = 10;
 
 @interface MessageCellNode ()
 
-@property (nonatomic, strong) Message *message;
+@property (nonatomic, strong) TextMessage *message;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
 
 @property (nonatomic, strong) ASEditableTextNode *editTextNode;
@@ -68,8 +68,7 @@ static const int kHorizontalPadding = 10;
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
     CGSize maxConstrainedSize = constrainedSize.max;
     
-    // maxConstrainedSize.height is already wrap text
-    CGSize boundingSize = CGSizeMake(maxConstrainedSize.width * 0.7, maxConstrainedSize.height);
+    CGSize boundingSize = CGSizeMake(maxConstrainedSize.width * 0.7, 400);
     CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
                                                           font:[UIFont fontWithName:@"HelveticaNeue" size:kFontSize]
                                                    parrentSize:boundingSize];
@@ -117,9 +116,19 @@ static const int kHorizontalPadding = 10;
     _editTextNode.textView.editable = NO;
 }
 
+#pragma mark - CellNode
+
+- (void)updateCellNodeWithObject:(id)object {
+    if ([object isKindOfClass:[TextMessage class]]) {
+        TextMessage *textMessage = (TextMessage *)object;
+        [self setMessage:textMessage];
+//        [self setNeedsLayout];
+    }
+}
+
 #pragma mark - Setter
 
-- (void)setMessage:(Message *)message {
+- (void)setMessage:(TextMessage *)message {
     _message = message;
     if ([_message.fromPhoneNumber isEqualToString:kCurrentUser]) {
         _messageStyle = MessageCellStyleTextSend;

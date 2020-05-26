@@ -7,6 +7,7 @@
 //
 
 #import "TimeSectionCellNode.h"
+#import "TimeSectionHeader.h"
 
 @interface TimeSectionCellNode ()
 
@@ -69,6 +70,15 @@
                                                                  attributes:attributedText];
     
     [_textNode setAttributedText:string];
+}
+
+#pragma mark - CellNode
+
+- (void)updateCellNodeWithObject:(id)object {
+    if ([object isKindOfClass:[TimeSectionHeader class]]) {
+        TimeSectionHeader *timeObj = (TimeSectionHeader *)object;
+        [self setTimestamp:timeObj.timestamp];
+    }
 }
 
 
