@@ -10,6 +10,8 @@
 #import "LayoutHelper.h"
 #import "ContactAvatarNode.h"
 
+#import "ImageCache.h"
+
 static const int kFontSize = 18;
 static const int kVericalPadding = 3;
 static const int kHorizontalPadding = 10;
@@ -122,7 +124,18 @@ static const int kHorizontalPadding = 10;
     if ([object isKindOfClass:[TextMessage class]]) {
         TextMessage *textMessage = (TextMessage *)object;
         [self setMessage:textMessage];
-//        [self setNeedsLayout];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        Message *mess = (Message *)textMessage;
+        if (mess.showAvatar) {
+            UIImage *avatarImage = [[ImageCache instance] imageForKey:mess.toContact.identifier];
+            if (avatarImage) {
+                [self showAvatarImage:avatarImage];
+            } else {
+                [self showAvatarImageWithGradientColor:mess.toContact.gradientColorCode
+                                             shortName:mess.toContact.name];
+            }
+        }
     }
 }
 
@@ -130,7 +143,7 @@ static const int kHorizontalPadding = 10;
 
 - (void)setMessage:(TextMessage *)message {
     _message = message;
-    if ([_message.fromPhoneNumber isEqualToString:kCurrentUser]) {
+    if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
         _messageStyle = MessageCellStyleTextSend;
     } else {
         _messageStyle = MessageCellStyleTextReceive;

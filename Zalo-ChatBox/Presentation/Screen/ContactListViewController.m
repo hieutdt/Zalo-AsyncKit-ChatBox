@@ -139,6 +139,7 @@
         ContactTableViewModel *viewModel = [[ContactTableViewModel alloc] init];
         viewModel.identifier = contact.identifier;
         viewModel.name = contact.name;
+        viewModel.gradientColorCode = contact.gradientColorCode;
         
         [viewModels addObject:viewModel];
     }

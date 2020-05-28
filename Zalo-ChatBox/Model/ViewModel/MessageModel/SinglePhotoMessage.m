@@ -15,26 +15,26 @@
 @implementation SinglePhotoMessage
 
 - (instancetype)init {
-    return [self initWithPhotoURL:@"" ratio:0 fromOwnerPhoneNumber:@"" toPhoneNumber:@"" timestamp:0];
+    return [self initWithPhotoURL:@"" ratio:1 fromContact:nil toContact:nil timestamp:0];
 }
 
 - (instancetype)initWithPhotoURL:(NSString *)url ratio:(CGFloat)ratio {
     return [self initWithPhotoURL:url
                             ratio:ratio
-             fromOwnerPhoneNumber:@""
-                    toPhoneNumber:@""
+                      fromContact:nil
+                        toContact:nil
                         timestamp:0];
 }
 
 - (instancetype)initWithPhotoURL:(NSString *)url
                            ratio:(CGFloat)ratio
-            fromOwnerPhoneNumber:(NSString *)fromPhoneNumber
-                   toPhoneNumber:(NSString *)toPhoneNumber
+                     fromContact:(Contact *)fromContact
+                       toContact:(Contact *)toContact
                        timestamp:(NSTimeInterval)ts {
     self = [super initWithCellNodeClass:[PhotoMessageCellNode class]
                                userInfo:nil
-                        fromPhoneNumber:fromPhoneNumber
-                          toPhoneNumber:toPhoneNumber
+                            fromContact:fromContact
+                              toContact:toContact
                               timestamp:ts];
     if (self) {
         _imageURL = [NSURL URLWithString:url];

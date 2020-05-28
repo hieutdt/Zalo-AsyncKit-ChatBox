@@ -13,20 +13,21 @@
 - (instancetype)initWithCellNodeClass:(Class)cellNodeClass userInfo:(_Nullable id)userInfo {
     return [self initWithCellNodeClass:cellNodeClass
                               userInfo:userInfo
-                       fromPhoneNumber:@""
-                         toPhoneNumber:@""
+                           fromContact:nil
+                             toContact:nil
                              timestamp:0];
 }
 
-- (instancetype)initWithCellNodeClass:(Class)cellNodeClass userInfo:(_Nullable id)userInfo
-                      fromPhoneNumber:(NSString *)fromPhoneNumber
-                        toPhoneNumber:(NSString *)toPhoneNumber
+- (instancetype)initWithCellNodeClass:(Class)cellNodeClass
+                             userInfo:(_Nullable id)userInfo
+                          fromContact:(Contact *)fromContact
+                            toContact:(Contact *)toContact
                             timestamp:(NSTimeInterval)ts {
     self = [super initWithCellNodeClass:cellNodeClass userInfo:userInfo];
     if (self) {
         _identifier = [[NSUUID UUID] UUIDString];
-        _fromPhoneNumber = fromPhoneNumber;
-        _toPhoneNumber = toPhoneNumber;
+        _fromContact = fromContact;
+        _toContact = toContact;
         _timestamp = ts;
         _showAvatar = NO;
     }

@@ -16,18 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class PhotoMessageCellNode;
-
-@protocol PhotoMessageCellNodeDelegate <NSObject>
-
-- (void)photoMessageCellNode:(PhotoMessageCellNode *)cellNode
-        didLoadImageWithSize:(CGSize)imageSize;
-
-@end
-
 @interface PhotoMessageCellNode : ASCellNode <CellNode>
-
-@property (nonatomic, assign) id<PhotoMessageCellNodeDelegate> delegate;
 
 @property (nonatomic, assign) CGFloat imageRatio;
 

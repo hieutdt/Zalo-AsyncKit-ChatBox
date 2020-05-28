@@ -9,16 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "AppConsts.h"
 #import "CellNodeObject.h"
+#import "Contact.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Message : CellNodeObject
 
 @property (nonatomic, strong) NSString *identifier;
-@property (nonatomic, strong) NSString *fromPhoneNumber;
-@property (nonatomic, strong) NSString *toPhoneNumber;
+@property (nonatomic, strong) Contact *fromContact;
+@property (nonatomic, strong) Contact *toContact;
 @property (nonatomic, assign) NSTimeInterval timestamp;
-
 @property (nonatomic, assign) BOOL showAvatar;
 
 - (instancetype)initWithCellNodeClass:(Class)cellNodeClass
@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithCellNodeClass:(Class)cellNodeClass
                              userInfo:(_Nullable id)userInfo
-                      fromPhoneNumber:(NSString *)fromPhoneNumber
-                        toPhoneNumber:(NSString *)toPhoneNumber
+                          fromContact:(Contact *)fromContact
+                            toContact:(Contact *)toContact
                             timestamp:(NSTimeInterval)ts;
 
 @end

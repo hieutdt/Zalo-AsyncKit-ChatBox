@@ -125,11 +125,11 @@ static const int kLoadMoreCount = 30;
         
         int sender = RAND_FROM_TO(0, 1);
         if (sender == 0) {
-            mess.fromPhoneNumber = conversation.personA.phoneNumber;
-            mess.toPhoneNumber = conversation.personB.phoneNumber;
+            mess.fromContact = conversation.personA;
+            mess.toContact = conversation.personB;
         } else {
-            mess.fromPhoneNumber = conversation.personB.phoneNumber;
-            mess.toPhoneNumber = conversation.personA.phoneNumber;
+            mess.fromContact = conversation.personB;
+            mess.toContact = conversation.personA;
         }
         
         NSInteger ts = RAND_FROM_TO(fromTs, toTs);

@@ -21,9 +21,7 @@
 #import "LayoutHelper.h"
 #import "UIImage+Additions.h"
 
-static const int kFontSize = 18;
 static NSString *kFontName = @"HelveticaNeue";
-static const int kMaxMessageHeight = 300;
 
 @interface MessageTableNode () <ASTableDelegate, ASTableDataSource, MessageCellNodeDelegate>
 
@@ -117,6 +115,22 @@ static const int kMaxMessageHeight = 300;
     [self.messageModels addObject:object];
 }
 
+- (void)groupMessages {
+    for (int i = 1; i < self.messageModels.count; i++) {
+        if (!(self.messageModels[i].class == self.messageModels[i - 1].class) &&
+            [self.messageModels[i].class isSubclassOfClass:[Message class]]) {
+            Message *message = (Message *)self.messageModels[i];
+            message.showAvatar = YES;
+        } else if ([self.messageModels[i].class isSubclassOfClass:[Message class]]) {
+            Message *currentMessage = (Message *)self.messageModels[i];
+            Message *prevMessage = (Message *)self.messageModels[i - 1];
+            if (currentMessage.fromContact.identifier != prevMessage.fromContact.identifier) {
+                currentMessage.showAvatar = YES;
+            }
+        }
+    }
+}
+
 #pragma mark - PublicMethods
 
 - (void)setMessagesToTable:(NSArray<Message *> *)messages {
@@ -125,24 +139,30 @@ static const int kMaxMessageHeight = 300;
         self.rawMessages = [NSMutableArray arrayWithArray:messages];
         [self sortNeareastTimeFirst];
         [self generateSectionData];
+        [self groupMessages];
         
         [self.tableModel setListArray:self.messageModels];
     }
 }
 
 - (void)reloadData {
-    [_tableNode reloadData];
+    [_tableNode reloadDataWithCompletion:^{
+        
+    }];
 }
 
 - (void)updateMoreMessages:(NSArray<Message *> *)messages {
     NSInteger currentSize = self.messageModels.count;
     [self.rawMessages addObjectsFromArray:messages];
     [self generateSectionData];
+    [self groupMessages];
     
     NSMutableArray<NSIndexPath *> *indexPaths = [[NSMutableArray alloc] init];
     for (NSInteger i = currentSize; i < self.messageModels.count; i++) {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
+    
+    [self.tableModel setListArray:self.messageModels];
     
     [_tableNode performBatchUpdates:^{
         [_tableNode insertRowsAtIndexPaths:indexPaths
@@ -196,112 +216,6 @@ static const int kMaxMessageHeight = 300;
     _friendShortName = shortName;
     _friendAvatarImage = nil;
 }
-
-//#pragma mark - ASTableDataSource
-//
-//- (NSInteger)numberOfSectionsInTableNode:(ASTableNode *)tableNode {
-//    return 1;
-//}
-//
-//- (NSInteger)tableNode:(ASTableNode *)tableNode numberOfRowsInSection:(NSInteger)section {
-//    return _models.count;
-//}
-//
-//- (ASCellNodeBlock)tableNode:(ASTableNode *)tableNode nodeBlockForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.item >= self.models.count)
-//        return nil;
-//
-//    Message *mess = self.models[indexPath.item];
-//    ASCellNode *(^cellNodeBlock)(void) = nil;
-//    __weak MessageTableNode *weakSelf = self;
-//
-//    if (mess.style == MessageStyleText) {
-//        cellNodeBlock = ^ASCellNode *() {
-//            MessageCellNode *cellNode = [[MessageCellNode alloc] init];
-//            cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
-//            [cellNode setMessage:mess];
-//            cellNode.delegate = self;
-//
-//            if (indexPath.item == 0 ||
-//                ![weakSelf.models[indexPath.item - 1].fromPhoneNumber isEqualToString:mess.fromPhoneNumber]) {
-//                if (weakSelf.friendAvatarImage) {
-//                    [cellNode showAvatarImage:weakSelf.friendAvatarImage];
-//                } else {
-//                    [cellNode showAvatarImageWithGradientColor:weakSelf.gradientColorCode
-//                                                     shortName:weakSelf.friendShortName];
-//                }
-//            }
-//
-//            return cellNode;
-//        };
-//
-//    } else if (mess.style == MessageStyleSection) {
-//        cellNodeBlock = ^ASCellNode *() {
-//            TimeSectionCellNode *cellNode = [[TimeSectionCellNode alloc] init];
-//            [cellNode setTimestamp:mess.timestamp];
-//            cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
-//
-//            return cellNode;
-//        };
-//
-//    } else {
-//        cellNodeBlock = ^ASCellNode *() {
-//            PhotoMessageCellNode *cellNode = [[PhotoMessageCellNode alloc] init];
-//            [cellNode setMessage:mess];
-//            cellNode.selectionStyle = UITableViewCellSelectionStyleNone;
-//            [cellNode setImageUrl:mess.message];
-//            cellNode.delegate = self;
-//
-//            if (indexPath.item == 0 ||
-//                ![weakSelf.models[indexPath.item - 1].fromPhoneNumber isEqualToString:mess.fromPhoneNumber]) {
-//                if (weakSelf.friendAvatarImage) {
-//                    [cellNode showAvatarImage:weakSelf.friendAvatarImage];
-//                } else {
-//                    [cellNode showAvatarImageWithGradientColor:weakSelf.gradientColorCode
-//                                                     shortName:weakSelf.friendShortName];
-//                }
-//            }
-//
-//            return cellNode;
-//        };
-//    }
-//
-//    return cellNodeBlock;
-//}
-
-//- (ASSizeRange)tableNode:(ASTableNode *)tableNode constrainedSizeForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.item >= self.models.count)
-//        return ASSizeRangeZero;
-//
-//    Message *mess = self.models[indexPath.item];
-//
-//    if (mess.style == MessageStyleSection) {
-//        return ASSizeRangeMake(CGSizeMake(self.view.bounds.size.width, 30));
-//
-//    } else if (mess.style == MessageStyleText) {
-//        NSString *text = mess.message;
-//        CGSize size = CGSizeMake(self.view.frame.size.width * 0.7, 1000);
-//        CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:text
-//                                                              font:[UIFont fontWithName:kFontName size:kFontSize]
-//                                                       parrentSize:size];
-//
-//        return ASSizeRangeMake(CGSizeMake(estimatedFrame.size.width + 10, estimatedFrame.size.height + 20));
-//
-//    } else if (mess.style == MessageStyleImage) {
-//        if ([_loadedImageMessages containsObject:mess]) {
-//            CGFloat whRatio = mess.imageRatio;
-//            if (whRatio >= 1) {
-//                return ASSizeRangeMake(CGSizeMake(self.view.frame.size.width * 0.7, self.view.frame.size.width/whRatio));
-//            } else {
-//                return ASSizeRangeMake(CGSizeMake(kMaxMessageHeight * whRatio, kMaxMessageHeight));
-//            }
-//        } else {
-//            return ASSizeRangeMake(CGSizeMake(100, 100));
-//        }
-//    }
-//
-//    return ASSizeRangeZero;
-//}
 
 #pragma mark - ASTableDelegate
 

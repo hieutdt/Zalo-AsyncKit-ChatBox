@@ -16,31 +16,26 @@
 @implementation TextMessage
 
 - (instancetype)init {
-    return [self initWithMessage:@"" fromOwnerPhoneNumber:@"" toPhoneNumber:@"" timestamp:0];
+    return [self initWithMessage:@"" fromContact:nil toContact:nil timestamp:0];
 }
 
 - (instancetype)initWithMessage:(NSString *)message {
-    return [self initWithMessage:message
-            fromOwnerPhoneNumber:@""
-                   toPhoneNumber:@""
-                       timestamp:0];
+    return [self initWithMessage:message fromContact:nil toContact:nil timestamp:0];
 }
 
 - (instancetype)initWithMessage:(NSString *)message
-           fromOwnerPhoneNumber:(NSString *)ownerPhoneNumber
-                  toPhoneNumber:(NSString *)toPhoneNumber
+                    fromContact:(Contact *)fromContact
+                      toContact:(Contact *)toContact
                       timestamp:(NSTimeInterval)ts {
     self = [super initWithCellNodeClass:[MessageCellNode class]
                                userInfo:nil
-                        fromPhoneNumber:ownerPhoneNumber
-                          toPhoneNumber:toPhoneNumber
+                            fromContact:fromContact
+                              toContact:toContact
                               timestamp:ts];
     if (self) {
         _message = message;
     }
     return self;
 }
-
-
 
 @end

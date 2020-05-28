@@ -29,6 +29,8 @@
 @property (nonatomic, strong) Conversation *conversation;
 @property (nonatomic, strong) MessageBusiness *messageBusiness;
 
+@property (nonatomic, strong) Contact *owner;
+
 @end
 
 @implementation ChatBoxViewController
@@ -46,6 +48,10 @@
         
         _messageInputNode = [[MessageInputNode alloc] init];
         _messageInputNode.delegate = self;
+        
+        _owner = [[Contact alloc] init];
+        _owner.name = @"Trần Hiếu";
+        _owner.phoneNumber = kCurrentUser;
         
         _contentNode.automaticallyManagesSubnodes = YES;
         _contentNode.layoutSpecBlock = ^ASLayoutSpec *(__kindof ASDisplayNode * _Nonnull node, ASSizeRange constrainedSize) {
@@ -153,13 +159,12 @@
         return;
     
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
-
     TextMessage *textMess = [[TextMessage alloc] initWithMessage:message
-                                           fromOwnerPhoneNumber:kCurrentUser
-                                                  toPhoneNumber:_messageToContact.phoneNumber
-                                                      timestamp:timestamp];
+                                                     fromContact:self.owner
+                                                       toContact:self.messageToContact
+                                                       timestamp:timestamp];
     
-    [_tableNode sendMessage:textMess];
+    [self.tableNode sendMessage:textMess];
 }
 
 @end

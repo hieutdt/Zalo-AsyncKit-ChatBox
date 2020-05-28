@@ -9,6 +9,7 @@
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 #import "Message.h"
 #import "PhotoMessageCellNode.h"
+#import "Contact.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithPhotoURL:(NSString *)url
                            ratio:(CGFloat)ratio
-            fromOwnerPhoneNumber:(NSString *)fromPhoneNumber
-                   toPhoneNumber:(NSString *)toPhoneNumber
+                     fromContact:(Contact *)fromContact
+                       toContact:(Contact *)toContact
                        timestamp:(NSTimeInterval)ts;
 
 @end

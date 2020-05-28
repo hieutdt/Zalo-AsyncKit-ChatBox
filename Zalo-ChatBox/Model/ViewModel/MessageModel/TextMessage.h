@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMessage:(NSString *)message;
 
 - (instancetype)initWithMessage:(NSString *)message
-           fromOwnerPhoneNumber:(NSString *)ownerPhoneNumber
-                  toPhoneNumber:(NSString *)toPhoneNumber
+                    fromContact:(Contact *)fromContact
+                      toContact:(Contact *)toContact
                       timestamp:(NSTimeInterval)ts;
 
 @end

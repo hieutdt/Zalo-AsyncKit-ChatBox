@@ -36,7 +36,7 @@
     ASCenterLayoutSpec *centerSpec = [ASCenterLayoutSpec centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
                                                                                 sizingOptions:ASCenterLayoutSpecSizingOptionDefault
                                                                                         child:_textNode];
-    return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 0, 0, 0)
+    return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(10, 0, 10, 0)
                                                   child:centerSpec];
 }
 

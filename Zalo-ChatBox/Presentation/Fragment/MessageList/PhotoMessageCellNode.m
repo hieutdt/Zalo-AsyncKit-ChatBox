@@ -8,6 +8,7 @@
 
 #import "PhotoMessageCellNode.h"
 #import "ContactAvatarNode.h"
+#import "ImageCache.h"
 
 
 static const int kVericalPadding = 1;
@@ -35,7 +36,6 @@ static const int kHorizontalPadding = 10;
         self.automaticallyManagesSubnodes = YES;
         
         _imageNode = [[ASNetworkImageNode alloc] init];
-        _imageNode.shouldCacheImage = YES;
         _imageNode.contentMode = UIViewContentModeScaleToFill;
         _imageNode.cornerRadius = 10;
         _imageNode.defaultImage = [UIImage imageNamed:@"gray"];
@@ -104,6 +104,18 @@ static const int kHorizontalPadding = 10;
         SinglePhotoMessage *photo = (SinglePhotoMessage *)object;
         [self setMessage:photo];
         [self setImageUrl:photo.imageURL.absoluteString];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        Message *message = (Message *)photo;
+        if (message.showAvatar) {
+            UIImage *avatarImage = [[ImageCache instance] imageForKey:message.toContact.identifier];
+            if (avatarImage) {
+                [self showAvatarImage:avatarImage];
+            } else {
+                [self showAvatarImageWithGradientColor:message.toContact.gradientColorCode
+                                             shortName:message.toContact.name];
+            }
+        }
     }
 }
 
@@ -111,7 +123,7 @@ static const int kHorizontalPadding = 10;
 
 - (void)setMessage:(Message *)message {
     _message = message;
-    if ([_message.fromPhoneNumber isEqualToString:kCurrentUser]) {
+    if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
         _messageStyle = MessageCellStyleImageSend;
     } else {
         _messageStyle = MessageCellStyleImageReceive;
@@ -154,14 +166,10 @@ static const int kHorizontalPadding = 10;
 #pragma mark - ASNetworkImageNodeDelegate
 
 - (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image {
-    if (self.delegate &&
-        [self.delegate respondsToSelector:@selector(photoMessageCellNode:didLoadImageWithSize:)]) {
-        self.loadImageFinish = YES;
-        self.imageRatio = image.size.width / image.size.height;
-        [self.delegate photoMessageCellNode:self didLoadImageWithSize:image.size];
-        
-        [self setNeedsLayout];
-    }
+    self.loadImageFinish = YES;
+    self.imageRatio = image.size.width / image.size.height;
+    
+    [self setNeedsLayout];
 }
 
 @end
