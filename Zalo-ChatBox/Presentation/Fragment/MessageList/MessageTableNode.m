@@ -85,10 +85,10 @@ static NSString *kFontName = @"HelveticaNeue";
 
 #pragma mark - GenerateSectionsData
 
-- (void)sortNeareastTimeFirst {
+- (void)sortNeareastTimeFirst:(NSMutableArray<Message *> *)array {
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
-    NSArray *sortedArray = [self.rawMessages sortedArrayUsingDescriptors:@[sortDescriptor]];
-    self.rawMessages = [NSMutableArray arrayWithArray:sortedArray];
+    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
+    array = [NSMutableArray arrayWithArray:sortedArray];
 }
 
 - (void)generateSectionData {
@@ -116,19 +116,36 @@ static NSString *kFontName = @"HelveticaNeue";
 }
 
 - (void)groupMessages {
+    if (self.messageModels.count == 0)
+        return;
+    
     for (int i = 1; i < self.messageModels.count; i++) {
         if (!(self.messageModels[i].class == self.messageModels[i - 1].class) &&
             [self.messageModels[i].class isSubclassOfClass:[Message class]]) {
             Message *message = (Message *)self.messageModels[i];
             message.showAvatar = YES;
+            
+            if ([message.class isKindOfClass:[TextMessage class]]) {
+                TextMessage *textMessage = (TextMessage *)message;
+                textMessage.showTail = YES;
+            }
+            
         } else if ([self.messageModels[i].class isSubclassOfClass:[Message class]]) {
             Message *currentMessage = (Message *)self.messageModels[i];
             Message *prevMessage = (Message *)self.messageModels[i - 1];
             if (currentMessage.fromContact.identifier != prevMessage.fromContact.identifier) {
                 currentMessage.showAvatar = YES;
+                
+                if ([currentMessage.class isKindOfClass:[TextMessage class]]) {
+                    TextMessage *textMessage = (TextMessage *)currentMessage;
+                    textMessage.showTail = YES;
+                }
             }
         }
     }
+    
+    Message *message = (Message *)self.messageModels[0];
+    message.showAvatar = YES;
 }
 
 #pragma mark - PublicMethods
@@ -137,7 +154,7 @@ static NSString *kFontName = @"HelveticaNeue";
     if (messages) {
         [self.rawMessages removeAllObjects];
         self.rawMessages = [NSMutableArray arrayWithArray:messages];
-        [self sortNeareastTimeFirst];
+        [self sortNeareastTimeFirst:self.rawMessages];
         [self generateSectionData];
         [self groupMessages];
         
@@ -198,6 +215,7 @@ static NSString *kFontName = @"HelveticaNeue";
     if ([object isKindOfClass:[TimeSectionHeader class]]) {
         TimeSectionHeader *timeObj = (TimeSectionHeader *)object;
         return timeObj.timestamp;
+        
     } else if ([[object class] isSubclassOfClass:[Message class]]) {
         Message *messObj = (Message *)object;
         return messObj.timestamp;
@@ -236,73 +254,6 @@ static NSString *kFontName = @"HelveticaNeue";
             [self.delegate tableNodeNeedLoadMoreData];
         }
     }
-}
-
-#pragma mark - MessageCellNodeDelegate
-
-- (void)didSelectMessageCellNode:(MessageCellNode *)cellNode {
-    for (int i = 0; i < self.messageModels.count; i++) {
-        ASCellNode *node = [_tableNode nodeForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        if ([node isKindOfClass:[MessageCellNode class]]) {
-            MessageCellNode *messNode = (MessageCellNode *)node;
-            if (messNode.choosing) {
-                [messNode deselectCell];
-                [self removeSectionCellForUnselectCell:messNode];
-            }
-        }
-    }
-    
-    [cellNode selectCell];
-    NSInteger index = [_tableNode indexPathForNode:cellNode].item;
-    if (index == self.rawMessages.count - 1)
-        return;
-    
-    if ([self.messageModels[index + 1] isKindOfClass:[TimeSectionHeader class]]) {
-        return;
-    }
-    
-    NSTimeInterval timestamp = [self timestampOfObject:self.messageModels[index]];
-    [self.messageModels insertObject:[[TimeSectionHeader alloc] initWithTimestamp:timestamp]
-                             atIndex:index + 1];
-    
-    [_tableNode performBatchUpdates:^{
-        [_tableNode insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 1 inSection:0]]
-                          withRowAnimation:YES];
-    } completion:^(BOOL finished) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didSelectItemAtIndexPath:)]) {
-            [self.delegate tableNode:self
-            didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-        }
-    }];
-}
-
-- (void)didUnselectMessageCellNode:(MessageCellNode *)cellNode {
-    [cellNode deselectCell];
-    [self removeSectionCellForUnselectCell:cellNode];
-}
-
-- (void)removeSectionCellForUnselectCell:(MessageCellNode *)cellNode {
-    NSInteger index = [_tableNode indexPathForNode:cellNode].item;
-    if (index >= self.messageModels.count - 2)
-        return;
-    
-    if (![self.messageModels[index + 1] isKindOfClass:[TimeSectionHeader class]])
-        return;
-    else if ([self timestampOfObject:self.messageModels[index + 1]] - [self timestampOfObject:self.messageModels[index + 2]]
-             >= kMessageSectionTimeSpace)
-        return;
-    
-    [self.messageModels removeObjectAtIndex:index + 1];
-    
-    [_tableNode performBatchUpdates:^{
-        [_tableNode deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 1 inSection:0]]
-                          withRowAnimation:YES];
-    } completion:^(BOOL finished) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didSelectItemAtIndexPath:)]) {
-            [self.delegate tableNode:self
-            didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-        }
-    }];
 }
 
 @end

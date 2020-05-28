@@ -8,6 +8,7 @@
 
 #import "TimeSectionCellNode.h"
 #import "TimeSectionHeader.h"
+#import "StringHelper.h"
 
 @interface TimeSectionCellNode ()
 
@@ -30,13 +31,12 @@
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
-    NSLog(@"TONHIEU: Section size = %f - %f", constrainedSize.max.width, constrainedSize.max.height);
     self.style.preferredSize = constrainedSize.max;
     self.style.maxSize = constrainedSize.max;
     ASCenterLayoutSpec *centerSpec = [ASCenterLayoutSpec centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
                                                                                 sizingOptions:ASCenterLayoutSpecSizingOptionDefault
                                                                                         child:_textNode];
-    return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(10, 0, 10, 0)
+    return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(15, 0, 10, 0)
                                                   child:centerSpec];
 }
 
@@ -53,20 +53,8 @@
                                       NSForegroundColorAttributeName : textColor
     };
     
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_timestamp];
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    formatter.timeZone = [NSTimeZone localTimeZone];
-
-    if ([[NSCalendar currentCalendar] isDateInToday:date]) {
-        formatter.dateFormat = @"HH:mm 'Hôm nay'";
-    } else if ([[NSCalendar currentCalendar] isDateInYesterday:date]) {
-        formatter.dateFormat = @"HH:mm 'Hôm qua'";
-    } else {
-        formatter.dateFormat = @"HH:mm dd/MM/YYYY";
-    }
     
-    NSString *dateString = [formatter stringFromDate:date];
-    NSAttributedString *string = [[NSAttributedString alloc] initWithString:dateString
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:[StringHelper getTimeStringFromTimestamp:_timestamp]
                                                                  attributes:attributedText];
     
     [_textNode setAttributedText:string];

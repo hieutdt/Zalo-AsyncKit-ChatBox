@@ -48,23 +48,19 @@
 #pragma mark - Public
 
 - (void)setListArray:(NSArray<id<CellNodeObject>> *)listArray {
-    @synchronized (self) {
-        _data = [[NSMutableArray alloc] init];
-        [_data addObject:[NSMutableArray new]];
-        for (int i = 0; i < listArray.count; i++) {
-            [_data[0] addObject:listArray[i]];
-        }
+    _data = [[NSMutableArray alloc] init];
+    [_data addObject:[NSMutableArray new]];
+    for (int i = 0; i < listArray.count; i++) {
+        [_data[0] addObject:listArray[i]];
     }
 }
 
 - (void)setSectionArray:(NSArray<NSArray<id<CellNodeObject>> *> *)sectionArray {
-    @synchronized (self) {
-        _data = [[NSMutableArray alloc] init];
-        for (int i = 0; i < sectionArray.count; i++) {
-            [_data addObject:[NSMutableArray new]];
-            for (int j = 0; j < sectionArray[i].count; j++) {
-                [[_data lastObject] addObject:sectionArray[i][j]];
-            }
+    _data = [[NSMutableArray alloc] init];
+    for (int i = 0; i < sectionArray.count; i++) {
+        [_data addObject:[NSMutableArray new]];
+        for (int j = 0; j < sectionArray[i].count; j++) {
+            [[_data lastObject] addObject:sectionArray[i][j]];
         }
     }
 }

@@ -12,8 +12,9 @@
 
 #import "TextMessage.h"
 #import "SinglePhotoMessage.h"
+#import "GroupPhotoMessage.h"
 
-static const int kLoadMoreCount = 30;
+static const int kLoadMoreCount = 20;
 
 @interface MessageAdapter ()
 
@@ -114,10 +115,22 @@ static const int kLoadMoreCount = 30;
     
     for (int i = 0; i < numberOfMessages; i++) {
         Message *mess = nil;
-        int type = RAND_FROM_TO(0, 3);
+        
+        int type = RAND_FROM_TO(0, 7);
         if (type == 0) {
             int index = RAND_FROM_TO(0, (int)photos.count - 1);
             mess = [[SinglePhotoMessage alloc] initWithPhotoURL:photos[index] ratio:1];
+            
+        } else if (type == 1) {
+            int numberOfPhotos = RAND_FROM_TO(3, 6);
+            NSMutableArray *urls = [[NSMutableArray alloc] init];
+            for (int j = 0; j < numberOfPhotos; j++) {
+                int index = RAND_FROM_TO(0, (int)photos.count - 1);
+                [urls addObject:photos[index]];
+            }
+            
+            mess = [[GroupPhotoMessage alloc] initWithPhotoUrls:urls];
+            
         } else {
             int index = RAND_FROM_TO(0, (int)texts.count - 1);
             mess = [[TextMessage alloc] initWithMessage:texts[index]];

@@ -9,7 +9,7 @@
 #import "PhotoMessageCellNode.h"
 #import "ContactAvatarNode.h"
 #import "ImageCache.h"
-
+#import "UIImage+Additions.h"
 
 static const int kVericalPadding = 1;
 static const int kHorizontalPadding = 10;
@@ -25,6 +25,7 @@ static const int kHorizontalPadding = 10;
 @property (nonatomic, assign) BOOL loadImageFinish;
 
 @property (nonatomic, strong) NSString *imageUrl;
+@property (nonatomic, assign) CGFloat imageRatio;
 
 @end
 
@@ -37,8 +38,6 @@ static const int kHorizontalPadding = 10;
         
         _imageNode = [[ASNetworkImageNode alloc] init];
         _imageNode.contentMode = UIViewContentModeScaleToFill;
-        _imageNode.cornerRadius = 10;
-        _imageNode.defaultImage = [UIImage imageNamed:@"gray"];
         _imageNode.delegate = self;
         
         _controlNode = [[ASControlNode alloc] init];
@@ -75,7 +74,7 @@ static const int kHorizontalPadding = 10;
     if (_messageStyle == MessageCellStyleImageSend) {
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
-                child:_imageNode];
+                child:overlayControlSpec];
         
     } else if (_messageStyle == MessageCellStyleImageReceive) {
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
@@ -108,12 +107,12 @@ static const int kHorizontalPadding = 10;
         
         Message *message = (Message *)photo;
         if (message.showAvatar) {
-            UIImage *avatarImage = [[ImageCache instance] imageForKey:message.toContact.identifier];
+            UIImage *avatarImage = [[ImageCache instance] imageForKey:message.fromContact.identifier];
             if (avatarImage) {
                 [self showAvatarImage:avatarImage];
             } else {
-                [self showAvatarImageWithGradientColor:message.toContact.gradientColorCode
-                                             shortName:message.toContact.name];
+                [self showAvatarImageWithGradientColor:message.fromContact.gradientColorCode
+                                             shortName:message.fromContact.name];
             }
         }
     }
@@ -132,7 +131,14 @@ static const int kHorizontalPadding = 10;
 
 - (void)setImageUrl:(NSString *)url {
     _imageUrl = url;
-    _imageNode.URL = [NSURL URLWithString:_imageUrl];
+    
+    UIImage *image = [[ImageCache instance] imageForKey:_imageUrl];
+    if (image) {
+        [_imageNode setImage:image];
+        _imageRatio = image.size.width / image.size.height;
+    } else {
+        _imageNode.URL = [NSURL URLWithString:_imageUrl];
+    }
 }
 
 - (void)showAvatarImage:(UIImage *)image {
@@ -155,10 +161,6 @@ static const int kHorizontalPadding = 10;
 
 #pragma mark - Getter
 
-- (BOOL)isFinishLoadImage {
-    return _loadImageFinish;
-}
-
 - (Message *)getMessage {
     return _message;
 }
@@ -166,10 +168,14 @@ static const int kHorizontalPadding = 10;
 #pragma mark - ASNetworkImageNodeDelegate
 
 - (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image {
-    self.loadImageFinish = YES;
-    self.imageRatio = image.size.width / image.size.height;
-    
-    [self setNeedsLayout];
+    if (self.imageRatio == 1) {
+        [[ImageCache instance] setImage:image forKey:_imageUrl];
+        
+        self.loadImageFinish = YES;
+        self.imageRatio = image.size.width / image.size.height;
+        
+        [self setNeedsLayout];
+    }
 }
 
 @end

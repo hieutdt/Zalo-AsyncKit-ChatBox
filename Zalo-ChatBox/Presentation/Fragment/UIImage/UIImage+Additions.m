@@ -29,6 +29,22 @@
   return roundedImage;
 }
 
+- (UIImage *)makeCornerRadius:(CGFloat)cornerRadius withSize:(CGSize)size {
+    CGRect circleRect = (CGRect) {CGPointZero, size};
+    UIGraphicsBeginImageContextWithOptions(circleRect.size, NO, 0);
+
+    UIBezierPath *circle = [UIBezierPath bezierPathWithRoundedRect:circleRect cornerRadius:cornerRadius];
+    [circle addClip];
+
+    [self drawInRect:circleRect];
+      
+    UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+
+    return roundedImage;
+}
+
 + (CGSize)sizeOfImageFromUrl:(NSString *)urlString {
     NSMutableString *imageURL = [NSMutableString stringWithFormat:@"%@", urlString];
 

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)randomString:(unsigned int)lenght;
 
++ (NSString *)getTimeStringFromTimestamp:(NSTimeInterval)ts;
+
 @end
 
 NS_ASSUME_NONNULL_END

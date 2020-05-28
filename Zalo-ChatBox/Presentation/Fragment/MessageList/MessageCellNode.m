@@ -11,6 +11,7 @@
 #import "ContactAvatarNode.h"
 
 #import "ImageCache.h"
+#import "StringHelper.h"
 
 static const int kFontSize = 18;
 static const int kVericalPadding = 3;
@@ -22,14 +23,17 @@ static const int kHorizontalPadding = 10;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
 
 @property (nonatomic, strong) ASEditableTextNode *editTextNode;
-@property (nonatomic, strong) ASDisplayNode *backgroundNode;
+@property (nonatomic, strong) ASImageNode *backgroundNode;
 @property (nonatomic, strong) ASControlNode *controlNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
+@property (nonatomic, strong) ASTextNode *timeTextNode;
 
 @property (nonatomic, strong) UIColor *blueColor;
 @property (nonatomic, strong) UIColor *darkBlueColor;
 @property (nonatomic, strong) UIColor *grayColor;
 @property (nonatomic, strong) UIColor *darkGrayColor;
+
+@property (nonatomic, assign) BOOL choosing;
 
 @end
 
@@ -38,6 +42,7 @@ static const int kHorizontalPadding = 10;
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
         self.automaticallyManagesSubnodes = YES;
         
         _messageStyle = MessageCellStyleTextSend;
@@ -46,11 +51,13 @@ static const int kHorizontalPadding = 10;
         _editTextNode.backgroundColor = [UIColor clearColor];
         _editTextNode.scrollEnabled = NO;
         
-        _backgroundNode = [[ASDisplayNode alloc] init];
-        _backgroundNode.cornerRadius = 10;
+        _backgroundNode = [[ASImageNode alloc] init];
+        _backgroundNode.contentMode = UIViewContentModeScaleToFill;
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
+        
+        _timeTextNode = [[ASTextNode alloc] init];
         
         _choosing = NO;
         
@@ -69,6 +76,7 @@ static const int kHorizontalPadding = 10;
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
     CGSize maxConstrainedSize = constrainedSize.max;
+    _timeTextNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width, 30);
     
     CGSize boundingSize = CGSizeMake(maxConstrainedSize.width * 0.7, 400);
     CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
@@ -88,15 +96,30 @@ static const int kHorizontalPadding = 10;
                                                 overlayLayoutSpecWithChild:overlayTextSpec
                                                 overlay:_controlNode];
     
+    ASStackLayoutAlignItems alignItems = ASStackLayoutAlignItemsStart;
     if (_messageStyle == MessageCellStyleTextSend) {
-        _backgroundNode.backgroundColor = _blueColor;
+        alignItems = ASStackLayoutAlignItemsEnd;
+    }
+    
+    if (_messageStyle == MessageCellStyleTextSend) {
+        NSArray *childs = @[];
+        if (_choosing) {
+            childs = @[_timeTextNode, overlayControlSpec];
+            _backgroundNode.backgroundColor = _darkBlueColor;
+        } else {
+            childs = @[overlayControlSpec];
+            _backgroundNode.backgroundColor = _blueColor;
+        }
+        ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                                                       spacing:2
+                                                                                justifyContent:ASStackLayoutJustifyContentCenter
+                                                                                    alignItems:alignItems
+                                                                                      children:childs];
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
-                child:overlayControlSpec];
+                child:verticalStackSpec];
         
     } else if (_messageStyle == MessageCellStyleTextReceive) {
-        _backgroundNode.backgroundColor = _grayColor;
-        
         _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
                                         stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
@@ -105,9 +128,24 @@ static const int kHorizontalPadding = 10;
                                         alignItems:ASStackLayoutAlignItemsEnd
                                         children:@[_avatarNode, overlayControlSpec]];
         
-        return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
-                child:stackSpec];
+        if (_choosing) {
+            _backgroundNode.backgroundColor = _darkGrayColor;
+            ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                                                           spacing:2
+                                                                                    justifyContent:ASStackLayoutJustifyContentCenter
+                                                                                        alignItems:alignItems
+                                                                                          children:@[_timeTextNode, stackSpec]];
+            return [ASInsetLayoutSpec
+                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
+                    child:verticalStackSpec];
+            
+        } else {
+            _backgroundNode.backgroundColor = _grayColor;
+            return [ASInsetLayoutSpec
+                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
+                    child:stackSpec];
+        }
+        
     } else {
         return nil;
     }
@@ -116,6 +154,8 @@ static const int kHorizontalPadding = 10;
 - (void)didLoad {
     [super didLoad];
     _editTextNode.textView.editable = NO;
+    _backgroundNode.layer.masksToBounds = YES;
+    _backgroundNode.layer.cornerRadius = 10;
 }
 
 #pragma mark - CellNode
@@ -128,14 +168,27 @@ static const int kHorizontalPadding = 10;
         
         Message *mess = (Message *)textMessage;
         if (mess.showAvatar) {
-            UIImage *avatarImage = [[ImageCache instance] imageForKey:mess.toContact.identifier];
+            UIImage *avatarImage = [[ImageCache instance] imageForKey:mess.fromContact.identifier];
             if (avatarImage) {
                 [self showAvatarImage:avatarImage];
             } else {
-                [self showAvatarImageWithGradientColor:mess.toContact.gradientColorCode
-                                             shortName:mess.toContact.name];
+                [self showAvatarImageWithGradientColor:mess.fromContact.gradientColorCode
+                                             shortName:mess.fromContact.name];
             }
         }
+        
+        NSString *timeString = [StringHelper getTimeStringFromTimestamp:mess.timestamp];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+            
+        NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15],
+                                          NSParagraphStyleAttributeName : paragraphStyle,
+                                          NSForegroundColorAttributeName : [UIColor grayColor]
+        };
+        
+        NSAttributedString *string = [[NSAttributedString alloc] initWithString:timeString
+                                                                     attributes:attributedText];
+        [_timeTextNode setAttributedText:string];
     }
 }
 
@@ -210,17 +263,8 @@ static const int kHorizontalPadding = 10;
 #pragma mark - Action
 
 - (void)touchUpInside {
-    if (self.choosing) {
-        if (self.delegate &&
-            [self.delegate conformsToProtocol:@protocol(MessageCellNodeDelegate)]) {
-            [self.delegate didUnselectMessageCellNode:self];
-        }
-    } else {
-        if (self.delegate &&
-            [self.delegate conformsToProtocol:@protocol(MessageCellNodeDelegate)]) {
-            [self.delegate didSelectMessageCellNode:self];
-        }
-    }
+    self.choosing = !self.choosing;
+    [self setNeedsLayout];
 }
 
 @end

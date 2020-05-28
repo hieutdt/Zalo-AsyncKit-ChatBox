@@ -1,8 +1,8 @@
 //
-//  PhotoMessageCellNode.h
+//  GroupPhotoMessageCellNode.h
 //  Zalo-ChatBox
 //
-//  Created by Trần Đình Tôn Hiếu on 5/21/20.
+//  Created by Trần Đình Tôn Hiếu on 5/28/20.
 //  Copyright © 2020 Trần Đình Tôn Hiếu. All rights reserved.
 //
 
@@ -12,22 +12,20 @@
 #import "AppConsts.h"
 
 #import "CellNodeObject.h"
-#import "SinglePhotoMessage.h"
+#import "GroupPhotoMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PhotoMessageCellNode : ASCellNode <CellNode>
+@interface GroupPhotoMessageCellNode : ASCellNode <CellNode>
 
 - (void)setMessage:(Message *)message;
 
-- (void)setImageUrl:(NSString *)url;
+- (void)setImageUrls:(NSArray<NSString *> *)urls;
 
 - (void)showAvatarImage:(UIImage *)image;
 
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName;
-
-- (Message *)getMessage;
 
 @end
 

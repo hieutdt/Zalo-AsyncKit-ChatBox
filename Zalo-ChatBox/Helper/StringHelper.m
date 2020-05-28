@@ -42,4 +42,21 @@
     return randomString;
 }
 
++ (NSString *)getTimeStringFromTimestamp:(NSTimeInterval)ts {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:ts];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+
+    if ([[NSCalendar currentCalendar] isDateInToday:date]) {
+        formatter.dateFormat = @"HH:mm 'Hôm nay'";
+    } else if ([[NSCalendar currentCalendar] isDateInYesterday:date]) {
+        formatter.dateFormat = @"HH:mm 'Hôm qua'";
+    } else {
+        formatter.dateFormat = @"HH:mm dd/MM/YYYY";
+    }
+
+    NSString *dateString = [formatter stringFromDate:date];
+    return dateString;
+}
+
 @end

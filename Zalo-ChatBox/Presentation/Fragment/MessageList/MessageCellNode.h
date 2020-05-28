@@ -29,8 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) id<MessageCellNodeDelegate> delegate;
 
-@property (nonatomic, assign) BOOL choosing;
-
 - (void)setMessage:(TextMessage *)message;
 
 - (void)showAvatarImage:(UIImage *)image;

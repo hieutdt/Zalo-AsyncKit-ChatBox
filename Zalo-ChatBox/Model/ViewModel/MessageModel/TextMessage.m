@@ -34,6 +34,7 @@
                               timestamp:ts];
     if (self) {
         _message = message;
+        _showTail = NO;
     }
     return self;
 }

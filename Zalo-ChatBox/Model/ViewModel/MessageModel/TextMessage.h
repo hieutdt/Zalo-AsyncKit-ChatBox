@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TextMessage : Message
 
 @property (nonatomic, strong) NSString *message;
+@property (nonatomic, assign) BOOL showTail;
 
 - (instancetype)initWithMessage:(NSString *)message;
 

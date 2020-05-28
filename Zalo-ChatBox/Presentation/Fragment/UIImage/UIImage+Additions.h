@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIImage *)makeCircularImageWithSize:(CGSize)size;
 
+- (UIImage *)makeCornerRadius:(CGFloat)cornerRadius withSize:(CGSize)size;
+
 + (CGSize)sizeOfImageFromUrl:(NSString *)urlString;
 
 @end
