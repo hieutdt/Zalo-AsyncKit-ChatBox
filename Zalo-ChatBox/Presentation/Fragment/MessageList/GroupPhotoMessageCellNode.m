@@ -127,7 +127,7 @@ static const int kHorizontalPadding = 10;
 #if DEBUG
         assert(groupPhoto.urls.count > 0);
 #endif
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setMessage:groupPhoto];
         [self initImageNodesWithCount:groupPhoto.urls.count];
         self.imageUrls = groupPhoto.urls;

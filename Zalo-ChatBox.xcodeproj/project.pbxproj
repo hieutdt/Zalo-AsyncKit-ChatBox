@@ -368,8 +368,8 @@
 				041CB21E246E96E400D09B58 /* ContactTableNode.h */,
 				041CB21F246E96E400D09B58 /* ContactTableNode.m */,
 				041CB210246E90EA00D09B58 /* ContactTableCellNode.h */,
-				041CB211246E90EA00D09B58 /* ContactTableCellNode.m */,
 				04FA55D224766101005ED189 /* ContactAvatarNode.h */,
+				041CB211246E90EA00D09B58 /* ContactTableCellNode.m */,
 				04FA55D324766101005ED189 /* ContactAvatarNode.m */,
 			);
 			path = ContactList;

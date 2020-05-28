@@ -45,6 +45,15 @@
     return self;
 }
 
+- (void)pushFront:(NSArray<id<CellNodeObject>> *)objects {
+    if (!objects)
+        return;
+    
+    for (NSInteger i = objects.count - 1; i >= 0; i--) {
+        [self.data[0] insertObject:objects[i] atIndex:0];
+    }
+}
+
 #pragma mark - Public
 
 - (void)setListArray:(NSArray<id<CellNodeObject>> *)listArray {

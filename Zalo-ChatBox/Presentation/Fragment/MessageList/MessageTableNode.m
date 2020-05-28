@@ -196,12 +196,17 @@ static NSString *kFontName = @"HelveticaNeue";
     
     if (message.timestamp - lastTs >= kMessageSectionTimeSpace) {
         TimeSectionHeader *timeHeader = [[TimeSectionHeader alloc] initWithTimestamp:message.timestamp];
+        
         [self.messageModels insertObject:timeHeader atIndex:0];
         [indexPaths addObject:[NSIndexPath indexPathForItem:0 inSection:0]];
+        
+        [_tableModel pushFront:@[timeHeader]];
     }
     
     [self.messageModels insertObject:message atIndex:0];
     [indexPaths addObject:[NSIndexPath indexPathForItem:0 inSection:0]];
+    
+    [_tableModel pushFront:@[message]];
     
     [_tableNode performBatchUpdates:^{
         [_tableNode insertRowsAtIndexPaths:indexPaths

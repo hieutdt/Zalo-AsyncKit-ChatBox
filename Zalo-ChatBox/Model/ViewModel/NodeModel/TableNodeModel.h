@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setSectionArray:(NSArray<NSArray<id<CellNodeObject>> *> *)sectionArray;
 
+- (void)pushFront:(NSArray<id<CellNodeObject>> *)objects;
+
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 
 - (NSIndexPath *)indexPathForObject:(id)object;
