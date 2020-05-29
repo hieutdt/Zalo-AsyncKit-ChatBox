@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ImageCache : NSObject
+@interface ImageCache : NSObject <ASImageCacheProtocol>
 
 + (instancetype)instance;
 

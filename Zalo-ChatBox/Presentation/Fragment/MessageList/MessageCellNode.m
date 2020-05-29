@@ -23,7 +23,7 @@ static const int kHorizontalPadding = 10;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
 
 @property (nonatomic, strong) ASEditableTextNode *editTextNode;
-@property (nonatomic, strong) ASImageNode *backgroundNode;
+@property (nonatomic, strong) ASDisplayNode *backgroundNode;
 @property (nonatomic, strong) ASControlNode *controlNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, strong) ASTextNode *timeTextNode;
@@ -50,9 +50,10 @@ static const int kHorizontalPadding = 10;
         _editTextNode = [[ASEditableTextNode alloc] init];
         _editTextNode.backgroundColor = [UIColor clearColor];
         _editTextNode.scrollEnabled = NO;
-        
+
         _backgroundNode = [[ASImageNode alloc] init];
         _backgroundNode.contentMode = UIViewContentModeScaleToFill;
+        _backgroundNode.cornerRadius = 10;
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
@@ -78,18 +79,18 @@ static const int kHorizontalPadding = 10;
     CGSize maxConstrainedSize = constrainedSize.max;
     _timeTextNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width, 30);
     
-    CGSize boundingSize = CGSizeMake(maxConstrainedSize.width * 0.7, 400);
+    CGSize boundingSize = CGSizeMake(maxConstrainedSize.width * 0.7, 500);
     CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
                                                           font:[UIFont fontWithName:@"HelveticaNeue" size:kFontSize]
                                                    parrentSize:boundingSize];
     
-    _backgroundNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, estimatedFrame.size.height + 10);
-    _controlNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 16, estimatedFrame.size.height);
+    _backgroundNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 20, estimatedFrame.size.height + 20);
+    _controlNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 20, estimatedFrame.size.height + 20);
     
     ASOverlayLayoutSpec *overlayTextSpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
                                         overlay:[ASInsetLayoutSpec
-                                                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(5, 8, 5, 8)
+                                                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(10, 10, 10, 10)
                                                  child:_editTextNode]];
     
     ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
@@ -154,8 +155,6 @@ static const int kHorizontalPadding = 10;
 - (void)didLoad {
     [super didLoad];
     _editTextNode.textView.editable = NO;
-    _backgroundNode.layer.masksToBounds = YES;
-    _backgroundNode.layer.cornerRadius = 10;
 }
 
 #pragma mark - CellNode

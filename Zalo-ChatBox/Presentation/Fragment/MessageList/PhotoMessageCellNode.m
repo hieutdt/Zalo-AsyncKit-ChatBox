@@ -14,7 +14,7 @@
 static const int kVericalPadding = 1;
 static const int kHorizontalPadding = 10;
 
-@interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate>
+@interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate, ASImageDownloaderProtocol>
 
 @property (nonatomic, strong) Message *message;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
@@ -39,6 +39,9 @@ static const int kHorizontalPadding = 10;
         _imageNode = [[ASNetworkImageNode alloc] init];
         _imageNode.contentMode = UIViewContentModeScaleToFill;
         _imageNode.delegate = self;
+        _imageNode.clipsToBounds = YES;
+        _imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
+        _imageNode.shouldCacheImage = YES;
         
         _controlNode = [[ASControlNode alloc] init];
     
@@ -57,15 +60,22 @@ static const int kHorizontalPadding = 10;
     CGFloat ratio = _imageRatio;
     if (ratio >= 1) {
         CGFloat width = maxConstrainedSize.width * 0.7;
-        _imageNode.style.preferredSize = CGSizeMake(width, width / ratio);
-        _controlNode.style.preferredSize = CGSizeMake(width, width / ratio);
+        _imageNode.style.width = ASDimensionMake(width);
+        _imageNode.style.height = ASDimensionMake(width / ratio);
+
+        _controlNode.style.width = ASDimensionMake(width);
+        _controlNode.style.height = ASDimensionMake(width / ratio);
     } else {
         CGFloat height = 400;
-        _imageNode.style.preferredSize = CGSizeMake(height *ratio, height);
-        _controlNode.style.preferredSize = CGSizeMake(height *ratio, height);
+        _imageNode.style.width = ASDimensionMake(height * ratio);
+        _imageNode.style.height = ASDimensionMake(height);
+
+        _controlNode.style.width = ASDimensionMake(height * ratio);
+        _controlNode.style.height = ASDimensionMake(height);
     }
     
-    _avatarNode.style.preferredSize = CGSizeMake(25, 25);
+    _avatarNode.style.width = ASDimensionMake(25);
+    _avatarNode.style.height = ASDimensionMake(25);
     
     ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
                                                overlayLayoutSpecWithChild:_imageNode
@@ -131,14 +141,7 @@ static const int kHorizontalPadding = 10;
 
 - (void)setImageUrl:(NSString *)url {
     _imageUrl = url;
-    
-    UIImage *image = [[ImageCache instance] imageForKey:_imageUrl];
-    if (image) {
-        [_imageNode setImage:image];
-        _imageRatio = image.size.width / image.size.height;
-    } else {
-        _imageNode.URL = [NSURL URLWithString:_imageUrl];
-    }
+    _imageNode.URL = [NSURL URLWithString:url];
 }
 
 - (void)showAvatarImage:(UIImage *)image {
@@ -168,14 +171,16 @@ static const int kHorizontalPadding = 10;
 #pragma mark - ASNetworkImageNodeDelegate
 
 - (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image {
-    if (self.imageRatio == 1) {
-        [[ImageCache instance] setImage:image forKey:_imageUrl];
-        
+    if (!self.loadImageFinish) {
         self.loadImageFinish = YES;
         self.imageRatio = image.size.width / image.size.height;
         
         [self setNeedsLayout];
     }
+}
+
+- (void)imageNodeDidLoadImageFromCache:(ASNetworkImageNode *)imageNode {
+    NSLog(@"Load from cache!");
 }
 
 @end

@@ -115,15 +115,12 @@
 
 #pragma mark - MessageTableNodeDelegate
 
-- (void)tableNodeNeedLoadMoreData {
-    __weak ChatBoxViewController *weakSelf = self;
+- (void)tableNodeNeedLoadMoreDataWithCompletion:(void (^)(NSArray<Message *> *data))completionHandler {
     [_messageBusiness loadMessagesForConversation:_conversation
                                          loadMore:YES
                                 completionHandler:^(NSArray<Message *> * _Nonnull messages, NSError * _Nonnull error) {
         if (!error && messages) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-               [weakSelf.tableNode updateMoreMessages:messages];
-            });
+            completionHandler(messages);
         }
     }];
 }

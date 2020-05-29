@@ -49,6 +49,9 @@ static const int kHorizontalPadding = 10;
     for (int i = 0; i < count; i++) {
         ASNetworkImageNode *imageNode = [[ASNetworkImageNode alloc] init];
         imageNode.contentMode = UIViewContentModeScaleToFill;
+        imageNode.clipsToBounds = YES;
+        imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
+        imageNode.shouldCacheImage = YES;
         [_imageNodes addObject:imageNode];
     }
 }
@@ -133,12 +136,7 @@ static const int kHorizontalPadding = 10;
         self.imageUrls = groupPhoto.urls;
         
         for (int i = 0; i < _imageUrls.count; i++) {
-            UIImage *image = [[ImageCache instance] imageForKey:_imageUrls[i]];
-            if (image) {
-                [_imageNodes[i] setImage:image];
-            } else {
-                [_imageNodes[i] setURL:[NSURL URLWithString:_imageUrls[i]]];
-            }
+            [_imageNodes[i] setURL:[NSURL URLWithString:_imageUrls[i]]];
         }
         
         Message *message = (Message *)groupPhoto;
@@ -182,15 +180,5 @@ static const int kHorizontalPadding = 10;
                                    andShortName:shortName];
     _avatarNode.hidden = NO;
 }
-
-
-#pragma mark - ASNetworkImageNodeDelegate
-
-- (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image {
-    NSInteger index = [self.imageNodes indexOfObject:imageNode];
-    
-    [[ImageCache instance] setImage:image forKey:_imageUrls[index]];
-}
-
 
 @end

@@ -64,6 +64,6 @@ static const int MAX_PICK = 5;
 
 static const int SECTION_HEADER_HEIGHT = 30;
 
-static const int MAX_IMAGES_CACHE_SIZE = 20;
+static const int MAX_IMAGES_CACHE_SIZE = 30;
 
 #endif /* AppConsts_h */

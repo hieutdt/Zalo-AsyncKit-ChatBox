@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MessageTableNodeDelegate <NSObject>
 
-- (void)tableNodeNeedLoadMoreData;
+- (void)tableNodeNeedLoadMoreDataWithCompletion:(void (^)(NSArray<Message *> *data))completionHandler;
 
 - (void)tableNode:(MessageTableNode *)tableNode
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
@@ -31,8 +31,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)reloadData;
 
 - (void)scrollToBottom;
-
-- (void)updateMoreMessages:(NSArray<Message *> *)messages;
 
 - (void)setFriendAvatarImage:(UIImage *)image;
 

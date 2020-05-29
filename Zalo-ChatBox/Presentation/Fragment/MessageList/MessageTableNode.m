@@ -33,6 +33,7 @@ static NSString *kFontName = @"HelveticaNeue";
 @property (nonatomic, strong) CellNodeFactory *factory;
 
 @property (nonatomic, assign) BOOL canLoadMore;
+@property (nonatomic, assign) BOOL needLoadMore;
 
 @property (nonatomic, strong) UIImage *friendAvatarImage;
 @property (nonatomic, assign) int gradientColorCode;
@@ -57,8 +58,10 @@ static NSString *kFontName = @"HelveticaNeue";
         _tableNode.inverted = YES;
         _tableNode.dataSource = _tableModel;
         _tableNode.delegate = self;
+        _tableNode.leadingScreensForBatching = 3;
         
         _canLoadMore = YES;
+        _needLoadMore = NO;
         
         _rawMessages = [[NSMutableArray alloc] init];
         _messageModels = [[NSMutableArray alloc] init];
@@ -164,7 +167,7 @@ static NSString *kFontName = @"HelveticaNeue";
 
 - (void)reloadData {
     [_tableNode reloadDataWithCompletion:^{
-        
+        _needLoadMore = YES;
     }];
 }
 
@@ -181,10 +184,13 @@ static NSString *kFontName = @"HelveticaNeue";
     
     [self.tableModel setListArray:self.messageModels];
     
-    [_tableNode performBatchUpdates:^{
-        [_tableNode insertRowsAtIndexPaths:indexPaths
-                          withRowAnimation:NO];
-    } completion:nil];
+    __weak MessageTableNode *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.tableNode performBatchUpdates:^{
+            [_tableNode insertRowsAtIndexPaths:indexPaths
+                              withRowAnimation:NO];
+        } completion:nil];
+    });
 }
 
 - (void)sendMessage:(Message *)message {
@@ -249,16 +255,24 @@ static NSString *kFontName = @"HelveticaNeue";
     }
 }
 
-- (void)tableNode:(ASTableNode *)tableNode willDisplayRowWithNode:(ASCellNode *)node {
-    if (!_canLoadMore)
+- (void)tableNode:(ASTableNode *)tableNode willBeginBatchFetchWithContext:(ASBatchContext *)context {
+    if (!self.needLoadMore) {
+        [context completeBatchFetching:YES];
         return;
+    }
     
-    NSIndexPath *indexPath = [_tableNode indexPathForNode:node];
-    if (indexPath.item == self.messageModels.count - 1) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(tableNodeNeedLoadMoreData)]) {
-            [self.delegate tableNodeNeedLoadMoreData];
-        }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tableNodeNeedLoadMoreDataWithCompletion:)]) {
+        NSLog(@"Load more");
+        
+        [self.delegate tableNodeNeedLoadMoreDataWithCompletion:^(NSArray<Message *> *data) {
+            if (data) {
+                [self updateMoreMessages:data];
+            }
+            
+            [context completeBatchFetching:YES];
+        }];
     }
 }
+
 
 @end

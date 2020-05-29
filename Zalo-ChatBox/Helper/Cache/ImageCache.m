@@ -67,5 +67,16 @@
     [self.imageCache removeAllObjects];
 }
 
+#pragma mark - ASImageCacheProtocol
+
+- (void)cachedImageWithURL:(NSURL *)URL
+             callbackQueue:(dispatch_queue_t)callbackQueue
+                completion:(ASImageCacherCompletion)completion {
+    dispatch_async(callbackQueue, ^{
+        if (completion)
+            completion(nil);
+    });
+}
+
 
 @end
