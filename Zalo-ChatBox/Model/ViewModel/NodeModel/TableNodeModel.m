@@ -118,6 +118,12 @@
 - (ASCellNodeBlock)tableNode:(ASTableNode *)tableNode nodeBlockForRowAtIndexPath:(NSIndexPath *)indexPath {
     id object = [self objectAtIndexPath:indexPath];
     
+    if (!object) {
+        return ^ASCellNode *() {
+                return [[ASCellNode alloc] init];
+            };
+    }
+    
     return [self.delegate tableNodeModel:self
                    cellBlockForTableNode:tableNode
                              atIndexPath:indexPath

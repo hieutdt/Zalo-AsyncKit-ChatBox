@@ -63,14 +63,16 @@ static const int kHorizontalPadding = 10;
     
     CGSize maxConstrainedSize = constrainedSize.max;
     CGFloat imageWidth = maxConstrainedSize.width * 0.7 / 3 - 3;
-    CGFloat imageHeight = 150;
+    CGFloat imageHeight = 100;
     
     _avatarNode.style.preferredSize = CGSizeMake(25, 25);
     NSMutableArray *verticalChilds = [[NSMutableArray alloc] init];
     NSMutableArray *horizontalNodes = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < self.imageNodes.count; i++) {
-        _imageNodes[i].style.preferredSize = CGSizeMake(imageWidth, imageHeight);
+        _imageNodes[i].style.width = ASDimensionMake(imageWidth);
+        _imageNodes[i].style.height = ASDimensionMake(imageHeight);
+        
         [horizontalNodes addObject:_imageNodes[i]];
         if (horizontalNodes.count == 3 || i == self.imageNodes.count - 1) {
             ASStackLayoutSpec *horizontalStack = [ASStackLayoutSpec

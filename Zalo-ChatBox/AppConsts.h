@@ -46,6 +46,8 @@ typedef NS_ENUM(NSInteger, MessageStyle) {
 #define kGradientColorOrange   2
 #define kGradientColorGreen    3
 
+#define kMessageInputHeight     50
+
 #define kCurrentUser @"CurrentUser"
 
 #define NEXT_BUTTON_HEIGHT 50

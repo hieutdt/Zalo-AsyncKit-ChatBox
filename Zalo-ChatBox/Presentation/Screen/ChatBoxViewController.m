@@ -9,7 +9,7 @@
 #import "ChatBoxViewController.h"
 
 #import "MessageTableNode.h"
-#import "MessageInputNode.h"
+#import "MessageInputView.h"
 
 #import "MessageBusiness.h"
 #import "ContactBusiness.h"
@@ -20,11 +20,11 @@
 #import "ImageCache.h"
 #import "StringHelper.h"
 
-@interface ChatBoxViewController () <MessageTableNodeDelegate, MessageInputNodeDelegate>
+@interface ChatBoxViewController () <MessageTableNodeDelegate, MessageInputViewDelegate>
 
 @property (nonatomic, strong) ASDisplayNode *contentNode;
 @property (nonatomic, strong) MessageTableNode *tableNode;
-@property (nonatomic, strong) MessageInputNode *messageInputNode;
+@property (nonatomic, strong) MessageInputView *messageInputView;
 
 @property (nonatomic, strong) Conversation *conversation;
 @property (nonatomic, strong) MessageBusiness *messageBusiness;
@@ -46,9 +46,6 @@
         
         _messageBusiness = [[MessageBusiness alloc] init];
         
-        _messageInputNode = [[MessageInputNode alloc] init];
-        _messageInputNode.delegate = self;
-        
         _owner = [[Contact alloc] init];
         _owner.name = @"Trần Hiếu";
         _owner.phoneNumber = kCurrentUser;
@@ -58,16 +55,8 @@
             weakSelf.tableNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, constrainedSize.max.height - 50);
             weakSelf.tableNode.backgroundColor = [UIColor whiteColor];
             
-            weakSelf.messageInputNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, 50);
-            
-            ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                                                                   spacing:0
-                                                                            justifyContent:ASStackLayoutJustifyContentStart
-                                                                                alignItems:ASStackLayoutAlignItemsCenter
-                                                                                  children:@[weakSelf.tableNode, weakSelf.messageInputNode]];
-            
             return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsZero
-                                                          child:stackSpec];
+                                                          child:weakSelf.tableNode];
         };
         [_contentNode layoutSpecBlock];
     }
@@ -76,6 +65,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _messageInputView = [[MessageInputView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kMessageInputHeight,
+                                                                           self.view.bounds.size.width, kMessageInputHeight)];
+    _messageInputView.delegate = self;
+    [self.view addSubview:_messageInputView];
     
     self.navigationItem.title = _messageToContact.name;
     
@@ -135,19 +129,19 @@
         
         _contentNode.view.transform = CGAffineTransformIdentity;
         [UIView animateWithDuration:0.5 animations:^{
-            self->_contentNode.view.transform = CGAffineTransformTranslate(self->_messageInputNode.view.transform, 0, -keyboardRect.size.height);
+            self->_contentNode.view.transform = CGAffineTransformTranslate(self->_messageInputView.transform, 0, -keyboardRect.size.height);
         }];
     }
 }
 
 - (void)tableNode:(MessageTableNode *)tableNode didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [_messageInputNode endEditing];
+    [_messageInputView endEditing];
     [UIView animateWithDuration:0.15 animations:^{
         self->_contentNode.view.transform = CGAffineTransformIdentity;
     }];
 }
 
-#pragma mark - MessageInputNodeDelegate
+#pragma mark - MessageInputViewDelegate
 
 - (void)sendMessage:(NSString *)message {
     if (!message)
@@ -162,6 +156,11 @@
                                                        timestamp:timestamp];
     
     [self.tableNode sendMessage:textMess];
+}
+
+- (void)messageInputViewSendButtonTapped:(MessageInputView *)inputView
+                         withMessageText:(NSString *)messageText {
+    [self sendMessage:messageText];
 }
 
 @end

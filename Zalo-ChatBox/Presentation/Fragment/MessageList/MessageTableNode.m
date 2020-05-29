@@ -39,8 +39,6 @@ static NSString *kFontName = @"HelveticaNeue";
 @property (nonatomic, assign) int gradientColorCode;
 @property (nonatomic, strong) NSString *friendShortName;
 
-@property (nonatomic, strong) NSMutableArray<Message *> *loadedImageMessages;
-
 @end
 
 @implementation MessageTableNode
@@ -65,8 +63,6 @@ static NSString *kFontName = @"HelveticaNeue";
         
         _rawMessages = [[NSMutableArray alloc] init];
         _messageModels = [[NSMutableArray alloc] init];
-        
-        _loadedImageMessages = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -82,7 +78,7 @@ static NSString *kFontName = @"HelveticaNeue";
     
     //TODO: Need get top bar height here
     CGFloat inset = 80;
-    _tableNode.contentInset = UIEdgeInsetsMake(-inset, 0, inset, 0);
+    _tableNode.contentInset = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
     _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset, 0, inset, 0);
 }
 
@@ -167,11 +163,13 @@ static NSString *kFontName = @"HelveticaNeue";
 
 - (void)reloadData {
     [_tableNode reloadDataWithCompletion:^{
-        _needLoadMore = YES;
+        self->_needLoadMore = YES;
     }];
 }
 
 - (void)updateMoreMessages:(NSArray<Message *> *)messages {
+    self.tableNode.view.backgroundColor = [UIColor whiteColor];
+    
     NSInteger currentSize = self.messageModels.count;
     [self.rawMessages addObjectsFromArray:messages];
     [self generateSectionData];
@@ -187,8 +185,8 @@ static NSString *kFontName = @"HelveticaNeue";
     __weak MessageTableNode *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf.tableNode performBatchUpdates:^{
-            [_tableNode insertRowsAtIndexPaths:indexPaths
-                              withRowAnimation:NO];
+            [self->_tableNode insertRowsAtIndexPaths:indexPaths
+                                    withRowAnimation:NO]; 
         } completion:nil];
     });
 }
@@ -262,9 +260,9 @@ static NSString *kFontName = @"HelveticaNeue";
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(tableNodeNeedLoadMoreDataWithCompletion:)]) {
-        NSLog(@"Load more");
-        
         [self.delegate tableNodeNeedLoadMoreDataWithCompletion:^(NSArray<Message *> *data) {
+            assert(![NSThread isMainThread]);
+            
             if (data) {
                 [self updateMoreMessages:data];
             }

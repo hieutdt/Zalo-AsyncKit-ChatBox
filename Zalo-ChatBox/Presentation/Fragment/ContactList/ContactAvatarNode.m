@@ -38,11 +38,7 @@ static const int kFontSize = 15;
     CGSize maxConstrainedSize = constrainedSize.max;
     
     _imageNode.style.preferredSize = maxConstrainedSize;
-//    _imageNode.imageModificationBlock = ASImageNodeRoundBorderModificationBlock(1, [UIColor colorWithWhite:0.5 alpha:1]);
-    _imageNode.imageModificationBlock = ^UIImage * _Nullable(UIImage * _Nonnull image) {
-        CGSize avatarImageSize = CGSizeMake(25, 25);
-        return [image makeCircularImageWithSize:avatarImageSize];
-    };
+    _imageNode.imageModificationBlock = ASImageNodeRoundBorderModificationBlock(1, [UIColor colorWithWhite:0.5 alpha:1]);
     
     ASCenterLayoutSpec *centerTextSpec = [ASCenterLayoutSpec
                                           centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY

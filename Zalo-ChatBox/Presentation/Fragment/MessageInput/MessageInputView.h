@@ -10,7 +10,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MessageInputView;
+
+@protocol MessageInputViewDelegate <NSObject>
+
+- (void)messageInputViewDidBeginEditing:(MessageInputView *)inputView;
+
+- (void)messageInputViewDidEndEditing:(MessageInputView *)inputView;
+
+- (void)messageInputViewSendButtonTapped:(MessageInputView *)inputView
+                         withMessageText:(NSString *)messageText;
+
+@end
+
 @interface MessageInputView : UIView
+
+@property (nonatomic, assign) id<MessageInputViewDelegate> delegate;
+
+- (void)endEditing;
 
 @end
 

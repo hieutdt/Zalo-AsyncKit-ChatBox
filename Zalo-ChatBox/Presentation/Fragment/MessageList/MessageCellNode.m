@@ -35,6 +35,8 @@ static const int kHorizontalPadding = 10;
 
 @property (nonatomic, assign) BOOL choosing;
 
+@property (nonatomic, assign) CGSize estimatedSize;
+
 @end
 
 @implementation MessageCellNode
@@ -47,13 +49,17 @@ static const int kHorizontalPadding = 10;
         
         _messageStyle = MessageCellStyleTextSend;
         
+        _estimatedSize = CGSizeMake(200, 100);
+        
         _editTextNode = [[ASEditableTextNode alloc] init];
         _editTextNode.backgroundColor = [UIColor clearColor];
         _editTextNode.scrollEnabled = NO;
+        _editTextNode.style.preferredSize = _estimatedSize;
 
         _backgroundNode = [[ASImageNode alloc] init];
         _backgroundNode.contentMode = UIViewContentModeScaleToFill;
         _backgroundNode.cornerRadius = 10;
+        _backgroundNode.style.preferredSize = _estimatedSize;
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
@@ -79,13 +85,8 @@ static const int kHorizontalPadding = 10;
     CGSize maxConstrainedSize = constrainedSize.max;
     _timeTextNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width, 30);
     
-    CGSize boundingSize = CGSizeMake(maxConstrainedSize.width * 0.7, 500);
-    CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
-                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:kFontSize]
-                                                   parrentSize:boundingSize];
-    
-    _backgroundNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 20, estimatedFrame.size.height + 20);
-    _controlNode.style.preferredSize = CGSizeMake(estimatedFrame.size.width + 20, estimatedFrame.size.height + 20);
+    _backgroundNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 20, _estimatedSize.height + 20);
+    _controlNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 20, _estimatedSize.height + 20);
     
     ASOverlayLayoutSpec *overlayTextSpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
@@ -213,6 +214,12 @@ static const int kHorizontalPadding = 10;
     
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:message.message
                                                                  attributes:attributedText];
+    
+    CGSize boundingSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 0.7, 400);
+    CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
+                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:kFontSize]
+                                                   parrentSize:boundingSize];
+    _estimatedSize = estimatedFrame.size;
     
     [_editTextNode setAttributedText:string];
 }

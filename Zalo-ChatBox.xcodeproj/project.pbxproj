@@ -71,10 +71,10 @@
 		04E2D0992472DF92004B1BE9 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* MessageCellNode.m */; };
 		04FA55D424766102005ED189 /* ContactAvatarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D324766101005ED189 /* ContactAvatarNode.m */; };
 		04FA55D524766102005ED189 /* ContactAvatarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D324766101005ED189 /* ContactAvatarNode.m */; };
-		04FA55D824768D0B005ED189 /* MessageInputNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D724768D0B005ED189 /* MessageInputNode.m */; };
-		04FA55D924768D0B005ED189 /* MessageInputNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D724768D0B005ED189 /* MessageInputNode.m */; };
 		04FA55DC24769597005ED189 /* PhotoMessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55DB24769597005ED189 /* PhotoMessageCellNode.m */; };
 		04FA55DD24769597005ED189 /* PhotoMessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55DB24769597005ED189 /* PhotoMessageCellNode.m */; };
+		04FC05302480EACC0044AA4A /* MessageInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FC052F2480EACC0044AA4A /* MessageInputView.xib */; };
+		04FC05312480EACC0044AA4A /* MessageInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FC052F2480EACC0044AA4A /* MessageInputView.xib */; };
 		2707F9F271D0F72F7DDA83F2 /* Pods_Zalo_ChatBoxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6DB516F4E6D324812DC13E /* Pods_Zalo_ChatBoxTests.framework */; };
 		3A86B21C75C441CF13489D32 /* Pods_Zalo_ChatBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563326FC7745839793EED3EA /* Pods_Zalo_ChatBox.framework */; };
 /* End PBXBuildFile section */
@@ -167,10 +167,9 @@
 		04E2D0972472DF92004B1BE9 /* MessageCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCellNode.m; sourceTree = "<group>"; };
 		04FA55D224766101005ED189 /* ContactAvatarNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactAvatarNode.h; sourceTree = "<group>"; };
 		04FA55D324766101005ED189 /* ContactAvatarNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactAvatarNode.m; sourceTree = "<group>"; };
-		04FA55D624768D0B005ED189 /* MessageInputNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageInputNode.h; sourceTree = "<group>"; };
-		04FA55D724768D0B005ED189 /* MessageInputNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageInputNode.m; sourceTree = "<group>"; };
 		04FA55DA24769597005ED189 /* PhotoMessageCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoMessageCellNode.h; sourceTree = "<group>"; };
 		04FA55DB24769597005ED189 /* PhotoMessageCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoMessageCellNode.m; sourceTree = "<group>"; };
+		04FC052F2480EACC0044AA4A /* MessageInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageInputView.xib; sourceTree = "<group>"; };
 		563326FC7745839793EED3EA /* Pods_Zalo_ChatBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zalo_ChatBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		688C625E3281BDC911161408 /* Pods-Zalo-ChatBoxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zalo-ChatBoxTests.debug.xcconfig"; path = "Target Support Files/Pods-Zalo-ChatBoxTests/Pods-Zalo-ChatBoxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7CDD3847A7E20073CB3BDCA8 /* Pods-Zalo-ChatBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zalo-ChatBox.release.xcconfig"; path = "Target Support Files/Pods-Zalo-ChatBox/Pods-Zalo-ChatBox.release.xcconfig"; sourceTree = "<group>"; };
@@ -383,10 +382,9 @@
 		04516EF22472893F005603C8 /* MessageInput */ = {
 			isa = PBXGroup;
 			children = (
-				04FA55D624768D0B005ED189 /* MessageInputNode.h */,
-				04FA55D724768D0B005ED189 /* MessageInputNode.m */,
 				0456AECD2480BA54004BCD1B /* MessageInputView.h */,
 				0456AECE2480BA54004BCD1B /* MessageInputView.m */,
+				04FC052F2480EACC0044AA4A /* MessageInputView.xib */,
 			);
 			path = MessageInput;
 			sourceTree = "<group>";
@@ -564,6 +562,7 @@
 				0426C37B246E75950090E1EC /* LaunchScreen.storyboard in Resources */,
 				0426C378246E75950090E1EC /* Assets.xcassets in Resources */,
 				046D292A24777CE700AA0D10 /* photo_data.txt in Resources */,
+				04FC05302480EACC0044AA4A /* MessageInputView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,6 +570,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FC05312480EACC0044AA4A /* MessageInputView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,7 +648,6 @@
 				0447580C247CCCA8003EF581 /* TableNodeModel.m in Sources */,
 				048F273F247CB8A400C3F9D0 /* TextMessage.m in Sources */,
 				04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */,
-				04FA55D824768D0B005ED189 /* MessageInputNode.m in Sources */,
 				041CB20D246E904C00D09B58 /* ContactBusiness.m in Sources */,
 				041CB21C246E925C00D09B58 /* UIImage+Additions.m in Sources */,
 				041CB200246E8ED600D09B58 /* ContactAdapter.m in Sources */,
@@ -692,7 +691,6 @@
 				041CB201246E8ED600D09B58 /* ContactAdapter.m in Sources */,
 				0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */,
 				0456AED02480BA54004BCD1B /* MessageInputView.m in Sources */,
-				04FA55D924768D0B005ED189 /* MessageInputNode.m in Sources */,
 				04997754247FAD70001F0736 /* GroupPhotoMessage.m in Sources */,
 				042978B82473E67F0030EE56 /* TimeSectionCellNode.m in Sources */,
 				041CB1E9246E79FD00D09B58 /* ChatBoxViewController.m in Sources */,

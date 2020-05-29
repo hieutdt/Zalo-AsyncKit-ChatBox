@@ -14,18 +14,16 @@
 static const int kVericalPadding = 1;
 static const int kHorizontalPadding = 10;
 
-@interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate, ASImageDownloaderProtocol>
+@interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
 @property (nonatomic, strong) Message *message;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
 
 @property (nonatomic, strong) ASNetworkImageNode *imageNode;
-@property (nonatomic, strong) ASControlNode *controlNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, assign) BOOL loadImageFinish;
 
 @property (nonatomic, strong) NSString *imageUrl;
-@property (nonatomic, assign) CGFloat imageRatio;
 
 @end
 
@@ -39,52 +37,28 @@ static const int kHorizontalPadding = 10;
         _imageNode = [[ASNetworkImageNode alloc] init];
         _imageNode.contentMode = UIViewContentModeScaleToFill;
         _imageNode.delegate = self;
-        _imageNode.clipsToBounds = YES;
         _imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
         _imageNode.shouldCacheImage = YES;
+        _imageNode.style.preferredSize = CGSizeMake(100, 100);
+        self.style.preferredSize = _imageNode.style.preferredSize;
         
-        _controlNode = [[ASControlNode alloc] init];
-    
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
+        _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         
-        _imageRatio = 1;
         _loadImageFinish = NO;
     }
     return self;
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
-    CGSize maxConstrainedSize = constrainedSize.max;
-    
-    CGFloat ratio = _imageRatio;
-    if (ratio >= 1) {
-        CGFloat width = maxConstrainedSize.width * 0.7;
-        _imageNode.style.width = ASDimensionMake(width);
-        _imageNode.style.height = ASDimensionMake(width / ratio);
-
-        _controlNode.style.width = ASDimensionMake(width);
-        _controlNode.style.height = ASDimensionMake(width / ratio);
-    } else {
-        CGFloat height = 400;
-        _imageNode.style.width = ASDimensionMake(height * ratio);
-        _imageNode.style.height = ASDimensionMake(height);
-
-        _controlNode.style.width = ASDimensionMake(height * ratio);
-        _controlNode.style.height = ASDimensionMake(height);
-    }
-    
     _avatarNode.style.width = ASDimensionMake(25);
     _avatarNode.style.height = ASDimensionMake(25);
-    
-    ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
-                                               overlayLayoutSpecWithChild:_imageNode
-                                               overlay:_controlNode];
     
     if (_messageStyle == MessageCellStyleImageSend) {
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
-                child:overlayControlSpec];
+                child:_imageNode];
         
     } else if (_messageStyle == MessageCellStyleImageReceive) {
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
@@ -92,7 +66,7 @@ static const int kHorizontalPadding = 10;
                                         spacing:10
                                         justifyContent:ASStackLayoutJustifyContentStart
                                         alignItems:ASStackLayoutAlignItemsEnd
-                                        children:@[_avatarNode, overlayControlSpec]];
+                                        children:@[_avatarNode, _imageNode]];
         
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
@@ -100,10 +74,6 @@ static const int kHorizontalPadding = 10;
     }
     
     return nil;
-}
-
-- (void)didLoad {
-    [super didLoad];
 }
 
 #pragma mark - CellNode
@@ -171,12 +141,12 @@ static const int kHorizontalPadding = 10;
 #pragma mark - ASNetworkImageNodeDelegate
 
 - (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image {
-    if (!self.loadImageFinish) {
-        self.loadImageFinish = YES;
-        self.imageRatio = image.size.width / image.size.height;
-        
-        [self setNeedsLayout];
-    }
+    CGSize imgSize = image.size;
+    CGFloat ratio = imgSize.width / imgSize.height;
+    
+    _imageNode.style.preferredSize = CGSizeMake(100, 100.f / ratio);
+    
+    [self setNeedsLayout];
 }
 
 - (void)imageNodeDidLoadImageFromCache:(ASNetworkImageNode *)imageNode {
