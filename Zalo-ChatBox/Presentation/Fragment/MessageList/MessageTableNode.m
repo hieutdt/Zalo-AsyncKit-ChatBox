@@ -76,7 +76,7 @@ static NSString *kFontName = @"HelveticaNeue";
     [super didLoad];
     _tableNode.view.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    //TODO: Need get top bar height here
+    //FIXME: Need get top bar height here
     CGFloat inset = 80;
     _tableNode.contentInset = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
     _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset, 0, inset, 0);

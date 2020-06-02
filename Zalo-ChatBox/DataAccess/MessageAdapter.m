@@ -117,11 +117,11 @@ static const int kLoadMoreCount = 20;
         Message *mess = nil;
         
         int type = RAND_FROM_TO(0, 7);
-        if (type == 10) {
+        if (type == 0) {
             int index = RAND_FROM_TO(0, (int)photos.count - 1);
             mess = [[SinglePhotoMessage alloc] initWithPhotoURL:photos[index] ratio:1];
             
-        } else if (type == 10) {
+        } else if (type == 1) {
             int numberOfPhotos = RAND_FROM_TO(3, 6);
             NSMutableArray *urls = [[NSMutableArray alloc] init];
             for (int j = 0; j < numberOfPhotos; j++) {

@@ -48,7 +48,7 @@ static const int kHorizontalPadding = 10;
 - (void)initImageNodesWithCount:(NSInteger)count {
     for (int i = 0; i < count; i++) {
         ASNetworkImageNode *imageNode = [[ASNetworkImageNode alloc] init];
-        imageNode.contentMode = UIViewContentModeScaleToFill;
+        imageNode.contentMode = UIViewContentModeScaleAspectFit;
         imageNode.clipsToBounds = YES;
         imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
         imageNode.shouldCacheImage = YES;

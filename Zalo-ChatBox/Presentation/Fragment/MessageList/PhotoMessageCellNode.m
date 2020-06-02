@@ -21,9 +21,10 @@ static const int kHorizontalPadding = 10;
 
 @property (nonatomic, strong) ASNetworkImageNode *imageNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
-@property (nonatomic, assign) BOOL loadImageFinish;
 
 @property (nonatomic, strong) NSString *imageUrl;
+
+@property (nonatomic, assign) BOOL didLayoutImage;
 
 @end
 
@@ -34,27 +35,28 @@ static const int kHorizontalPadding = 10;
     if (self) {
         self.automaticallyManagesSubnodes = YES;
         
+//        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        
         _imageNode = [[ASNetworkImageNode alloc] init];
-        _imageNode.contentMode = UIViewContentModeScaleToFill;
+        _imageNode.contentMode = UIViewContentModeScaleAspectFit;
         _imageNode.delegate = self;
-        _imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
+        _imageNode.layerBacked = YES;
+        _imageNode.backgroundColor = [UIColor clearColor];
         _imageNode.shouldCacheImage = YES;
-        _imageNode.style.preferredSize = CGSizeMake(100, 100);
-        self.style.preferredSize = _imageNode.style.preferredSize;
+        
+        _imageNode.style.width = ASDimensionMake(100);
+        _imageNode.style.height = ASDimensionMake(100);
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
         _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         
-        _loadImageFinish = NO;
+        _didLayoutImage = NO;
     }
     return self;
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
-    _avatarNode.style.width = ASDimensionMake(25);
-    _avatarNode.style.height = ASDimensionMake(25);
-    
     if (_messageStyle == MessageCellStyleImageSend) {
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
@@ -140,17 +142,26 @@ static const int kHorizontalPadding = 10;
 
 #pragma mark - ASNetworkImageNodeDelegate
 
-- (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image {
-    CGSize imgSize = image.size;
-    CGFloat ratio = imgSize.width / imgSize.height;
-    
-    _imageNode.style.preferredSize = CGSizeMake(100, 100.f / ratio);
-    
-    [self setNeedsLayout];
-}
+- (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image info:(ASNetworkImageLoadInfo *)info {
+    if (info.sourceType == ASNetworkImageSourceDownload ||
+        info.sourceType == ASNetworkImageSourceAsynchronousCache) {
+        ASPerformBlockOnBackgroundThread(^{
+            if (!self.didLayoutImage) {
+                self.didLayoutImage = YES;
 
-- (void)imageNodeDidLoadImageFromCache:(ASNetworkImageNode *)imageNode {
-    NSLog(@"Load from cache!");
+                CGSize imgSize = image.size;
+                CGFloat imageRatio = imgSize.height / imgSize.width;
+                
+                CGSize screenSize = [UIScreen mainScreen].bounds.size;
+                ASDimension width = ASDimensionMake(screenSize.width * 0.7);
+                ASDimension height = ASDimensionMake(screenSize.width * 0.7 * imageRatio);
+                self.imageNode.style.preferredLayoutSize = ASLayoutSizeMake(width, height);
+
+                NSLog(@"Relayout!");
+                [self setNeedsLayout];
+            }
+      });
+    }
 }
 
 @end

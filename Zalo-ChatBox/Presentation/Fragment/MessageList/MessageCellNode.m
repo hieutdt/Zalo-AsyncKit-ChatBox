@@ -112,11 +112,12 @@ static const int kHorizontalPadding = 10;
             childs = @[overlayControlSpec];
             _backgroundNode.backgroundColor = _blueColor;
         }
-        ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                                                                       spacing:2
-                                                                                justifyContent:ASStackLayoutJustifyContentCenter
-                                                                                    alignItems:alignItems
-                                                                                      children:childs];
+        ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
+                                                stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                spacing:2
+                                                justifyContent:ASStackLayoutJustifyContentCenter
+                                                alignItems:alignItems
+                                                children:childs];
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
                 child:verticalStackSpec];
@@ -132,11 +133,12 @@ static const int kHorizontalPadding = 10;
         
         if (_choosing) {
             _backgroundNode.backgroundColor = _darkGrayColor;
-            ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                                                                           spacing:2
-                                                                                    justifyContent:ASStackLayoutJustifyContentCenter
-                                                                                        alignItems:alignItems
-                                                                                          children:@[_timeTextNode, stackSpec]];
+            ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
+                                                    stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                                                    spacing:2
+                                                    justifyContent:ASStackLayoutJustifyContentCenter
+                                                    alignItems:alignItems
+                                                    children:@[_timeTextNode, stackSpec]];
             return [ASInsetLayoutSpec
                     insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
                     child:verticalStackSpec];
