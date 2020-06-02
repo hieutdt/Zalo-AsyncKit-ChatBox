@@ -6,11 +6,26 @@
 //  Copyright © 2020 Trần Đình Tôn Hiếu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MessageCellConfigure : NSObject
+
+@property (nonatomic, readonly) UIColor *sendMessageBackgroundColor;
+@property (nonatomic, readonly) UIColor *receiveMessageBackgroundColor;
+@property (nonatomic, readonly) UIColor *highlightSendMessageColor;
+@property (nonatomic, readonly) UIColor *highlightReceiveMessageColor;
+
+@property (nonatomic, readonly) NSUInteger  messageTextSize;
+@property (nonatomic, readonly) NSUInteger  ingroupMessageVerticalSpace;
+@property (nonatomic, readonly) NSUInteger  outgroupMessageVerticalSpace;
+@property (nonatomic, readonly) NSUInteger  messageHorizontalPadding;
+@property (nonatomic, readonly) CGFloat     maxWidthOfCell;
+
+@property (nonatomic, readonly) UIEdgeInsets contentInsets;
+
++ (MessageCellConfigure *)globalConfigure;
 
 @end
 

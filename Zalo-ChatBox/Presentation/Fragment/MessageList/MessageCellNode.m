@@ -10,6 +10,8 @@
 #import "LayoutHelper.h"
 #import "ContactAvatarNode.h"
 
+#import "MessageCellConfigure.h"
+
 #import "ImageCache.h"
 #import "StringHelper.h"
 
@@ -28,10 +30,7 @@ static const int kHorizontalPadding = 10;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, strong) ASTextNode *timeTextNode;
 
-@property (nonatomic, strong) UIColor *blueColor;
-@property (nonatomic, strong) UIColor *darkBlueColor;
-@property (nonatomic, strong) UIColor *grayColor;
-@property (nonatomic, strong) UIColor *darkGrayColor;
+@property (nonatomic, strong) MessageCellConfigure *configure;
 
 @property (nonatomic, assign) BOOL choosing;
 
@@ -73,10 +72,7 @@ static const int kHorizontalPadding = 10;
                          action:@selector(touchUpInside)
                forControlEvents:ASControlNodeEventTouchUpInside];
         
-        _blueColor = [UIColor colorWithRed:21/255.f green:130/255.f blue:203/255.f alpha:1];
-        _darkBlueColor = [UIColor colorWithRed:31/255.f green:97/255.f blue:141/255.f alpha:1];
-        _grayColor = [UIColor colorWithRed:229/255.f green:231/255.f blue:233/255.f alpha:1];
-        _darkGrayColor = [UIColor colorWithRed:179/255.f green:182/255.f blue:183/255.f alpha:1];
+        _configure = [[MessageCellConfigure alloc] init];
     }
     return self;
 }
@@ -107,10 +103,10 @@ static const int kHorizontalPadding = 10;
         NSArray *childs = @[];
         if (_choosing) {
             childs = @[_timeTextNode, overlayControlSpec];
-            _backgroundNode.backgroundColor = _darkBlueColor;
+            _backgroundNode.backgroundColor = _configure.highlightSendMessageColor;
         } else {
             childs = @[overlayControlSpec];
-            _backgroundNode.backgroundColor = _blueColor;
+            _backgroundNode.backgroundColor = _configure.sendMessageBackgroundColor;
         }
         ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                 stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
@@ -132,7 +128,7 @@ static const int kHorizontalPadding = 10;
                                         children:@[_avatarNode, overlayControlSpec]];
         
         if (_choosing) {
-            _backgroundNode.backgroundColor = _darkGrayColor;
+            _backgroundNode.backgroundColor = _configure.highlightReceiveMessageColor;
             ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                     stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
                                                     spacing:2
@@ -144,7 +140,7 @@ static const int kHorizontalPadding = 10;
                     child:verticalStackSpec];
             
         } else {
-            _backgroundNode.backgroundColor = _grayColor;
+            _backgroundNode.backgroundColor = _configure.receiveMessageBackgroundColor;
             return [ASInsetLayoutSpec
                     insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
                     child:stackSpec];
@@ -249,9 +245,9 @@ static const int kHorizontalPadding = 10;
     __weak MessageCellNode *weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.darkBlueColor];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.highlightSendMessageColor];
         } else {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.darkGrayColor];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.highlightReceiveMessageColor];
         }
     }];
 }
@@ -261,9 +257,9 @@ static const int kHorizontalPadding = 10;
     __weak MessageCellNode *weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.blueColor];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.sendMessageBackgroundColor];
         } else {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.grayColor];
+            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.receiveMessageBackgroundColor];
         }
     }];
 }
