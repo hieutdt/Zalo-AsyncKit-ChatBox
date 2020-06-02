@@ -34,6 +34,8 @@
 		0426C37B246E75950090E1EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0426C379246E75950090E1EC /* LaunchScreen.storyboard */; };
 		0426C37E246E75950090E1EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C37D246E75950090E1EC /* main.m */; };
 		0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */; };
+		042780D52486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */; };
+		042780D62486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */; };
 		042978B32473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
 		042978B42473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
 		042978B72473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
@@ -127,6 +129,8 @@
 		0426C383246E75960090E1EC /* Zalo-ChatBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Zalo-ChatBoxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zalo_ChatBoxTests.m; sourceTree = "<group>"; };
 		0426C389246E75960090E1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		042780D32486424C00161E6B /* PhotoMessageCellConfigure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoMessageCellConfigure.h; sourceTree = "<group>"; };
+		042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoMessageCellConfigure.m; sourceTree = "<group>"; };
 		042978B12473B9250030EE56 /* LayoutHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayoutHelper.h; sourceTree = "<group>"; };
 		042978B22473B9250030EE56 /* LayoutHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutHelper.m; sourceTree = "<group>"; };
 		042978B52473E67F0030EE56 /* TimeSectionCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSectionCellNode.h; sourceTree = "<group>"; };
@@ -366,6 +370,8 @@
 			children = (
 				0430C8892486003100853F0F /* MessageCellConfigure.h */,
 				0430C88A2486003100853F0F /* MessageCellConfigure.m */,
+				042780D32486424C00161E6B /* PhotoMessageCellConfigure.h */,
+				042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */,
 			);
 			path = Configure;
 			sourceTree = "<group>";
@@ -664,6 +670,7 @@
 				04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */,
 				041CB20D246E904C00D09B58 /* ContactBusiness.m in Sources */,
 				041CB21C246E925C00D09B58 /* UIImage+Additions.m in Sources */,
+				042780D52486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */,
 				041CB200246E8ED600D09B58 /* ContactAdapter.m in Sources */,
 				042978B32473B9250030EE56 /* LayoutHelper.m in Sources */,
 				046AD750247622130062A856 /* Conversation.m in Sources */,
@@ -725,6 +732,7 @@
 				04FA55D524766102005ED189 /* ContactAvatarNode.m in Sources */,
 				04516EFB24728B1F005603C8 /* MessageTableNode.m in Sources */,
 				042978B42473B9250030EE56 /* LayoutHelper.m in Sources */,
+				042780D62486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */,
 				041CB219246E917900D09B58 /* ContactTableViewModel.m in Sources */,
 				045181D6247192700019FDEE /* ImageCache.m in Sources */,
 				046466D324727B0B00E18118 /* Message.m in Sources */,
@@ -804,7 +812,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -856,7 +864,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

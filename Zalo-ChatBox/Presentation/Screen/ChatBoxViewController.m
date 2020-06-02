@@ -77,7 +77,8 @@
         [_tableNode setFriendAvatarImage:_friendImage];
     } else {
         NSString *shortName = [StringHelper getShortName:_messageToContact.name];
-        [_tableNode setGradientColorCode:_friendImageColorCode andShortName:shortName];
+        [_tableNode setGradientColorCode:_friendImageColorCode
+                            andShortName:shortName];
     }
     
     Contact *currentUser = [[Contact alloc] init];
@@ -127,15 +128,23 @@
         NSValue *keyboardFrame = [userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
         CGRect keyboardRect = [keyboardFrame CGRectValue];
         
-        _contentNode.view.transform = CGAffineTransformIdentity;
-        [UIView animateWithDuration:0.5 animations:^{
-            self->_contentNode.view.transform = CGAffineTransformTranslate(self->_messageInputView.transform, 0, -keyboardRect.size.height);
-        }];
+        [self animatedShowKeyboardWithHeight:keyboardRect.size.height];
     }
 }
 
 - (void)tableNode:(MessageTableNode *)tableNode didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [_messageInputView endEditing];
+    [self.messageInputView endEditingWithKeepText:YES];
+    [self animatedHideKeyboard];
+}
+
+- (void)animatedShowKeyboardWithHeight:(CGFloat)keyboardHeight {
+    _contentNode.view.transform = CGAffineTransformIdentity;
+    [UIView animateWithDuration:0.5 animations:^{
+        self->_contentNode.view.transform = CGAffineTransformTranslate(self->_messageInputView.transform, 0, -keyboardHeight);
+    }];
+}
+
+- (void)animatedHideKeyboard {
     [UIView animateWithDuration:0.15 animations:^{
         self->_contentNode.view.transform = CGAffineTransformIdentity;
     }];
@@ -158,9 +167,17 @@
     [self.tableNode sendMessage:textMess];
 }
 
+- (void)messageInputViewDidEndEditing:(MessageInputView *)inputView {
+    [self animatedHideKeyboard];
+}
+
 - (void)messageInputViewSendButtonTapped:(MessageInputView *)inputView
                          withMessageText:(NSString *)messageText {
     [self sendMessage:messageText];
+}
+
+- (void)messageInputViewCollapseButtonTapped:(MessageInputView *)inputView {
+    [self animatedHideKeyboard];
 }
 
 @end

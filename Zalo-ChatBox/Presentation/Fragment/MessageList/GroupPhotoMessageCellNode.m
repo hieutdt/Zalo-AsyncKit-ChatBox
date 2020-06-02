@@ -13,6 +13,7 @@
 
 static const int kVericalPadding = 1;
 static const int kHorizontalPadding = 10;
+static CGFloat imageWidth;
 
 @interface GroupPhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
@@ -35,11 +36,14 @@ static const int kHorizontalPadding = 10;
     if (self) {
         self.automaticallyManagesSubnodes = YES;
         
+        imageWidth = [UIScreen mainScreen].bounds.size.width * 0.7/3 - 3;
+        
         _imageNodes = [[NSMutableArray alloc] init];
         
         _controlNode = [[ASControlNode alloc] init];
         
         _avatarNode = [[ContactAvatarNode alloc] init];
+        _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         _avatarNode.hidden = YES;
     }
     return self;
@@ -49,9 +53,10 @@ static const int kHorizontalPadding = 10;
     for (int i = 0; i < count; i++) {
         ASNetworkImageNode *imageNode = [[ASNetworkImageNode alloc] init];
         imageNode.contentMode = UIViewContentModeScaleAspectFit;
-        imageNode.clipsToBounds = YES;
         imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
         imageNode.shouldCacheImage = YES;
+        imageNode.style.preferredLayoutSize = ASLayoutSizeMake(ASDimensionMake(imageWidth), ASDimensionMake(imageWidth));
+        
         [_imageNodes addObject:imageNode];
     }
 }
@@ -61,18 +66,10 @@ static const int kHorizontalPadding = 10;
     assert(self.imageNodes.count == self.imageUrls.count);
 #endif
     
-    CGSize maxConstrainedSize = constrainedSize.max;
-    CGFloat imageWidth = maxConstrainedSize.width * 0.7 / 3 - 3;
-    CGFloat imageHeight = maxConstrainedSize.width * 0.7 / 3 - 3;
-    
-    _avatarNode.style.preferredSize = CGSizeMake(25, 25);
     NSMutableArray *verticalChilds = [[NSMutableArray alloc] init];
     NSMutableArray *horizontalNodes = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < self.imageNodes.count; i++) {
-        _imageNodes[i].style.width = ASDimensionMake(imageWidth);
-        _imageNodes[i].style.height = ASDimensionMake(imageHeight);
-        
         [horizontalNodes addObject:_imageNodes[i]];
         if (horizontalNodes.count == 3 || i == self.imageNodes.count - 1) {
             ASStackLayoutSpec *horizontalStack = [ASStackLayoutSpec

@@ -10,10 +10,12 @@
             <connections>
                 <outlet property="cameraButton" destination="1ra-LQ-4fl" id="BOr-OF-uQh"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="1aQ-R0-RNX"/>
+                <outlet property="editTextContainerHeight" destination="orP-cm-ZrM" id="zy1-y7-2S7"/>
                 <outlet property="emojiButton" destination="LO7-yj-2bp" id="aQN-bi-E5F"/>
                 <outlet property="imageButton" destination="xTt-Ir-vxR" id="GEC-wv-JT2"/>
                 <outlet property="moreButton" destination="ORe-sk-BQF" id="TN8-T4-AJ7"/>
                 <outlet property="sendButton" destination="QU9-Xs-umU" id="xHc-We-Rfh"/>
+                <outlet property="stackView" destination="2zs-WF-20d" id="fuJ-Uu-YnB"/>
                 <outlet property="textInput" destination="fjr-Oa-8nM" id="0gD-nS-Ay1"/>
                 <outlet property="textInputContainer" destination="Jfe-2u-r7J" id="UeR-aH-Eli"/>
                 <outlet property="voiceButton" destination="Eht-vS-odm" id="Wi5-yv-8f6"/>
@@ -25,10 +27,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2zs-WF-20d">
-                    <rect key="frame" x="10" y="0.0" width="394" height="141"/>
+                    <rect key="frame" x="10" y="0.0" width="394" height="50"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ORe-sk-BQF">
-                            <rect key="frame" x="0.0" y="55.5" width="30" height="30"/>
+                            <rect key="frame" x="0.0" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="4aT-wh-yhY"/>
                                 <constraint firstAttribute="height" constant="30" id="dCa-FF-dNU"/>
@@ -39,7 +41,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ra-LQ-4fl">
-                            <rect key="frame" x="40" y="55.5" width="30" height="30"/>
+                            <rect key="frame" x="40" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="LwQ-VW-jXc"/>
                                 <constraint firstAttribute="width" constant="30" id="SNA-0p-o3V"/>
@@ -47,7 +49,7 @@
                             <state key="normal" image="cameraBtn"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTt-Ir-vxR">
-                            <rect key="frame" x="80" y="55.5" width="30" height="30"/>
+                            <rect key="frame" x="80" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="e8a-cV-mfg"/>
                                 <constraint firstAttribute="width" constant="30" id="jtq-Tg-Sda"/>
@@ -55,7 +57,7 @@
                             <state key="normal" image="imageBtn"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eht-vS-odm">
-                            <rect key="frame" x="120" y="55.5" width="30" height="30"/>
+                            <rect key="frame" x="120" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="2CA-Eb-4LG"/>
                                 <constraint firstAttribute="width" constant="30" id="Qiw-yF-1xw"/>
@@ -63,7 +65,7 @@
                             <state key="normal" image="voiceBtn"/>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jfe-2u-r7J">
-                            <rect key="frame" x="160" y="50.5" width="194" height="40"/>
+                            <rect key="frame" x="160" y="5" width="194" height="40"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lorem ipsum dolor sit er elit lamet, consectetaur cil" translatesAutoresizingMaskIntoConstraints="NO" id="fjr-Oa-8nM">
                                     <rect key="frame" x="5" y="5" width="153" height="30"/>
@@ -93,7 +95,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QU9-Xs-umU">
-                            <rect key="frame" x="364" y="55.5" width="30" height="30"/>
+                            <rect key="frame" x="364" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="PBo-Qy-sD3"/>
                                 <constraint firstAttribute="width" constant="30" id="ueB-vl-hO3"/>
@@ -105,17 +107,20 @@
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Jfe-2u-r7J" secondAttribute="bottom" constant="5" id="MtO-t2-pEi"/>
+                        <constraint firstItem="Jfe-2u-r7J" firstAttribute="top" secondItem="2zs-WF-20d" secondAttribute="top" constant="5" id="uh2-8Y-LN0"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="2zs-WF-20d" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fpI-N4-CAD"/>
                 <constraint firstItem="2zs-WF-20d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="lWN-Tg-bRI"/>
-                <constraint firstAttribute="bottom" secondItem="2zs-WF-20d" secondAttribute="bottom" id="ujM-WB-LAb"/>
                 <constraint firstAttribute="trailing" secondItem="2zs-WF-20d" secondAttribute="trailing" constant="10" id="wJT-Ig-Ma7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="131.8840579710145" y="-99.441964285714278"/>
+            <point key="canvasLocation" x="130" y="-100"/>
         </view>
     </objects>
     <resources>

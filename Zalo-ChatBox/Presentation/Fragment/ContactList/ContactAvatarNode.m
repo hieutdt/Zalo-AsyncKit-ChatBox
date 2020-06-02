@@ -29,7 +29,7 @@ static const int kFontSize = 15;
         
         _shortNameLabel = [[ASTextNode alloc] init];
         _imageNode = [[ASImageNode alloc] init];
-        _imageNode.contentMode = UIViewContentModeScaleToFill;
+        _imageNode.contentMode = UIViewContentModeScaleAspectFit;
     }
     return self;
 }

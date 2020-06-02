@@ -7,12 +7,12 @@
 //
 
 #import "PhotoMessageCellNode.h"
+#import "PhotoMessageCellConfigure.h"
 #import "ContactAvatarNode.h"
 #import "ImageCache.h"
 #import "UIImage+Additions.h"
 
-static const int kVericalPadding = 1;
-static const int kHorizontalPadding = 10;
+static const PhotoMessageCellConfigure *configure;
 
 @interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
@@ -42,14 +42,16 @@ static const int kHorizontalPadding = 10;
         _imageNode.backgroundColor = [UIColor clearColor];
         _imageNode.shouldCacheImage = YES;
         
-        _imageNode.style.width = ASDimensionMake(100);
-        _imageNode.style.height = ASDimensionMake(100);
+        _imageNode.style.width = ASDimensionMake(configure.initialWidth);
+        _imageNode.style.height = ASDimensionMake(configure.initialHeight);
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
         _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         
         _didLayoutImage = NO;
+        
+        configure = [[PhotoMessageCellConfigure alloc] init];
     }
     return self;
 }
@@ -57,19 +59,19 @@ static const int kHorizontalPadding = 10;
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
     if (_messageStyle == MessageCellStyleImageSend) {
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, INFINITY, configure.verticalPadding, configure.horizontalPadding)
                 child:_imageNode];
         
     } else if (_messageStyle == MessageCellStyleImageReceive) {
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
                                         stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                        spacing:10
+                                        spacing:configure.horizontalSpace
                                         justifyContent:ASStackLayoutJustifyContentStart
                                         alignItems:ASStackLayoutAlignItemsEnd
                                         children:@[_avatarNode, _imageNode]];
         
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, configure.horizontalPadding, configure.verticalPadding, INFINITY)
                 child:stackSpec];
     }
     
@@ -152,9 +154,8 @@ static const int kHorizontalPadding = 10;
                 CGSize imgSize = image.size;
                 CGFloat imageRatio = imgSize.height / imgSize.width;
                 
-                CGSize screenSize = [UIScreen mainScreen].bounds.size;
-                ASDimension width = ASDimensionMake(screenSize.width * 0.7);
-                ASDimension height = ASDimensionMake(screenSize.width * 0.7 * imageRatio);
+                ASDimension width = ASDimensionMake(configure.maxWidthOfCell);
+                ASDimension height = ASDimensionMake(configure.maxWidthOfCell * imageRatio);
                 self.imageNode.style.preferredLayoutSize = ASLayoutSizeMake(width, height);
 
                 NSLog(@"Relayout!");

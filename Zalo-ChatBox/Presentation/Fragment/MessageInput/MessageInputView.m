@@ -7,6 +7,10 @@
 //
 
 #import "MessageInputView.h"
+#import "LayoutHelper.h"
+
+static const NSUInteger editTextBoxHeight = 40;
+static const NSUInteger maxEditTextBoxHeight = 250;
 
 @interface MessageInputView () <UITextViewDelegate>
 
@@ -19,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet UITextView *textInput;
 @property (weak, nonatomic) IBOutlet UIButton *emojiButton;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *editTextContainerHeight;
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
 
 @property (nonatomic, assign) BOOL editing;
 
@@ -47,7 +54,18 @@
     [nib instantiateWithOwner:self options:nil];
     
     _contentView.frame = self.bounds;
+    
+    _contentView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_contentView];
+    
+    [_contentView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    [_contentView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+    [_contentView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [_contentView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    
+    _stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_stackView.bottomAnchor constraintEqualToAnchor:_contentView.bottomAnchor constant:-5].active = YES;
+    
     _contentView.backgroundColor = [UIColor whiteColor];
     _contentView.alpha = 0.9;
     
@@ -58,11 +76,17 @@
     _textInput.delegate = self;
     _textInput.text = @"Aa";
     _textInput.textColor = [UIColor lightGrayColor];
+    _textInput.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
     
     _editing = NO;
 }
 
-- (void)endEditing {
+- (void)endEditingWithKeepText:(BOOL)keepText; {
+    if (!keepText || _textInput.text.length == 0) {
+        _textInput.text = @"Aa";
+        _textInput.textColor = [UIColor lightGrayColor];
+    }
+    
     [self.textInput endEditing:YES];
 }
 
@@ -75,8 +99,10 @@
     
     _editing = YES;
     
-    _textInput.text = @"";
-    _textInput.textColor = [UIColor darkTextColor];
+    if ([_textInput.text isEqualToString:@"Aa"]) {
+        _textInput.text = @"";
+        _textInput.textColor = [UIColor darkTextColor];
+    }
     
     __weak MessageInputView *weakSelf = self;
     [UIView animateWithDuration:0.35 animations:^{
@@ -96,9 +122,6 @@
     
     _editing = NO;
     
-    _textInput.text = @"Aa";
-    _textInput.textColor = [UIColor lightGrayColor];
-    
     __weak MessageInputView *weakSelf = self;
     [UIView animateWithDuration:0.25 animations:^{
         [weakSelf.moreButton setImage:[UIImage imageNamed:@"plusBtn"] forState:UIControlStateNormal];
@@ -110,14 +133,31 @@
     }];
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+    NSString *text = textView.text;
+    CGSize boundingSize = CGSizeMake(textView.frame.size.width, 500);
+    CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:text
+                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:18]
+                                                   parrentSize:boundingSize];
+
+    CGSize estimatedSize = estimatedFrame.size;
+    if (estimatedSize.height > editTextBoxHeight && estimatedSize.height <= editTextBoxHeight * 2) {
+        _editTextContainerHeight.constant = editTextBoxHeight * 2;
+    } else if (estimatedSize.height > editTextBoxHeight * 2) {
+        _editTextContainerHeight.constant = maxEditTextBoxHeight;
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)moreButtonTapped:(id)sender {
     if (_editing) {
-        [self endEditing];
+        [self endEditingWithKeepText:YES];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewCollapseButtonTapped:)]) {
+            [self.delegate messageInputViewCollapseButtonTapped:self];
+        }
     } else {
         // Show more
-        
     }
 }
 - (IBAction)sendButtonTapped:(id)sender {
@@ -125,7 +165,8 @@
         [self.delegate messageInputViewSendButtonTapped:self withMessageText:_textInput.text];
     }
     
-    _textInput.text = @"";
+    _textInput.text = @"Aa";
+    _textInput.textColor = [UIColor lightGrayColor];
 }
 
 @end

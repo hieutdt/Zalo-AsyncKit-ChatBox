@@ -15,9 +15,10 @@
 #import "ImageCache.h"
 #import "StringHelper.h"
 
-static const int kFontSize = 18;
 static const int kVericalPadding = 3;
 static const int kHorizontalPadding = 10;
+
+static const MessageCellConfigure *configure;
 
 @interface MessageCellNode ()
 
@@ -29,8 +30,6 @@ static const int kHorizontalPadding = 10;
 @property (nonatomic, strong) ASControlNode *controlNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, strong) ASTextNode *timeTextNode;
-
-@property (nonatomic, strong) MessageCellConfigure *configure;
 
 @property (nonatomic, assign) BOOL choosing;
 
@@ -56,7 +55,6 @@ static const int kHorizontalPadding = 10;
         _editTextNode.style.preferredSize = _estimatedSize;
 
         _backgroundNode = [[ASImageNode alloc] init];
-        _backgroundNode.contentMode = UIViewContentModeScaleToFill;
         _backgroundNode.cornerRadius = 10;
         _backgroundNode.style.preferredSize = _estimatedSize;
         
@@ -72,7 +70,7 @@ static const int kHorizontalPadding = 10;
                          action:@selector(touchUpInside)
                forControlEvents:ASControlNodeEventTouchUpInside];
         
-        _configure = [[MessageCellConfigure alloc] init];
+        configure = [[MessageCellConfigure alloc] init];
     }
     return self;
 }
@@ -87,7 +85,7 @@ static const int kHorizontalPadding = 10;
     ASOverlayLayoutSpec *overlayTextSpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
                                         overlay:[ASInsetLayoutSpec
-                                                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(10, 10, 10, 10)
+                                                 insetLayoutSpecWithInsets:configure.contentInsets
                                                  child:_editTextNode]];
     
     ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
@@ -103,10 +101,10 @@ static const int kHorizontalPadding = 10;
         NSArray *childs = @[];
         if (_choosing) {
             childs = @[_timeTextNode, overlayControlSpec];
-            _backgroundNode.backgroundColor = _configure.highlightSendMessageColor;
+            _backgroundNode.backgroundColor = configure.highlightSendMessageColor;
         } else {
             childs = @[overlayControlSpec];
-            _backgroundNode.backgroundColor = _configure.sendMessageBackgroundColor;
+            _backgroundNode.backgroundColor = configure.sendMessageBackgroundColor;
         }
         ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                 stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
@@ -128,7 +126,7 @@ static const int kHorizontalPadding = 10;
                                         children:@[_avatarNode, overlayControlSpec]];
         
         if (_choosing) {
-            _backgroundNode.backgroundColor = _configure.highlightReceiveMessageColor;
+            _backgroundNode.backgroundColor = configure.highlightReceiveMessageColor;
             ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                     stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
                                                     spacing:2
@@ -140,7 +138,7 @@ static const int kHorizontalPadding = 10;
                     child:verticalStackSpec];
             
         } else {
-            _backgroundNode.backgroundColor = _configure.receiveMessageBackgroundColor;
+            _backgroundNode.backgroundColor = configure.receiveMessageBackgroundColor;
             return [ASInsetLayoutSpec
                     insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
                     child:stackSpec];
@@ -171,7 +169,7 @@ static const int kHorizontalPadding = 10;
                 [self showAvatarImage:avatarImage];
             } else {
                 [self showAvatarImageWithGradientColor:mess.fromContact.gradientColorCode
-                                             shortName:mess.fromContact.name];
+                                             shortName:[StringHelper getShortName:mess.fromContact.name]];
             }
         }
         
@@ -205,7 +203,7 @@ static const int kHorizontalPadding = 10;
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         
     UIColor *textColor = _messageStyle == MessageCellStyleTextSend ? [UIColor whiteColor] : [UIColor blackColor];
-    NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:kFontSize],
+    NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:configure.messageTextSize],
                                       NSParagraphStyleAttributeName : paragraphStyle,
                                       NSForegroundColorAttributeName : textColor
     };
@@ -215,7 +213,7 @@ static const int kHorizontalPadding = 10;
     
     CGSize boundingSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 0.7, 400);
     CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
-                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:kFontSize]
+                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:configure.messageTextSize]
                                                    parrentSize:boundingSize];
     _estimatedSize = estimatedFrame.size;
     
@@ -245,9 +243,9 @@ static const int kHorizontalPadding = 10;
     __weak MessageCellNode *weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.highlightSendMessageColor];
+            [weakSelf.backgroundNode setBackgroundColor:configure.highlightSendMessageColor];
         } else {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.highlightReceiveMessageColor];
+            [weakSelf.backgroundNode setBackgroundColor:configure.highlightReceiveMessageColor];
         }
     }];
 }
@@ -257,9 +255,9 @@ static const int kHorizontalPadding = 10;
     __weak MessageCellNode *weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.sendMessageBackgroundColor];
+            [weakSelf.backgroundNode setBackgroundColor:configure.sendMessageBackgroundColor];
         } else {
-            [weakSelf.backgroundNode setBackgroundColor:weakSelf.configure.receiveMessageBackgroundColor];
+            [weakSelf.backgroundNode setBackgroundColor:configure.receiveMessageBackgroundColor];
         }
     }];
 }
