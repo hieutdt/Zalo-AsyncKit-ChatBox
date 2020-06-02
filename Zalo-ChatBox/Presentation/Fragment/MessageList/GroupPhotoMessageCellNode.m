@@ -50,7 +50,7 @@ static const int kHorizontalPadding = 10;
         ASNetworkImageNode *imageNode = [[ASNetworkImageNode alloc] init];
         imageNode.contentMode = UIViewContentModeScaleAspectFit;
         imageNode.clipsToBounds = YES;
-        imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.5];
+        imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
         imageNode.shouldCacheImage = YES;
         [_imageNodes addObject:imageNode];
     }
@@ -63,7 +63,7 @@ static const int kHorizontalPadding = 10;
     
     CGSize maxConstrainedSize = constrainedSize.max;
     CGFloat imageWidth = maxConstrainedSize.width * 0.7 / 3 - 3;
-    CGFloat imageHeight = 100;
+    CGFloat imageHeight = maxConstrainedSize.width * 0.7 / 3 - 3;
     
     _avatarNode.style.preferredSize = CGSizeMake(25, 25);
     NSMutableArray *verticalChilds = [[NSMutableArray alloc] init];

@@ -35,8 +35,6 @@ static const int kHorizontalPadding = 10;
     if (self) {
         self.automaticallyManagesSubnodes = YES;
         
-//        CGSize screenSize = [UIScreen mainScreen].bounds.size;
-        
         _imageNode = [[ASNetworkImageNode alloc] init];
         _imageNode.contentMode = UIViewContentModeScaleAspectFit;
         _imageNode.delegate = self;
@@ -146,7 +144,9 @@ static const int kHorizontalPadding = 10;
     if (info.sourceType == ASNetworkImageSourceDownload ||
         info.sourceType == ASNetworkImageSourceAsynchronousCache) {
         ASPerformBlockOnBackgroundThread(^{
-            if (!self.didLayoutImage) {
+            BOOL isInitialConfigValue = self.imageNode.style.width.value == 100 && self.imageNode.style.height.value == 100;
+            
+            if (!self.didLayoutImage || isInitialConfigValue) {
                 self.didLayoutImage = YES;
 
                 CGSize imgSize = image.size;

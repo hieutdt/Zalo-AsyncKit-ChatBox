@@ -38,6 +38,8 @@
 		042978B42473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
 		042978B72473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
 		042978B82473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
+		0430C88B2486003100853F0F /* MessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430C88A2486003100853F0F /* MessageCellConfigure.m */; };
+		0430C88C2486003100853F0F /* MessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430C88A2486003100853F0F /* MessageCellConfigure.m */; };
 		04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475806247CCB3A003EF581 /* CellNodeFactory.m */; };
 		0447580C247CCCA8003EF581 /* TableNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0447580B247CCCA8003EF581 /* TableNodeModel.m */; };
 		04475814247D0163003EF581 /* TimeSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475813247D0163003EF581 /* TimeSectionHeader.m */; };
@@ -129,6 +131,8 @@
 		042978B22473B9250030EE56 /* LayoutHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutHelper.m; sourceTree = "<group>"; };
 		042978B52473E67F0030EE56 /* TimeSectionCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSectionCellNode.h; sourceTree = "<group>"; };
 		042978B62473E67F0030EE56 /* TimeSectionCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSectionCellNode.m; sourceTree = "<group>"; };
+		0430C8892486003100853F0F /* MessageCellConfigure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCellConfigure.h; sourceTree = "<group>"; };
+		0430C88A2486003100853F0F /* MessageCellConfigure.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCellConfigure.m; sourceTree = "<group>"; };
 		04475805247CCB3A003EF581 /* CellNodeFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellNodeFactory.h; sourceTree = "<group>"; };
 		04475806247CCB3A003EF581 /* CellNodeFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellNodeFactory.m; sourceTree = "<group>"; };
 		0447580A247CCCA8003EF581 /* TableNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableNodeModel.h; sourceTree = "<group>"; };
@@ -357,6 +361,15 @@
 			path = "Zalo-ChatBoxTests";
 			sourceTree = "<group>";
 		};
+		0430C8882485FFBB00853F0F /* Configure */ = {
+			isa = PBXGroup;
+			children = (
+				0430C8892486003100853F0F /* MessageCellConfigure.h */,
+				0430C88A2486003100853F0F /* MessageCellConfigure.m */,
+			);
+			path = Configure;
+			sourceTree = "<group>";
+		};
 		04516EF02472892D005603C8 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,6 +405,7 @@
 		04516EF724728AFB005603C8 /* MessageList */ = {
 			isa = PBXGroup;
 			children = (
+				0430C8882485FFBB00853F0F /* Configure */,
 				04516EF824728B1F005603C8 /* MessageTableNode.h */,
 				04516EF924728B1F005603C8 /* MessageTableNode.m */,
 				04E2D0962472DF92004B1BE9 /* MessageCellNode.h */,
@@ -653,6 +667,7 @@
 				041CB200246E8ED600D09B58 /* ContactAdapter.m in Sources */,
 				042978B32473B9250030EE56 /* LayoutHelper.m in Sources */,
 				046AD750247622130062A856 /* Conversation.m in Sources */,
+				0430C88B2486003100853F0F /* MessageCellConfigure.m in Sources */,
 				0426C36D246E75940090E1EC /* AppDelegate.m in Sources */,
 				041CB220246E96E400D09B58 /* ContactTableNode.m in Sources */,
 				041CB1E0246E79E400D09B58 /* ContactListViewController.m in Sources */,
@@ -696,6 +711,7 @@
 				041CB1E9246E79FD00D09B58 /* ChatBoxViewController.m in Sources */,
 				041CB21D246E925C00D09B58 /* UIImage+Additions.m in Sources */,
 				041CB213246E90EA00D09B58 /* ContactTableCellNode.m in Sources */,
+				0430C88C2486003100853F0F /* MessageCellConfigure.m in Sources */,
 				046AD7552476255B0062A856 /* MessageAdapter.m in Sources */,
 				048F2740247CB8A400C3F9D0 /* TextMessage.m in Sources */,
 				041CB1E1246E79E400D09B58 /* ContactListViewController.m in Sources */,
