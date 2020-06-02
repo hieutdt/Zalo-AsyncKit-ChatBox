@@ -25,7 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TableNodeModel : NSObject <ASTableDataSource>
 
+@property (nonatomic, strong) NSMutableArray<NSMutableArray<id<CellNodeObject>> *> *data;
+
 @property (nonatomic, assign) id<TableNodeModelDelegate> delegate;
+
+#pragma mark - Constructor
 
 - (instancetype)initWithListArray:(NSArray<id<CellNodeObject>> *)listArray
                          delegate:(id<TableNodeModelDelegate>)delegate;
@@ -33,11 +37,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSectionArray:(NSArray<NSArray<id<CellNodeObject>> *> *)sectionArray
                             delegate:(id<TableNodeModelDelegate>)delegate;
 
+#pragma mark - SetDataArray
+
 - (void)setListArray:(NSArray<id<CellNodeObject>> *)listArray;
 
 - (void)setSectionArray:(NSArray<NSArray<id<CellNodeObject>> *> *)sectionArray;
 
+#pragma mark - UpdateDataArray
+
 - (void)pushFront:(NSArray<id<CellNodeObject>> *)objects;
+
+- (void)pushBack:(NSArray<id<CellNodeObject>> *)objects;
+
+- (void)remove:(NSArray<id<CellNodeObject>> *)objects;
+
+#pragma mark - Getter
+
+- (NSInteger)dataSourceCount;
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 

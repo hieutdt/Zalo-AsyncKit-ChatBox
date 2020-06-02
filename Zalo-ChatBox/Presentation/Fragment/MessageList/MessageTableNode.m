@@ -22,11 +22,15 @@
 #import "UIImage+Additions.h"
 
 static NSString *kFontName = @"HelveticaNeue";
+static const int kMaxNodes = 300;
 
 @interface MessageTableNode () <ASTableDelegate, ASTableDataSource, MessageCellNodeDelegate>
 
 @property (nonatomic, strong) NSMutableArray<Message *> *rawMessages;
 @property (nonatomic, strong) NSMutableArray<id<CellNodeObject>> *messageModels;
+
+@property (nonatomic, strong) NSMutableArray<id<CellNodeObject>> *topLoadedModels;
+@property (nonatomic, strong) NSMutableArray<id<CellNodeObject>> *bottomLoadedModels;
 
 @property (nonatomic, strong) ASTableNode *tableNode;
 @property (nonatomic, strong) TableNodeModel *tableModel;
@@ -57,6 +61,9 @@ static NSString *kFontName = @"HelveticaNeue";
         _tableNode.dataSource = _tableModel;
         _tableNode.delegate = self;
         _tableNode.leadingScreensForBatching = 3;
+        
+        _topLoadedModels = [[NSMutableArray alloc] init];
+        _bottomLoadedModels = [[NSMutableArray alloc] init];
         
         _canLoadMore = YES;
         _needLoadMore = NO;
@@ -114,6 +121,20 @@ static NSString *kFontName = @"HelveticaNeue";
     [self.messageModels addObject:object];
 }
 
+- (void)generateNewSectionData:(NSArray<Message *> *)messages {
+    for (int i = 0; i < messages.count; i++) {
+        if (messages[i].timestamp - [self.rawMessages lastObject].timestamp >= kMessageSectionTimeSpace
+            && ![[self.messageModels lastObject] isKindOfClass:[TimeSectionHeader class]]) {
+            
+            TimeSectionHeader *object = [[TimeSectionHeader alloc] initWithTimestamp:self.rawMessages[i].timestamp];
+            [self.messageModels addObject:object];
+        }
+        
+        [self.rawMessages addObject:messages[i]];
+        [self.messageModels addObject:messages[i]];
+    }
+}
+
 - (void)groupMessages {
     if (self.messageModels.count == 0)
         return;
@@ -165,30 +186,6 @@ static NSString *kFontName = @"HelveticaNeue";
     [_tableNode reloadDataWithCompletion:^{
         self->_needLoadMore = YES;
     }];
-}
-
-- (void)updateMoreMessages:(NSArray<Message *> *)messages {
-    self.tableNode.view.backgroundColor = [UIColor whiteColor];
-    
-    NSInteger currentSize = self.messageModels.count;
-    [self.rawMessages addObjectsFromArray:messages];
-    [self generateSectionData];
-    [self groupMessages];
-    
-    NSMutableArray<NSIndexPath *> *indexPaths = [[NSMutableArray alloc] init];
-    for (NSInteger i = currentSize; i < self.messageModels.count; i++) {
-        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-    }
-    
-    [self.tableModel setListArray:self.messageModels];
-    
-    __weak MessageTableNode *weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.tableNode performBatchUpdates:^{
-            [self->_tableNode insertRowsAtIndexPaths:indexPaths
-                                    withRowAnimation:NO]; 
-        } completion:nil];
-    });
 }
 
 - (void)sendMessage:(Message *)message {
@@ -259,10 +256,16 @@ static NSString *kFontName = @"HelveticaNeue";
         return;
     }
     
+    if (self.topLoadedModels.count >= 30) {
+        [self updateMoreMessages:nil];
+    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(tableNodeNeedLoadMoreDataWithCompletion:)]) {
         [self.delegate tableNodeNeedLoadMoreDataWithCompletion:^(NSArray<Message *> *data) {
+#if DEBUG
             assert(![NSThread isMainThread]);
-            
+#endif
+
             if (data) {
                 [self updateMoreMessages:data];
             }
@@ -270,6 +273,90 @@ static NSString *kFontName = @"HelveticaNeue";
             [context completeBatchFetching:YES];
         }];
     }
+}
+
+#pragma mark - LoadMoreAndSaveMemory
+
+- (void)updateMoreMessages:(NSArray<Message *> *)messages {
+#if DEBUG
+    assert(![NSThread isMainThread]);
+#endif
+    NSInteger currentModelsSize = self.messageModels.count;
+    
+    // Update models (all data here)
+    [self generateNewSectionData:messages];
+    [self groupMessages];
+    
+    NSMutableArray<id<CellNodeObject>> *insertData = [[NSMutableArray alloc] init];
+    NSMutableArray<NSIndexPath *> *insertIndexes = [[NSMutableArray alloc] init];
+    
+    for (NSInteger i = currentModelsSize; i < self.messageModels.count; i++) {
+        [insertData addObject:self.messageModels[i]];
+        [insertIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    
+    [self.tableModel pushBack:insertData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableNode performBatchUpdates:^{
+            [self.tableNode insertRowsAtIndexPaths:insertIndexes
+                                  withRowAnimation:UITableViewRowAnimationFade];
+        } completion:nil];
+    });
+    
+//    // Add new value to topLoadedModels
+//    for (NSInteger i = currentModelsSize; i < self.messageModels.count; i++) {
+//        [self.topLoadedModels addObject:self.messageModels[i]];
+//    }
+//
+//    NSInteger currentSize = [self.tableModel dataSourceCount];
+//    NSInteger addingSize = self.topLoadedModels.count >= 30 ? 30 : self.topLoadedModels.count;
+//    NSInteger removeNodeSize = 0;
+//
+//    if (currentSize + addingSize > kMaxNodes) {
+//        removeNodeSize = currentSize + addingSize - kMaxNodes;
+//    }
+//
+//    NSMutableArray<id<CellNodeObject>> *addObjects = [[NSMutableArray alloc] init];
+//    NSMutableArray<id<CellNodeObject>> *removeObjects = [[NSMutableArray alloc] init];
+//
+//    NSMutableArray<NSIndexPath *> *addIndexPaths = [[NSMutableArray alloc] init];
+//    NSMutableArray<NSIndexPath *> *removeIndexPaths = [[NSMutableArray alloc] init];
+//
+//    // Build remove changeset
+//    for (NSInteger i = self.bottomLoadedModels.count; i < self.bottomLoadedModels.count + removeNodeSize; i++) {
+//        [removeObjects addObject:self.messageModels[i]];
+//        [removeIndexPaths addObject:[NSIndexPath indexPathForRow:i - self.bottomLoadedModels.count
+//                                                       inSection:0]];
+//    }
+//    [self.tableModel remove:removeObjects];
+//
+//    // Build insert changeset
+//    for (NSInteger i = self.bottomLoadedModels.count + currentSize; i < self.bottomLoadedModels.count + currentSize + addingSize; i++) {
+//        [addObjects addObject:self.messageModels[i]];
+//        [addIndexPaths addObject:[NSIndexPath indexPathForRow:[self.tableModel dataSourceCount] + i - self.bottomLoadedModels.count - currentSize
+//                                                    inSection:0]];
+//    }
+//    [self.tableModel pushBack:addObjects];
+//
+//    [self.topLoadedModels removeObjectsInArray:addObjects];
+//    [self.bottomLoadedModels addObjectsFromArray:removeObjects];
+//
+//    __weak MessageTableNode *weakSelf = self;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [weakSelf.tableNode performBatchAnimated:NO updates:^{
+//            [self.tableNode deleteRowsAtIndexPaths:removeIndexPaths
+//                                  withRowAnimation:UITableViewRowAnimationNone];
+//            [self.tableNode insertRowsAtIndexPaths:addIndexPaths
+//                                    withRowAnimation:UITableViewRowAnimationNone];
+//        } completion:^(BOOL finished) {
+//
+//        }];
+//    });
+}
+
+- (void)loadBottomMessage {
+    
 }
 
 

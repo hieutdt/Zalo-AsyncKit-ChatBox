@@ -10,8 +10,6 @@
 
 @interface TableNodeModel ()
 
-@property (nonatomic, strong) NSMutableArray<NSMutableArray<id<CellNodeObject>> *> *data;
-
 @end
 
 @implementation TableNodeModel
@@ -45,23 +43,12 @@
     return self;
 }
 
-- (void)pushFront:(NSArray<id<CellNodeObject>> *)objects {
-    if (!objects)
-        return;
-    
-    for (NSInteger i = objects.count - 1; i >= 0; i--) {
-        [self.data[0] insertObject:objects[i] atIndex:0];
-    }
-}
-
-#pragma mark - Public
+#pragma mark - SetDataArray
 
 - (void)setListArray:(NSArray<id<CellNodeObject>> *)listArray {
     _data = [[NSMutableArray alloc] init];
     [_data addObject:[NSMutableArray new]];
-    for (int i = 0; i < listArray.count; i++) {
-        [_data[0] addObject:listArray[i]];
-    }
+    [_data[0] addObjectsFromArray:listArray];
 }
 
 - (void)setSectionArray:(NSArray<NSArray<id<CellNodeObject>> *> *)sectionArray {
@@ -72,6 +59,36 @@
             [[_data lastObject] addObject:sectionArray[i][j]];
         }
     }
+}
+
+#pragma mark - UpdateDataArray
+
+- (void)pushFront:(NSArray<id<CellNodeObject>> *)objects {
+    if (!objects)
+        return;
+    
+    for (NSInteger i = objects.count - 1; i >= 0; i--) {
+        [self.data[0] insertObject:objects[i] atIndex:0];
+    }
+}
+
+- (void)pushBack:(NSArray<id<CellNodeObject>> *)objects {
+    if (objects) {
+        [self.data[0] addObjectsFromArray:objects];
+    }
+}
+
+- (void)remove:(NSArray<id<CellNodeObject>> *)objects {
+    if (!objects)
+        return;
+    
+    [self.data[0] removeObjectsInArray:objects];
+}
+
+#pragma mark - Getter
+
+- (NSInteger)dataSourceCount {
+    return _data[0].count;
 }
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath {
@@ -121,7 +138,7 @@
     if (!object) {
         return ^ASCellNode *() {
                 return [[ASCellNode alloc] init];
-            };
+        };
     }
     
     return [self.delegate tableNodeModel:self
