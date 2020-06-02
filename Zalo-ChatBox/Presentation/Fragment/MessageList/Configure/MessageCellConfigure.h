@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) CGFloat     maxWidthOfCell;
 
 @property (nonatomic, readonly) UIEdgeInsets contentInsets;
+@property (nonatomic, readonly) UIEdgeInsets receiveMessageTextInsets;
+@property (nonatomic, readonly) UIEdgeInsets sendMessageTextInsets;
 
 + (MessageCellConfigure *)globalConfigure;
 

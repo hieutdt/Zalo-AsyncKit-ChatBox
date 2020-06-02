@@ -26,7 +26,7 @@ static const MessageCellConfigure *configure;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
 
 @property (nonatomic, strong) ASEditableTextNode *editTextNode;
-@property (nonatomic, strong) ASDisplayNode *backgroundNode;
+@property (nonatomic, strong) ASImageNode *backgroundNode;
 @property (nonatomic, strong) ASControlNode *controlNode;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, strong) ASTextNode *timeTextNode;
@@ -55,7 +55,6 @@ static const MessageCellConfigure *configure;
         _editTextNode.style.preferredSize = _estimatedSize;
 
         _backgroundNode = [[ASImageNode alloc] init];
-        _backgroundNode.cornerRadius = 10;
         _backgroundNode.style.preferredSize = _estimatedSize;
         
         _avatarNode = [[ContactAvatarNode alloc] init];
@@ -79,14 +78,23 @@ static const MessageCellConfigure *configure;
     CGSize maxConstrainedSize = constrainedSize.max;
     _timeTextNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width, 30);
     
-    _backgroundNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 20, _estimatedSize.height + 20);
-    _controlNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 20, _estimatedSize.height + 20);
+    _backgroundNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 30, _estimatedSize.height + 20);
+    _controlNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 30, _estimatedSize.height + 20);
+    
+    ASInsetLayoutSpec *textInsetSpec;
+    if (_messageStyle == MessageCellStyleTextSend) {
+        textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:configure.sendMessageTextInsets
+                                                               child:_editTextNode];
+    } else {
+        textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:configure.receiveMessageTextInsets
+                                                               child:_editTextNode];
+    }
     
     ASOverlayLayoutSpec *overlayTextSpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
                                         overlay:[ASInsetLayoutSpec
                                                  insetLayoutSpecWithInsets:configure.contentInsets
-                                                 child:_editTextNode]];
+                                                 child:textInsetSpec]];
     
     ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
                                                 overlayLayoutSpecWithChild:overlayTextSpec
@@ -104,7 +112,9 @@ static const MessageCellConfigure *configure;
             _backgroundNode.backgroundColor = configure.highlightSendMessageColor;
         } else {
             childs = @[overlayControlSpec];
-            _backgroundNode.backgroundColor = configure.sendMessageBackgroundColor;
+            _backgroundNode.image = [[UIImage imageNamed:@"bubble_sent"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                                     resizingMode:UIImageResizingModeStretch];
         }
         ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                 stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
@@ -138,7 +148,9 @@ static const MessageCellConfigure *configure;
                     child:verticalStackSpec];
             
         } else {
-            _backgroundNode.backgroundColor = configure.receiveMessageBackgroundColor;
+            _backgroundNode.image = [[UIImage imageNamed:@"bubble_received"]
+                                      resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                                      resizingMode:UIImageResizingModeStretch];
             return [ASInsetLayoutSpec
                     insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
                     child:stackSpec];

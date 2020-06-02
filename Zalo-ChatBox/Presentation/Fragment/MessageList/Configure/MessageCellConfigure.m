@@ -17,6 +17,8 @@
 
 @property (nonatomic, assign) CGFloat maxWidthOfCell;
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
+@property (nonatomic, assign) UIEdgeInsets sendMessageTextInsets;
+@property (nonatomic, assign) UIEdgeInsets receiveMessageTextInsets;
 
 @end
 
@@ -32,6 +34,9 @@
         
         _maxWidthOfCell = [UIScreen mainScreen].bounds.size.width * 0.7;
         _contentInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+        
+        _sendMessageTextInsets = UIEdgeInsetsMake(0, 0, 0, 10);
+        _receiveMessageTextInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     }
     return self;
 }
@@ -84,6 +89,14 @@
 
 - (UIEdgeInsets)contentInsets {
     return _contentInsets;
+}
+
+- (UIEdgeInsets)sendMessageTextInsets {
+    return _sendMessageTextInsets;
+}
+
+- (UIEdgeInsets)receiveMessageTextInsets {
+    return _receiveMessageTextInsets;
 }
 
 
