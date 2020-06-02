@@ -165,8 +165,7 @@ static const NSUInteger maxEditTextBoxHeight = 250;
         [self.delegate messageInputViewSendButtonTapped:self withMessageText:_textInput.text];
     }
     
-    _textInput.text = @"Aa";
-    _textInput.textColor = [UIColor lightGrayColor];
+    _textInput.text = @"";
 }
 
 @end

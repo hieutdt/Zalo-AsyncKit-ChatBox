@@ -36,6 +36,8 @@
 		0426C388246E75960090E1EC /* Zalo_ChatBoxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426C387246E75960090E1EC /* Zalo_ChatBoxTests.m */; };
 		042780D52486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */; };
 		042780D62486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */; };
+		042780D9248648F500161E6B /* GroupPhotoMessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 042780D8248648F500161E6B /* GroupPhotoMessageCellConfigure.m */; };
+		042780DA248648F500161E6B /* GroupPhotoMessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 042780D8248648F500161E6B /* GroupPhotoMessageCellConfigure.m */; };
 		042978B32473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
 		042978B42473B9250030EE56 /* LayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B22473B9250030EE56 /* LayoutHelper.m */; };
 		042978B72473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
@@ -131,6 +133,8 @@
 		0426C389246E75960090E1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042780D32486424C00161E6B /* PhotoMessageCellConfigure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoMessageCellConfigure.h; sourceTree = "<group>"; };
 		042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoMessageCellConfigure.m; sourceTree = "<group>"; };
+		042780D7248648F500161E6B /* GroupPhotoMessageCellConfigure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupPhotoMessageCellConfigure.h; sourceTree = "<group>"; };
+		042780D8248648F500161E6B /* GroupPhotoMessageCellConfigure.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupPhotoMessageCellConfigure.m; sourceTree = "<group>"; };
 		042978B12473B9250030EE56 /* LayoutHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LayoutHelper.h; sourceTree = "<group>"; };
 		042978B22473B9250030EE56 /* LayoutHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LayoutHelper.m; sourceTree = "<group>"; };
 		042978B52473E67F0030EE56 /* TimeSectionCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSectionCellNode.h; sourceTree = "<group>"; };
@@ -372,6 +376,8 @@
 				0430C88A2486003100853F0F /* MessageCellConfigure.m */,
 				042780D32486424C00161E6B /* PhotoMessageCellConfigure.h */,
 				042780D42486424C00161E6B /* PhotoMessageCellConfigure.m */,
+				042780D7248648F500161E6B /* GroupPhotoMessageCellConfigure.h */,
+				042780D8248648F500161E6B /* GroupPhotoMessageCellConfigure.m */,
 			);
 			path = Configure;
 			sourceTree = "<group>";
@@ -671,6 +677,7 @@
 				041CB20D246E904C00D09B58 /* ContactBusiness.m in Sources */,
 				041CB21C246E925C00D09B58 /* UIImage+Additions.m in Sources */,
 				042780D52486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */,
+				042780D9248648F500161E6B /* GroupPhotoMessageCellConfigure.m in Sources */,
 				041CB200246E8ED600D09B58 /* ContactAdapter.m in Sources */,
 				042978B32473B9250030EE56 /* LayoutHelper.m in Sources */,
 				046AD750247622130062A856 /* Conversation.m in Sources */,
@@ -722,6 +729,7 @@
 				046AD7552476255B0062A856 /* MessageAdapter.m in Sources */,
 				048F2740247CB8A400C3F9D0 /* TextMessage.m in Sources */,
 				041CB1E1246E79E400D09B58 /* ContactListViewController.m in Sources */,
+				042780DA248648F500161E6B /* GroupPhotoMessageCellConfigure.m in Sources */,
 				04E2D0992472DF92004B1BE9 /* MessageCellNode.m in Sources */,
 				041CB20A246E8FD100D09B58 /* StringHelper.m in Sources */,
 				048F2744247CB8B500C3F9D0 /* SinglePhotoMessage.m in Sources */,

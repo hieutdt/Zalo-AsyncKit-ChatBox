@@ -7,13 +7,12 @@
 //
 
 #import "GroupPhotoMessageCellNode.h"
+#import "GroupPhotoMessageCellConfigure.h"
 #import "ContactAvatarNode.h"
 #import "ImageCache.h"
 #import "UIImage+Additions.h"
 
-static const int kVericalPadding = 1;
-static const int kHorizontalPadding = 10;
-static CGFloat imageWidth;
+static const GroupPhotoMessageCellConfigure *configure;
 
 @interface GroupPhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
@@ -36,8 +35,6 @@ static CGFloat imageWidth;
     if (self) {
         self.automaticallyManagesSubnodes = YES;
         
-        imageWidth = [UIScreen mainScreen].bounds.size.width * 0.7/3 - 3;
-        
         _imageNodes = [[NSMutableArray alloc] init];
         
         _controlNode = [[ASControlNode alloc] init];
@@ -45,6 +42,8 @@ static CGFloat imageWidth;
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         _avatarNode.hidden = YES;
+        
+        configure = [[GroupPhotoMessageCellConfigure alloc] init];
     }
     return self;
 }
@@ -53,9 +52,10 @@ static CGFloat imageWidth;
     for (int i = 0; i < count; i++) {
         ASNetworkImageNode *imageNode = [[ASNetworkImageNode alloc] init];
         imageNode.contentMode = UIViewContentModeScaleAspectFit;
-        imageNode.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
+        imageNode.backgroundColor = configure.backgroundColor;
         imageNode.shouldCacheImage = YES;
-        imageNode.style.preferredLayoutSize = ASLayoutSizeMake(ASDimensionMake(imageWidth), ASDimensionMake(imageWidth));
+        imageNode.style.preferredLayoutSize = ASLayoutSizeMake(ASDimensionMake(configure.imageWidth),
+                                                               ASDimensionMake(configure.imageWidth));
         
         [_imageNodes addObject:imageNode];
     }
@@ -71,10 +71,10 @@ static CGFloat imageWidth;
     
     for (int i = 0; i < self.imageNodes.count; i++) {
         [horizontalNodes addObject:_imageNodes[i]];
-        if (horizontalNodes.count == 3 || i == self.imageNodes.count - 1) {
+        if (horizontalNodes.count == configure.maxImagesInCell || i == self.imageNodes.count - 1) {
             ASStackLayoutSpec *horizontalStack = [ASStackLayoutSpec
                                                   stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                                  spacing:1
+                                                  spacing:configure.horizontalSpace
                                                   justifyContent:ASStackLayoutJustifyContentStart
                                                   alignItems:ASStackLayoutAlignItemsCenter
                                                   children:[NSArray arrayWithArray:horizontalNodes]];
@@ -86,31 +86,31 @@ static CGFloat imageWidth;
     if (_messageStyle == MessageCellStyleImageSend) {
         ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec
                                             stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                            spacing:2
+                                            spacing:configure.verticalSpace
                                             justifyContent:ASStackLayoutJustifyContentStart
                                             alignItems:ASStackLayoutAlignItemsEnd
                                             children:verticalChilds];
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, INFINITY, configure.verticalPadding, configure.horizontalPadding)
                 child:verticalStack];
         
     } else if (_messageStyle == MessageCellStyleImageReceive) {
         ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec
                                             stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                            spacing:2
+                                            spacing:configure.verticalSpace
                                             justifyContent:ASStackLayoutJustifyContentStart
                                             alignItems:ASStackLayoutAlignItemsStart
                                             children:verticalChilds];
         
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
                                         stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                        spacing:10
+                                        spacing:configure.horizontalPadding
                                         justifyContent:ASStackLayoutJustifyContentStart
                                         alignItems:ASStackLayoutAlignItemsEnd
                                         children:@[_avatarNode, verticalStack]];
         
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, configure.horizontalPadding, configure.verticalPadding, INFINITY)
                 child:stackSpec];
     }
     
