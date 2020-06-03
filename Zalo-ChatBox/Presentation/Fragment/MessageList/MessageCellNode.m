@@ -31,6 +31,7 @@ static const MessageCellConfigure *configure;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, strong) ASTextNode *timeTextNode;
 
+@property (nonatomic, assign) TextMessageGroupType groupType;
 @property (nonatomic, assign) BOOL choosing;
 
 @property (nonatomic, assign) CGSize estimatedSize;
@@ -61,6 +62,8 @@ static const MessageCellConfigure *configure;
         _avatarNode.hidden = YES;
         
         _timeTextNode = [[ASTextNode alloc] init];
+        
+        _groupType = TextMessageGroupTypeNull;
         
         _choosing = NO;
         
@@ -109,12 +112,20 @@ static const MessageCellConfigure *configure;
         NSArray *childs = @[];
         if (_choosing) {
             childs = @[_timeTextNode, overlayControlSpec];
-            _backgroundNode.backgroundColor = configure.highlightSendMessageColor;
+//            _backgroundNode.backgroundColor = configure.highlightSendMessageColor;
+            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.highlightSendMessageColor)
+            ( [[[UIImage imageNamed:@"bubble_sent"]
+                resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                resizingMode:UIImageResizingModeStretch]
+               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         } else {
             childs = @[overlayControlSpec];
-            _backgroundNode.image = [[UIImage imageNamed:@"bubble_sent"]
-                                     resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
-                                     resizingMode:UIImageResizingModeStretch];
+//            _backgroundNode.backgroundColor = configure.sendMessageBackgroundColor;
+            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.sendMessageBackgroundColor)
+            ( [[[UIImage imageNamed:@"bubble_sent"]
+                resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                resizingMode:UIImageResizingModeStretch]
+               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         }
         ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                 stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
@@ -136,7 +147,13 @@ static const MessageCellConfigure *configure;
                                         children:@[_avatarNode, overlayControlSpec]];
         
         if (_choosing) {
-            _backgroundNode.backgroundColor = configure.highlightReceiveMessageColor;
+//            _backgroundNode.backgroundColor = configure.highlightReceiveMessageColor;
+            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.highlightReceiveMessageColor)
+            ( [[[UIImage imageNamed:@"bubble_received"]
+                resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                resizingMode:UIImageResizingModeStretch]
+               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
+            
             ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                     stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
                                                     spacing:2
@@ -148,9 +165,13 @@ static const MessageCellConfigure *configure;
                     child:verticalStackSpec];
             
         } else {
-            _backgroundNode.image = [[UIImage imageNamed:@"bubble_received"]
-                                      resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
-                                      resizingMode:UIImageResizingModeStretch];
+//            _backgroundNode.backgroundColor = configure.receiveMessageBackgroundColor;
+            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.receiveMessageBackgroundColor)
+             ( [[[UIImage imageNamed:@"bubble_received"]
+                 resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                 resizingMode:UIImageResizingModeStretch]
+                imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
+            
             return [ASInsetLayoutSpec
                     insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
                     child:stackSpec];
@@ -173,6 +194,7 @@ static const MessageCellConfigure *configure;
         TextMessage *textMessage = (TextMessage *)object;
         [self setMessage:textMessage];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.groupType = textMessage.groupType;
         
         Message *mess = (Message *)textMessage;
         if (mess.showAvatar) {

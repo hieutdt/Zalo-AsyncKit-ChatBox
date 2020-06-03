@@ -83,10 +83,10 @@ static const int kMaxNodes = 300;
     [super didLoad];
     _tableNode.view.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    //FIXME: Need get top bar height here
+    //TODO: Need get top bar height here
     CGFloat inset = 80;
     _tableNode.contentInset = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
-    _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset, 0, inset, 0);
+    _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
 }
 
 #pragma mark - GenerateSectionsData
@@ -139,33 +139,58 @@ static const int kMaxNodes = 300;
     if (self.messageModels.count == 0)
         return;
     
+    // Group messages for show avatar
     for (int i = 1; i < self.messageModels.count; i++) {
         if (!(self.messageModels[i].class == self.messageModels[i - 1].class) &&
             [self.messageModels[i].class isSubclassOfClass:[Message class]]) {
             Message *message = (Message *)self.messageModels[i];
             message.showAvatar = YES;
             
-            if ([message.class isKindOfClass:[TextMessage class]]) {
-                TextMessage *textMessage = (TextMessage *)message;
-                textMessage.showTail = YES;
-            }
-            
         } else if ([self.messageModels[i].class isSubclassOfClass:[Message class]]) {
             Message *currentMessage = (Message *)self.messageModels[i];
             Message *prevMessage = (Message *)self.messageModels[i - 1];
             if (currentMessage.fromContact.identifier != prevMessage.fromContact.identifier) {
                 currentMessage.showAvatar = YES;
-                
-                if ([currentMessage.class isKindOfClass:[TextMessage class]]) {
-                    TextMessage *textMessage = (TextMessage *)currentMessage;
-                    textMessage.showTail = YES;
-                }
             }
         }
     }
-    
     Message *message = (Message *)self.messageModels[0];
     message.showAvatar = YES;
+    
+    // Group text messages for groupType
+    int count = 0;
+    for (int i = 1; i < self.messageModels.count; i++) {
+        if ([self checkInGroupOf:self.messageModels[i]
+                         andPrev:self.messageModels[i - 1]]) {
+            TextMessage *prev = (TextMessage *)self.messageModels[i - 1];
+            TextMessage *curr = (TextMessage *)self.messageModels[i];
+            
+            if (count == 0) {
+                prev.groupType = TextMessageGroupTypeBottom;
+            } else {
+                prev.groupType = TextMessageGroupTypeCenter;
+            }
+            
+            curr.groupType = TextMessageGroupTypeTop;
+        }
+    }
+}
+
+- (BOOL)checkInGroupOf:(id<CellNodeObject>)current
+               andPrev:(id<CellNodeObject>)prev {
+    if (![prev.class isKindOfClass:[current class]] ||
+        ![current.class isKindOfClass:[TextMessage class]]) {
+        return NO;
+    }
+    
+    Message *currentMess = (Message *)current;
+    Message *prevMess = (Message *)prev;
+    
+    if ([currentMess.fromContact.identifier isEqualToString:prevMess.fromContact.identifier]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 #pragma mark - PublicMethods
@@ -212,7 +237,11 @@ static const int kMaxNodes = 300;
     [_tableNode performBatchUpdates:^{
         [_tableNode insertRowsAtIndexPaths:indexPaths
                           withRowAnimation:UITableViewRowAnimationFade];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        [self.tableNode scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                          atScrollPosition:UITableViewScrollPositionNone
+                                  animated:YES];
+    }];
 }
 
 - (NSTimeInterval)timestampOfObject:(id)object {

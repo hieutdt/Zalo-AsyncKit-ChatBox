@@ -7,6 +7,8 @@
 //
 
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
+#import "TextMessage.h"
+#import "AppConsts.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UIEdgeInsets sendMessageTextInsets;
 
 + (MessageCellConfigure *)globalConfigure;
+
+- (UIImage *)backgroundImageForTextMessageGroupType:(TextMessageGroupType)groupType
+                                    andCellNodeType:(MessageCellStyle)cellStyle;
 
 @end
 

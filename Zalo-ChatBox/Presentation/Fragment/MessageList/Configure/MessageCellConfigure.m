@@ -15,6 +15,9 @@
 @property (nonatomic, strong) UIColor *grayColor;
 @property (nonatomic, strong) UIColor *darkGrayColor;
 
+@property (nonatomic, strong) UIImage *sendMessageBubble;
+@property (nonatomic, strong) UIImage *receiveMessageBubble;
+
 @property (nonatomic, assign) CGFloat maxWidthOfCell;
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 @property (nonatomic, assign) UIEdgeInsets sendMessageTextInsets;
@@ -37,6 +40,14 @@
         
         _sendMessageTextInsets = UIEdgeInsetsMake(0, 0, 0, 10);
         _receiveMessageTextInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        
+        _sendMessageBubble = [[UIImage imageNamed:@"bubble_sent"]
+                              resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                              resizingMode:UIImageResizingModeStretch];
+        
+        _receiveMessageBubble = [[UIImage imageNamed:@"bubble_received"]
+                                 resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+                                 resizingMode:UIImageResizingModeStretch];
     }
     return self;
 }
@@ -99,5 +110,35 @@
     return _receiveMessageTextInsets;
 }
 
+- (UIImage *)backgroundImageForTextMessageGroupType:(TextMessageGroupType)groupType
+                                    andCellNodeType:(MessageCellStyle)cellStyle {
+    if (cellStyle == MessageCellStyleTextSend) {
+        switch (groupType) {
+            case TextMessageGroupTypeTop:
+                return [UIImage imageNamed:@""];
+            case TextMessageGroupTypeCenter:
+                return [UIImage imageNamed:@""];
+            case TextMessageGroupTypeBottom:
+                return [UIImage imageNamed:@""];
+            default:
+                return nil;
+        }
+        
+    } else if (cellStyle == MessageCellStyleTextReceive) {
+        switch (groupType) {
+        case TextMessageGroupTypeTop:
+            return [UIImage imageNamed:@""];
+        case TextMessageGroupTypeCenter:
+            return [UIImage imageNamed:@""];
+        case TextMessageGroupTypeBottom:
+            return [UIImage imageNamed:@""];
+        default:
+            return nil;
+        }
+        
+    } else {
+        return nil;
+    }
+}
 
 @end

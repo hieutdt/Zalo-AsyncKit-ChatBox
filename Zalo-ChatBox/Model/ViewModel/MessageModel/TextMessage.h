@@ -12,12 +12,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, TextMessageGroupType) {
+    TextMessageGroupTypeNull,
+    TextMessageGroupTypeTop,
+    TextMessageGroupTypeCenter,
+    TextMessageGroupTypeBottom
+};
+
 @class MessageCellNode;
 
 @interface TextMessage : Message
 
 @property (nonatomic, strong) NSString *message;
 @property (nonatomic, assign) BOOL showTail;
+@property (nonatomic, assign) TextMessageGroupType groupType;
 
 - (instancetype)initWithMessage:(NSString *)message;
 

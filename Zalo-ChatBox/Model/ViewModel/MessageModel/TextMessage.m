@@ -35,6 +35,7 @@
     if (self) {
         _message = message;
         _showTail = NO;
+        _groupType = TextMessageGroupTypeNull;
     }
     return self;
 }
