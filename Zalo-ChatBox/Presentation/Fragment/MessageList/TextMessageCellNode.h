@@ -1,5 +1,5 @@
 //
-//  MessageCellNode.h
+//  TextMessageCellNode.h
 //  Zalo-ChatBox
 //
 //  Created by Trần Đình Tôn Hiếu on 5/18/20.
@@ -14,20 +14,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MessageCellNode;
+@class TextMessageCellNode;
 
-@protocol MessageCellNodeDelegate <NSObject>
+@protocol TextMessageCellNodeDelegate <NSObject>
 
 @required
-- (void)didSelectMessageCellNode:(MessageCellNode *)cellNode;
+- (void)didSelectTextMessageCellNode:(TextMessageCellNode *)cellNode;
 
-- (void)didUnselectMessageCellNode:(MessageCellNode *)cellNode;
+- (void)didUnselectTextMessageCellNode:(TextMessageCellNode *)cellNode;
 
 @end
 
-@interface MessageCellNode : ASCellNode <CellNode>
+@interface TextMessageCellNode : ASCellNode <CellNode>
 
-@property (nonatomic, assign) id<MessageCellNodeDelegate> delegate;
+@property (nonatomic, assign) id<TextMessageCellNodeDelegate> delegate;
 
 - (void)setMessage:(TextMessage *)message;
 

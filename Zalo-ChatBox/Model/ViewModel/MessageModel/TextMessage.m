@@ -7,7 +7,7 @@
 //
 
 #import "TextMessage.h"
-#import "MessageCellNode.h"
+#import "TextMessageCellNode.h"
 
 @interface TextMessage ()
 
@@ -27,7 +27,7 @@
                     fromContact:(Contact *)fromContact
                       toContact:(Contact *)toContact
                       timestamp:(NSTimeInterval)ts {
-    self = [super initWithCellNodeClass:[MessageCellNode class]
+    self = [super initWithCellNodeClass:[TextMessageCellNode class]
                                userInfo:nil
                             fromContact:fromContact
                               toContact:toContact

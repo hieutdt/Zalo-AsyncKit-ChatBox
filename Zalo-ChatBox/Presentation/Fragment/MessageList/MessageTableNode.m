@@ -8,7 +8,7 @@
 
 #import "MessageTableNode.h"
 
-#import "MessageCellNode.h"
+#import "TextMessageCellNode.h"
 #import "TimeSectionCellNode.h"
 #import "PhotoMessageCellNode.h"
 #import "TimeSectionHeader.h"
@@ -24,7 +24,7 @@
 static NSString *kFontName = @"HelveticaNeue";
 static const int kMaxNodes = 300;
 
-@interface MessageTableNode () <ASTableDelegate, ASTableDataSource, MessageCellNodeDelegate>
+@interface MessageTableNode () <ASTableDelegate, ASTableDataSource, TextMessageCellNodeDelegate>
 
 @property (nonatomic, strong) NSMutableArray<Message *> *rawMessages;
 @property (nonatomic, strong) NSMutableArray<id<CellNodeObject>> *messageModels;

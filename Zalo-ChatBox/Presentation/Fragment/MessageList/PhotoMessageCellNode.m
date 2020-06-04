@@ -168,7 +168,6 @@ static const int kHorizontalSpace = 10;
                 self.imageNode.style.preferredLayoutSize = ASLayoutSizeMake(width, height);
                 
                 [self.imageNode setNeedsLayout];
-                [self.imageNode setNeedsDisplay];
             }
       });
     }

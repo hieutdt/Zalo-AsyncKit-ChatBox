@@ -1,12 +1,12 @@
 //
-//  MessageCellNode.m
+//  TextMessageCellNode.m
 //  Zalo-ChatBox
 //
 //  Created by Trần Đình Tôn Hiếu on 5/18/20.
 //  Copyright © 2020 Trần Đình Tôn Hiếu. All rights reserved.
 //
 
-#import "MessageCellNode.h"
+#import "TextMessageCellNode.h"
 #import "LayoutHelper.h"
 #import "ContactAvatarNode.h"
 
@@ -19,7 +19,7 @@ static const int kIngroupVerticalPadding = 1;
 static const int kOutgroupVerticalPadding = 10;
 static const int kHorizontalPadding = 15;
 
-@interface MessageCellNode ()
+@interface TextMessageCellNode ()
 
 @property (nonatomic, strong) TextMessage *message;
 @property (nonatomic, assign) MessageCellStyle messageStyle;
@@ -41,7 +41,7 @@ static const int kHorizontalPadding = 15;
 
 @end
 
-@implementation MessageCellNode
+@implementation TextMessageCellNode
 
 - (instancetype)init {
     self = [super init];
