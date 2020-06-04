@@ -213,6 +213,7 @@ static const int kHorizontalPadding = 15;
 
 - (void)touchUpInside {
     self.choosing = !self.choosing;
+    [self setNeedsLayout];
 }
 
 @end

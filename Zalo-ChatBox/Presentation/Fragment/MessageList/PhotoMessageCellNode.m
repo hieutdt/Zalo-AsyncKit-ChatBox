@@ -8,21 +8,18 @@
 
 #import "PhotoMessageCellNode.h"
 #import "PhotoMessageCellConfigure.h"
-#import "ContactAvatarNode.h"
+#import "SinglePhotoMessage.h"
+
 #import "ImageCache.h"
 #import "UIImage+Additions.h"
 
 static const int kVerticalPadding = 15;
-static const int kHorizontalPadding = 10;
-static const int kHorizontalSpace = 10;
 
 @interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
-@property (nonatomic, strong) Message *message;
-@property (nonatomic, assign) MessageCellStyle messageStyle;
+@property (nonatomic, strong) SinglePhotoMessage *message;
 
 @property (nonatomic, strong) ASNetworkImageNode *imageNode;
-@property (nonatomic, strong) ContactAvatarNode *avatarNode;
 
 @property (nonatomic, strong) NSString *imageUrl;
 
@@ -51,91 +48,30 @@ static const int kHorizontalSpace = 10;
         _imageNode.style.width = ASDimensionMake(_configure.initialWidth);
         _imageNode.style.height = ASDimensionMake(_configure.initialHeight);
         
-        _avatarNode = [[ContactAvatarNode alloc] init];
-        _avatarNode.hidden = YES;
-        _avatarNode.style.preferredSize = CGSizeMake(25, 25);
-        
         _didLayoutImage = NO;
     }
     return self;
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
-    if (_messageStyle == MessageCellStyleSend) {
-        return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVerticalPadding, INFINITY, kVerticalPadding, kHorizontalPadding)
-                child:_imageNode];
-        
-    } else if (_messageStyle == MessageCellStyleReceive) {
-        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
-                                        stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                        spacing:kHorizontalSpace
-                                        justifyContent:ASStackLayoutJustifyContentStart
-                                        alignItems:ASStackLayoutAlignItemsEnd
-                                        children:@[_avatarNode, _imageNode]];
-        
-        return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVerticalPadding, kHorizontalPadding, kVerticalPadding, INFINITY)
-                child:stackSpec];
-    }
-    
-    return nil;
+    return [super layoutSpecThatFits:constrainedSize];
 }
 
-#pragma mark - CellNode
-
-- (void)updateCellNodeWithObject:(id)object {
-    if ([object isKindOfClass:[SinglePhotoMessage class]]) {
-        SinglePhotoMessage *photo = (SinglePhotoMessage *)object;
-        [self setMessage:photo];
-        [self setImageUrl:photo.imageURL.absoluteString];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        Message *message = (Message *)photo;
-        if (message.showAvatar) {
-            UIImage *avatarImage = [[ImageCache instance] imageForKey:message.fromContact.identifier];
-            if (avatarImage) {
-                [self showAvatarImage:avatarImage];
-            } else {
-                [self showAvatarImageWithGradientColor:message.fromContact.gradientColorCode
-                                             shortName:message.fromContact.name];
-            }
-        }
-    }
+- (ASLayoutSpec *)contentLayoutSpec:(ASSizeRange)constrainedSize {
+    return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVerticalPadding, 0, kVerticalPadding, 0)
+                                                  child:_imageNode];
 }
 
 #pragma mark - Setter
 
-- (void)setMessage:(Message *)message {
-    _message = message;
-    if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
-        _messageStyle = MessageCellStyleSend;
-    } else {
-        _messageStyle = MessageCellStyleReceive;
-    }
+- (void)setMessage:(SinglePhotoMessage *)message {
+    [super setMessage:message];
+    [self setImageUrl:message.imageURL.absoluteString];
 }
 
 - (void)setImageUrl:(NSString *)url {
     _imageUrl = url;
     _imageNode.URL = [NSURL URLWithString:url];
-}
-
-- (void)showAvatarImage:(UIImage *)image {
-    if (!image || _messageStyle != MessageCellStyleReceive)
-        return;
-    
-    [_avatarNode setAvatar:image];
-    _avatarNode.hidden = NO;
-}
-
-- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
-                               shortName:(NSString *)shortName {
-    if (!shortName || _messageStyle != MessageCellStyleReceive)
-        return;
-    
-    [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
-                                   andShortName:shortName];
-    _avatarNode.hidden = NO;
 }
 
 #pragma mark - Getter
@@ -171,6 +107,12 @@ static const int kHorizontalSpace = 10;
             }
       });
     }
+}
+
+#pragma mark - Action
+
+- (void)touchUpInside {
+    [super touchUpInside];
 }
 
 @end

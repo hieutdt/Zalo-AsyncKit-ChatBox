@@ -96,44 +96,6 @@ static const int kHorizontalPadding = 15;
     _editTextNode.textView.editable = NO;
 }
 
-//#pragma mark - CellNode
-//
-//- (void)updateCellNodeWithObject:(id)object {
-//    if ([object isKindOfClass:[TextMessage class]]) {
-//        TextMessage *textMessage = (TextMessage *)object;
-//        [self setMessage:textMessage];
-//        self.selectionStyle = UITableViewCellSelectionStyleNone;
-//        self.showTail = textMessage.showTail;
-//
-//        Message *mess = (Message *)textMessage;
-//        if (mess.showAvatar) {
-//            UIImage *avatarImage = [[ImageCache instance] imageForKey:mess.fromContact.identifier];
-//            if (avatarImage) {
-//                [self showAvatarImage:avatarImage];
-//            } else {
-//                [self showAvatarImageWithGradientColor:mess.fromContact.gradientColorCode
-//                                             shortName:[StringHelper getShortName:mess.fromContact.name]];
-//            }
-//        }
-//
-//        NSString *timeString = [StringHelper getTimeStringFromTimestamp:mess.timestamp];
-//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//        paragraphStyle.alignment = NSTextAlignmentCenter;
-//        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-//
-//        NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15],
-//                                          NSParagraphStyleAttributeName : paragraphStyle,
-//                                          NSForegroundColorAttributeName : [UIColor grayColor]
-//        };
-//
-//        NSAttributedString *string = [[NSAttributedString alloc] initWithString:timeString
-//                                                                     attributes:attributedText];
-//        [_timeTextNode setAttributedText:string];
-//
-//        [self updateUI];
-//    }
-//}
-
 - (void)updateUI {
     if ([self messageCellStyle] == MessageCellStyleSend) {
         UIImage *bubbleImage = nil;

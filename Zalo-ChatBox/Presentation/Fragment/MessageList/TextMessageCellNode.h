@@ -32,11 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setMessage:(TextMessage *)message;
 
-- (void)showAvatarImage:(UIImage *)image;
-
-- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
-                               shortName:(NSString *)shortName;
-
 @end
 
 NS_ASSUME_NONNULL_END
