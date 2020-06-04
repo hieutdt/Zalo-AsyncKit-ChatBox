@@ -110,35 +110,29 @@
     return _receiveMessageTextInsets;
 }
 
-- (UIImage *)backgroundImageForTextMessageGroupType:(TextMessageGroupType)groupType
-                                    andCellNodeType:(MessageCellStyle)cellStyle {
-    if (cellStyle == MessageCellStyleTextSend) {
-        switch (groupType) {
-            case TextMessageGroupTypeTop:
-                return [UIImage imageNamed:@""];
-            case TextMessageGroupTypeCenter:
-                return [UIImage imageNamed:@""];
-            case TextMessageGroupTypeBottom:
-                return [UIImage imageNamed:@""];
-            default:
-                return nil;
-        }
-        
-    } else if (cellStyle == MessageCellStyleTextReceive) {
-        switch (groupType) {
-        case TextMessageGroupTypeTop:
-            return [UIImage imageNamed:@""];
-        case TextMessageGroupTypeCenter:
-            return [UIImage imageNamed:@""];
-        case TextMessageGroupTypeBottom:
-            return [UIImage imageNamed:@""];
-        default:
-            return nil;
-        }
-        
-    } else {
-        return nil;
-    }
+
+- (UIImage *)sendMessageBubble {
+    return [[UIImage imageNamed:@"bubble_sent"]
+            resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+            resizingMode:UIImageResizingModeStretch];
+}
+
+- (UIImage *)sendMessageBubbleTail {
+    return [[UIImage imageNamed:@"bubble_sent_tail"]
+            resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+            resizingMode:UIImageResizingModeStretch];
+}
+
+- (UIImage *)receiveMessageBubble {
+    return [[UIImage imageNamed:@"bubble_received"]
+            resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+            resizingMode:UIImageResizingModeStretch];
+}
+
+- (UIImage *)receiveMessageBubbleTail {
+    return [[UIImage imageNamed:@"bubble_received_tail"]
+            resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
+            resizingMode:UIImageResizingModeStretch];
 }
 
 @end

@@ -146,33 +146,28 @@ static const int kMaxNodes = 300;
             Message *message = (Message *)self.messageModels[i];
             message.showAvatar = YES;
             
+            if (message.class == [TextMessage class]) {
+                TextMessage *textMessage = (TextMessage *)message;
+                textMessage.showTail = YES;
+            }
+            
         } else if ([self.messageModels[i].class isSubclassOfClass:[Message class]]) {
             Message *currentMessage = (Message *)self.messageModels[i];
             Message *prevMessage = (Message *)self.messageModels[i - 1];
             if (currentMessage.fromContact.identifier != prevMessage.fromContact.identifier) {
                 currentMessage.showAvatar = YES;
+                
+                if (currentMessage.class == [TextMessage class]) {
+                    TextMessage *textMessage = (TextMessage *)currentMessage;
+                    textMessage.showTail = YES;
+                }
             }
         }
     }
     Message *message = (Message *)self.messageModels[0];
     message.showAvatar = YES;
-    
-    // Group text messages for groupType
-    int count = 0;
-    for (int i = 1; i < self.messageModels.count; i++) {
-        if ([self checkInGroupOf:self.messageModels[i]
-                         andPrev:self.messageModels[i - 1]]) {
-            TextMessage *prev = (TextMessage *)self.messageModels[i - 1];
-            TextMessage *curr = (TextMessage *)self.messageModels[i];
-            
-            if (count == 0) {
-                prev.groupType = TextMessageGroupTypeBottom;
-            } else {
-                prev.groupType = TextMessageGroupTypeCenter;
-            }
-            
-            curr.groupType = TextMessageGroupTypeTop;
-        }
+    if (message.class == [TextMessage class]) {
+        ((TextMessage *)message).showTail = YES;
     }
 }
 

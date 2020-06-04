@@ -14,10 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MessageCellConfigure : NSObject
 
-@property (nonatomic, readonly) UIColor *sendMessageBackgroundColor;
-@property (nonatomic, readonly) UIColor *receiveMessageBackgroundColor;
-@property (nonatomic, readonly) UIColor *highlightSendMessageColor;
-@property (nonatomic, readonly) UIColor *highlightReceiveMessageColor;
+@property (nonatomic, readonly) UIColor     *sendMessageBackgroundColor;
+@property (nonatomic, readonly) UIColor     *receiveMessageBackgroundColor;
+@property (nonatomic, readonly) UIColor     *highlightSendMessageColor;
+@property (nonatomic, readonly) UIColor     *highlightReceiveMessageColor;
+
+@property (nonatomic, readonly) UIImage     *sendMessageBubble;
+@property (nonatomic, readonly) UIImage     *sendMessageBubbleTail;
+@property (nonatomic, readonly) UIImage     *receiveMessageBubble;
+@property (nonatomic, readonly) UIImage     *receiveMessageBubbleTail;
 
 @property (nonatomic, readonly) NSUInteger  messageTextSize;
 @property (nonatomic, readonly) NSUInteger  ingroupMessageVerticalSpace;
@@ -30,9 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) UIEdgeInsets sendMessageTextInsets;
 
 + (MessageCellConfigure *)globalConfigure;
-
-- (UIImage *)backgroundImageForTextMessageGroupType:(TextMessageGroupType)groupType
-                                    andCellNodeType:(MessageCellStyle)cellStyle;
 
 @end
 

@@ -43,7 +43,7 @@
 }
 
 - (CGFloat)verticalPadding {
-    return 1;
+    return 15;
 }
 
 - (CGFloat)horizontalPadding {

@@ -15,10 +15,9 @@
 #import "ImageCache.h"
 #import "StringHelper.h"
 
-static const int kVericalPadding = 3;
-static const int kHorizontalPadding = 10;
-
-static const MessageCellConfigure *configure;
+static const int kIngroupVerticalPadding = 1;
+static const int kOutgroupVerticalPadding = 10;
+static const int kHorizontalPadding = 15;
 
 @interface MessageCellNode ()
 
@@ -31,10 +30,14 @@ static const MessageCellConfigure *configure;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 @property (nonatomic, strong) ASTextNode *timeTextNode;
 
-@property (nonatomic, assign) TextMessageGroupType groupType;
+@property (nonatomic, assign) BOOL showTail;
 @property (nonatomic, assign) BOOL choosing;
 
+@property (nonatomic, assign) int bottomPadding;
+
 @property (nonatomic, assign) CGSize estimatedSize;
+
+@property (nonatomic, assign) MessageCellConfigure *configure;
 
 @end
 
@@ -63,16 +66,17 @@ static const MessageCellConfigure *configure;
         
         _timeTextNode = [[ASTextNode alloc] init];
         
-        _groupType = TextMessageGroupTypeNull;
-        
         _choosing = NO;
+        _showTail = NO;
+        
+        _bottomPadding = kIngroupVerticalPadding;
         
         _controlNode = [[ASControlNode alloc] init];
         [_controlNode addTarget:self
                          action:@selector(touchUpInside)
                forControlEvents:ASControlNodeEventTouchUpInside];
         
-        configure = [[MessageCellConfigure alloc] init];
+        _configure = [MessageCellConfigure globalConfigure];
     }
     return self;
 }
@@ -86,17 +90,17 @@ static const MessageCellConfigure *configure;
     
     ASInsetLayoutSpec *textInsetSpec;
     if (_messageStyle == MessageCellStyleTextSend) {
-        textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:configure.sendMessageTextInsets
+        textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:_configure.sendMessageTextInsets
                                                                child:_editTextNode];
     } else {
-        textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:configure.receiveMessageTextInsets
+        textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:_configure.receiveMessageTextInsets
                                                                child:_editTextNode];
     }
     
     ASOverlayLayoutSpec *overlayTextSpec = [ASOverlayLayoutSpec
                                         overlayLayoutSpecWithChild:_backgroundNode
                                         overlay:[ASInsetLayoutSpec
-                                                 insetLayoutSpecWithInsets:configure.contentInsets
+                                                 insetLayoutSpecWithInsets:_configure.contentInsets
                                                  child:textInsetSpec]];
     
     ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
@@ -112,20 +116,8 @@ static const MessageCellConfigure *configure;
         NSArray *childs = @[];
         if (_choosing) {
             childs = @[_timeTextNode, overlayControlSpec];
-//            _backgroundNode.backgroundColor = configure.highlightSendMessageColor;
-            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.highlightSendMessageColor)
-            ( [[[UIImage imageNamed:@"bubble_sent"]
-                resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
-                resizingMode:UIImageResizingModeStretch]
-               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         } else {
             childs = @[overlayControlSpec];
-//            _backgroundNode.backgroundColor = configure.sendMessageBackgroundColor;
-            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.sendMessageBackgroundColor)
-            ( [[[UIImage imageNamed:@"bubble_sent"]
-                resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
-                resizingMode:UIImageResizingModeStretch]
-               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         }
         ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                 stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
@@ -134,7 +126,7 @@ static const MessageCellConfigure *configure;
                                                 alignItems:alignItems
                                                 children:childs];
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, INFINITY, kVericalPadding, kHorizontalPadding)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kIngroupVerticalPadding, INFINITY, self.bottomPadding, kHorizontalPadding)
                 child:verticalStackSpec];
         
     } else if (_messageStyle == MessageCellStyleTextReceive) {
@@ -147,13 +139,6 @@ static const MessageCellConfigure *configure;
                                         children:@[_avatarNode, overlayControlSpec]];
         
         if (_choosing) {
-//            _backgroundNode.backgroundColor = configure.highlightReceiveMessageColor;
-            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.highlightReceiveMessageColor)
-            ( [[[UIImage imageNamed:@"bubble_received"]
-                resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
-                resizingMode:UIImageResizingModeStretch]
-               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
-            
             ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
                                                     stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
                                                     spacing:2
@@ -161,19 +146,12 @@ static const MessageCellConfigure *configure;
                                                     alignItems:alignItems
                                                     children:@[_timeTextNode, stackSpec]];
             return [ASInsetLayoutSpec
-                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
+                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kIngroupVerticalPadding, kHorizontalPadding, self.bottomPadding, INFINITY)
                     child:verticalStackSpec];
             
         } else {
-//            _backgroundNode.backgroundColor = configure.receiveMessageBackgroundColor;
-            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(configure.receiveMessageBackgroundColor)
-             ( [[[UIImage imageNamed:@"bubble_received"]
-                 resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 17, 21)
-                 resizingMode:UIImageResizingModeStretch]
-                imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
-            
             return [ASInsetLayoutSpec
-                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVericalPadding, kHorizontalPadding, kVericalPadding, INFINITY)
+                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kIngroupVerticalPadding, kHorizontalPadding, self.bottomPadding, INFINITY)
                     child:stackSpec];
         }
         
@@ -194,7 +172,7 @@ static const MessageCellConfigure *configure;
         TextMessage *textMessage = (TextMessage *)object;
         [self setMessage:textMessage];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.groupType = textMessage.groupType;
+        self.showTail = textMessage.showTail;
         
         Message *mess = (Message *)textMessage;
         if (mess.showAvatar) {
@@ -219,6 +197,37 @@ static const MessageCellConfigure *configure;
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:timeString
                                                                      attributes:attributedText];
         [_timeTextNode setAttributedText:string];
+        
+        [self updateUI];
+    }
+}
+
+- (void)updateUI {
+    if (self.messageStyle == MessageCellStyleTextSend) {
+        UIImage *bubbleImage = nil;
+        
+        if (self.showTail) {
+            bubbleImage = [_configure sendMessageBubbleTail];
+            self.bottomPadding = kOutgroupVerticalPadding;
+        } else {
+            bubbleImage = [_configure sendMessageBubble];
+            self.bottomPadding = kIngroupVerticalPadding;
+        }
+        
+        [_backgroundNode setImage:bubbleImage];
+        
+    } else {
+        UIImage *bubbleImage = nil;
+        
+        if (self.showTail) {
+            bubbleImage = [_configure receiveMessageBubbleTail];
+            self.bottomPadding = kOutgroupVerticalPadding;
+        } else {
+            bubbleImage = [_configure receiveMessageBubble];
+            self.bottomPadding = kIngroupVerticalPadding;
+        }
+        
+        [_backgroundNode setImage:bubbleImage];
     }
 }
 
@@ -237,7 +246,7 @@ static const MessageCellConfigure *configure;
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         
     UIColor *textColor = _messageStyle == MessageCellStyleTextSend ? [UIColor whiteColor] : [UIColor blackColor];
-    NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:configure.messageTextSize],
+    NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:18],
                                       NSParagraphStyleAttributeName : paragraphStyle,
                                       NSForegroundColorAttributeName : textColor
     };
@@ -245,9 +254,9 @@ static const MessageCellConfigure *configure;
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:message.message
                                                                  attributes:attributedText];
     
-    CGSize boundingSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 0.7, 400);
+    CGSize boundingSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 0.6, 500);
     CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:_message.message
-                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:configure.messageTextSize]
+                                                          font:[UIFont fontWithName:@"HelveticaNeue" size:18]
                                                    parrentSize:boundingSize];
     _estimatedSize = estimatedFrame.size;
     
@@ -270,30 +279,6 @@ static const MessageCellConfigure *configure;
     [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
                                    andShortName:shortName];
     _avatarNode.hidden = NO;
-}
-
-- (void)selectCell {
-    _choosing = YES;
-    __weak MessageCellNode *weakSelf = self;
-    [UIView animateWithDuration:0.5 animations:^{
-        if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:configure.highlightSendMessageColor];
-        } else {
-            [weakSelf.backgroundNode setBackgroundColor:configure.highlightReceiveMessageColor];
-        }
-    }];
-}
-
-- (void)deselectCell {
-    _choosing = NO;
-    __weak MessageCellNode *weakSelf = self;
-    [UIView animateWithDuration:0.5 animations:^{
-        if (weakSelf.messageStyle == MessageCellStyleTextSend) {
-            [weakSelf.backgroundNode setBackgroundColor:configure.sendMessageBackgroundColor];
-        } else {
-            [weakSelf.backgroundNode setBackgroundColor:configure.receiveMessageBackgroundColor];
-        }
-    }];
 }
 
 #pragma mark - Action
