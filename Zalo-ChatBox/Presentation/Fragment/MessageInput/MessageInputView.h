@@ -23,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)messageInputViewCollapseButtonTapped:(MessageInputView *)inputView;
 
+- (void)messageInputViewSendLike:(MessageInputView *)inputView;
+
+- (void)messageInputViewSendSticker:(MessageInputView *)inputView;
+
 @end
 
 @interface MessageInputView : UIView

@@ -15,6 +15,7 @@
 #import "ContactBusiness.h"
 
 #import "TextMessage.h"
+#import "SinglePhotoMessage.h"
 
 #import "AppConsts.h"
 #import "ImageCache.h"
@@ -150,7 +151,7 @@
     }];
 }
 
-#pragma mark - MessageInputViewDelegate
+#pragma mark - Action
 
 - (void)sendMessage:(NSString *)message {
     if (!message)
@@ -167,6 +168,23 @@
     [self.tableNode sendMessage:textMess];
 }
 
+- (void)sendImage:(NSString *)imageUrl {
+    if (!imageUrl)
+        return;
+    if (imageUrl.length == 0)
+        return;
+    
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    SinglePhotoMessage *mess = [[SinglePhotoMessage alloc] initWithPhotoURL:imageUrl
+                                                                      ratio:1
+                                                                fromContact:self.owner toContact:self.messageToContact
+                                                                  timestamp:timestamp];
+    
+    [self.tableNode sendMessage:mess];
+}
+
+#pragma mark - MessageInputViewDelegate
+
 - (void)messageInputViewDidEndEditing:(MessageInputView *)inputView {
     [self animatedHideKeyboard];
 }
@@ -178,6 +196,15 @@
 
 - (void)messageInputViewCollapseButtonTapped:(MessageInputView *)inputView {
     [self animatedHideKeyboard];
+}
+
+- (void)messageInputViewSendLike:(MessageInputView *)inputView {
+    [self sendImage:kFacebookLikeUrl];
+}
+
+- (void)messageInputViewSendSticker:(MessageInputView *)inputView {
+    NSString *stickerUrl = [self.messageBusiness getRandomStickerUrl];
+    [self sendImage:stickerUrl];
 }
 
 @end

@@ -157,9 +157,8 @@ static const PhotoMessageCellConfigure *configure;
                 ASDimension width = ASDimensionMake(configure.maxWidthOfCell);
                 ASDimension height = ASDimensionMake(configure.maxWidthOfCell * imageRatio);
                 self.imageNode.style.preferredLayoutSize = ASLayoutSizeMake(width, height);
-
-                NSLog(@"Relayout!");
-                [self setNeedsLayout];
+                
+                [self.imageNode setNeedsLayout];
             }
       });
     }

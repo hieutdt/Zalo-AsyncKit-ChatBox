@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
                       atIndexPath:(NSIndexPath *)indexPath
                        withObject:(id)object;
 
+@optional
+- (void)tableNodeMode:(TableNodeModel *)tableNodeModel
+      didHoldCellNode:(ASCellNode *)cellNode
+          atIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 @interface TableNodeModel : NSObject <ASTableDataSource>

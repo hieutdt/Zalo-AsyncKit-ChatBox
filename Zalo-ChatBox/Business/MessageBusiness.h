@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (Conversation *)getConversationOfContact:(Contact *)contactA
                                 andContact:(Contact *)contactB;
 
+- (NSString *)getRandomStickerUrl;
+
 @end
 
 NS_ASSUME_NONNULL_END

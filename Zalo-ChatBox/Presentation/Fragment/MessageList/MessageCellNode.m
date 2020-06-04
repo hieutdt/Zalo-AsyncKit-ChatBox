@@ -83,10 +83,15 @@ static const int kHorizontalPadding = 15;
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
     CGSize maxConstrainedSize = constrainedSize.max;
-    _timeTextNode.style.preferredSize = CGSizeMake(maxConstrainedSize.width, 30);
     
-    _backgroundNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 30, _estimatedSize.height + 20);
-    _controlNode.style.preferredSize = CGSizeMake(_estimatedSize.width + 30, _estimatedSize.height + 20);
+    _timeTextNode.style.width = ASDimensionMakeWithPoints(maxConstrainedSize.width);
+    _timeTextNode.style.height = ASDimensionMakeWithPoints(40);
+    
+    _backgroundNode.style.width = ASDimensionMakeWithPoints(_estimatedSize.width + 30);
+    _backgroundNode.style.height = ASDimensionMakeWithPoints(_estimatedSize.height + 20);
+    
+    _controlNode.style.width = ASDimensionMakeWithPoints(_estimatedSize.width + 30);
+    _controlNode.style.height = ASDimensionMakeWithPoints(_estimatedSize.height + 20);
     
     ASInsetLayoutSpec *textInsetSpec;
     if (_messageStyle == MessageCellStyleTextSend) {

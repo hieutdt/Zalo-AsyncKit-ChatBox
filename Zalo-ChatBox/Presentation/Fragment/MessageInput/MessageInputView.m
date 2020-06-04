@@ -157,15 +157,23 @@ static const NSUInteger maxEditTextBoxHeight = 250;
             [self.delegate messageInputViewCollapseButtonTapped:self];
         }
     } else {
-        // Show more
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewSendSticker:)]) {
+            [self.delegate messageInputViewSendSticker:self];
+        }
     }
 }
 - (IBAction)sendButtonTapped:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewSendButtonTapped:withMessageText:)]) {
-        [self.delegate messageInputViewSendButtonTapped:self withMessageText:_textInput.text];
+    if (self.editing) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewSendButtonTapped:withMessageText:)]) {
+            [self.delegate messageInputViewSendButtonTapped:self withMessageText:_textInput.text];
+        }
+        _textInput.text = @"";
+        
+    } else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewSendLike:)]) {
+            [self.delegate messageInputViewSendLike:self];
+        }
     }
-    
-    _textInput.text = @"";
 }
 
 @end
