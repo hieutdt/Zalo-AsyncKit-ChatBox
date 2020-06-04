@@ -193,6 +193,7 @@ static const int kHorizontalPadding = 15;
         NSString *timeString = [StringHelper getTimeStringFromTimestamp:mess.timestamp];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.alignment = NSTextAlignmentCenter;
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
             
         NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15],
                                           NSParagraphStyleAttributeName : paragraphStyle,
@@ -219,7 +220,12 @@ static const int kHorizontalPadding = 15;
             self.bottomPadding = kIngroupVerticalPadding;
         }
         
-        [_backgroundNode setImage:bubbleImage];
+        if (_choosing) {
+            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(_configure.highlightSendMessageColor)
+            ( [bubbleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
+        } else {
+            [_backgroundNode setImage:bubbleImage];
+        }
         
     } else {
         UIImage *bubbleImage = nil;
@@ -232,7 +238,12 @@ static const int kHorizontalPadding = 15;
             self.bottomPadding = kIngroupVerticalPadding;
         }
         
-        [_backgroundNode setImage:bubbleImage];
+        if (_choosing) {
+            [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(_configure.highlightReceiveMessageColor)
+            ( [bubbleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
+        } else {
+            [_backgroundNode setImage:bubbleImage];
+        }
     }
 }
 
@@ -290,6 +301,8 @@ static const int kHorizontalPadding = 15;
 
 - (void)touchUpInside {
     self.choosing = !self.choosing;
+    [self updateUI];
+    [self.backgroundNode setNeedsLayout];
     [self setNeedsLayout];
 }
 

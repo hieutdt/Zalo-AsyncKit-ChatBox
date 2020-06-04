@@ -12,7 +12,9 @@
 #import "ImageCache.h"
 #import "UIImage+Additions.h"
 
-static const PhotoMessageCellConfigure *configure;
+static const int kVerticalPadding = 15;
+static const int kHorizontalPadding = 10;
+static const int kHorizontalSpace = 10;
 
 @interface PhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
@@ -23,6 +25,8 @@ static const PhotoMessageCellConfigure *configure;
 @property (nonatomic, strong) ContactAvatarNode *avatarNode;
 
 @property (nonatomic, strong) NSString *imageUrl;
+
+@property (nonatomic, strong) PhotoMessageCellConfigure *configure;
 
 @property (nonatomic, assign) BOOL didLayoutImage;
 
@@ -35,6 +39,8 @@ static const PhotoMessageCellConfigure *configure;
     if (self) {
         self.automaticallyManagesSubnodes = YES;
         
+        _configure = [PhotoMessageCellConfigure globalConfigure];
+        
         _imageNode = [[ASNetworkImageNode alloc] init];
         _imageNode.contentMode = UIViewContentModeScaleAspectFit;
         _imageNode.delegate = self;
@@ -42,16 +48,14 @@ static const PhotoMessageCellConfigure *configure;
         _imageNode.backgroundColor = [UIColor clearColor];
         _imageNode.shouldCacheImage = YES;
         
-        _imageNode.style.width = ASDimensionMake(configure.initialWidth);
-        _imageNode.style.height = ASDimensionMake(configure.initialHeight);
+        _imageNode.style.width = ASDimensionMake(_configure.initialWidth);
+        _imageNode.style.height = ASDimensionMake(_configure.initialHeight);
         
         _avatarNode = [[ContactAvatarNode alloc] init];
         _avatarNode.hidden = YES;
         _avatarNode.style.preferredSize = CGSizeMake(25, 25);
         
         _didLayoutImage = NO;
-        
-        configure = [[PhotoMessageCellConfigure alloc] init];
     }
     return self;
 }
@@ -59,19 +63,19 @@ static const PhotoMessageCellConfigure *configure;
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
     if (_messageStyle == MessageCellStyleImageSend) {
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, INFINITY, configure.verticalPadding, configure.horizontalPadding)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVerticalPadding, INFINITY, kVerticalPadding, kHorizontalPadding)
                 child:_imageNode];
         
     } else if (_messageStyle == MessageCellStyleImageReceive) {
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
                                         stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                        spacing:configure.horizontalSpace
+                                        spacing:kHorizontalSpace
                                         justifyContent:ASStackLayoutJustifyContentStart
                                         alignItems:ASStackLayoutAlignItemsEnd
                                         children:@[_avatarNode, _imageNode]];
         
         return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, configure.horizontalPadding, configure.verticalPadding, INFINITY)
+                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVerticalPadding, kHorizontalPadding, kVerticalPadding, INFINITY)
                 child:stackSpec];
     }
     
@@ -154,11 +158,12 @@ static const PhotoMessageCellConfigure *configure;
                 CGSize imgSize = image.size;
                 CGFloat imageRatio = imgSize.height / imgSize.width;
                 
-                ASDimension width = ASDimensionMake(configure.maxWidthOfCell);
-                ASDimension height = ASDimensionMake(configure.maxWidthOfCell * imageRatio);
+                ASDimension width = ASDimensionMake(self.configure.maxWidthOfCell);
+                ASDimension height = ASDimensionMake(self.configure.maxWidthOfCell * imageRatio);
                 self.imageNode.style.preferredLayoutSize = ASLayoutSizeMake(width, height);
                 
                 [self.imageNode setNeedsLayout];
+                [self.imageNode setNeedsDisplay];
             }
       });
     }

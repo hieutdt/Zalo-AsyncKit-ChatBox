@@ -36,10 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName;
 
-- (void)selectCell;
-
-- (void)deselectCell;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -54,7 +54,6 @@
         _contentNode.automaticallyManagesSubnodes = YES;
         _contentNode.layoutSpecBlock = ^ASLayoutSpec *(__kindof ASDisplayNode * _Nonnull node, ASSizeRange constrainedSize) {
             weakSelf.tableNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, constrainedSize.max.height - 50);
-            weakSelf.tableNode.backgroundColor = [UIColor whiteColor];
             
             return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsZero
                                                           child:weakSelf.tableNode];

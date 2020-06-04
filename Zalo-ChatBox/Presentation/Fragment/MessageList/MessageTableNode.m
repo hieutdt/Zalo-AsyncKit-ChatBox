@@ -61,6 +61,7 @@ static const int kMaxNodes = 300;
         _tableNode.dataSource = _tableModel;
         _tableNode.delegate = self;
         _tableNode.leadingScreensForBatching = 3;
+        _tableNode.backgroundColor = [UIColor whiteColor];
         
         _topLoadedModels = [[NSMutableArray alloc] init];
         _bottomLoadedModels = [[NSMutableArray alloc] init];
@@ -86,7 +87,7 @@ static const int kMaxNodes = 300;
     //TODO: Need get top bar height here
     CGFloat inset = 80;
     _tableNode.contentInset = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
-    _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
+    _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset + kMessageInputHeight + 10, 0, inset, 0);
 }
 
 #pragma mark - GenerateSectionsData
@@ -168,23 +169,6 @@ static const int kMaxNodes = 300;
     message.showAvatar = YES;
     if (message.class == [TextMessage class]) {
         ((TextMessage *)message).showTail = YES;
-    }
-}
-
-- (BOOL)checkInGroupOf:(id<CellNodeObject>)current
-               andPrev:(id<CellNodeObject>)prev {
-    if (![prev.class isKindOfClass:[current class]] ||
-        ![current.class isKindOfClass:[TextMessage class]]) {
-        return NO;
-    }
-    
-    Message *currentMess = (Message *)current;
-    Message *prevMess = (Message *)prev;
-    
-    if ([currentMess.fromContact.identifier isEqualToString:prevMess.fromContact.identifier]) {
-        return YES;
-    } else {
-        return NO;
     }
 }
 
@@ -324,7 +308,7 @@ static const int kMaxNodes = 300;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableNode performBatchUpdates:^{
             [self.tableNode insertRowsAtIndexPaths:insertIndexes
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:UITableViewRowAnimationNone];
         } completion:nil];
     });
     
