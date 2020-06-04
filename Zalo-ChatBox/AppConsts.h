@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, MessageStyle) {
 
 #define kPhotoMessageSizeHeight         100
 
-#define kFacebookLikeUrl @"https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Bot%C3%B3n_Me_gusta.svg/1200px-Bot%C3%B3n_Me_gusta.svg.png"
+#define kFacebookLikeUrl @"https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102011/like_icon.png?itok=zDK11Mej"
 
 static const int FIRST_ALPHABET_ASCII_CODE = 97;
 static const int ALPHABET_SECTIONS_NUMBER = 27;

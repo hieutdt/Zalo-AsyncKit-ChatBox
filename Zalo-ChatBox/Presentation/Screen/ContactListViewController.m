@@ -57,13 +57,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
     
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 80, 50)];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width - 10, 50)];
     _searchBar.placeholder = @"Tìm kiếm bạn bè ...";
     
     _searchBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_searchBar];

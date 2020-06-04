@@ -206,14 +206,25 @@ static const int kMaxNodes = 300;
         [indexPaths addObject:[NSIndexPath indexPathForItem:0 inSection:0]];
         
         [_tableModel pushFront:@[timeHeader]];
+        
+    } else if (self.messageModels[0].class == [TextMessage class] &&
+               ((Message *)self.messageModels[0]).fromContact == message.fromContact) {
+        ((TextMessage *)self.messageModels[0]).showTail = NO;
     }
     
     [self.messageModels insertObject:message atIndex:0];
     [indexPaths addObject:[NSIndexPath indexPathForItem:0 inSection:0]];
     
+    // Config
+    if (message.class == [TextMessage class]) {
+        ((TextMessage *)message).showTail = YES;
+    }
+    
     [_tableModel pushFront:@[message]];
     
     [_tableNode performBatchUpdates:^{
+        [_tableNode reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                          withRowAnimation:UITableViewRowAnimationNone];
         [_tableNode insertRowsAtIndexPaths:indexPaths
                           withRowAnimation:UITableViewRowAnimationFade];
     } completion:^(BOOL finished) {

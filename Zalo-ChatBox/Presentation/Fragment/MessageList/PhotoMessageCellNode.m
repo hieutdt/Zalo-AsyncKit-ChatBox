@@ -158,8 +158,13 @@ static const int kHorizontalSpace = 10;
                 CGSize imgSize = image.size;
                 CGFloat imageRatio = imgSize.height / imgSize.width;
                 
-                ASDimension width = ASDimensionMake(self.configure.maxWidthOfCell);
-                ASDimension height = ASDimensionMake(self.configure.maxWidthOfCell * imageRatio);
+                ASDimension width;
+                if (image.size.width > self.configure.maxWidthOfCell) {
+                    width = ASDimensionMakeWithPoints(self.configure.maxWidthOfCell);
+                } else {
+                    width = ASDimensionMakeWithPoints(image.size.width);
+                }
+                ASDimension height = ASDimensionMakeWithPoints(self.configure.maxWidthOfCell * imageRatio);
                 self.imageNode.style.preferredLayoutSize = ASLayoutSizeMake(width, height);
                 
                 [self.imageNode setNeedsLayout];

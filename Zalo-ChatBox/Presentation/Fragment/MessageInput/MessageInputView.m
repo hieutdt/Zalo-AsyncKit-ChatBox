@@ -27,6 +27,7 @@ static const NSUInteger maxEditTextBoxHeight = 250;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *editTextContainerHeight;
 @property (weak, nonatomic) IBOutlet UIStackView *stackView;
 
+@property (nonatomic, assign) CGRect initialFrame;
 @property (nonatomic, assign) BOOL editing;
 
 @end
@@ -44,6 +45,7 @@ static const NSUInteger maxEditTextBoxHeight = 250;
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        _initialFrame = frame;
         [self customInit];
     }
     return self;
@@ -139,12 +141,20 @@ static const NSUInteger maxEditTextBoxHeight = 250;
     CGRect estimatedFrame = [LayoutHelper estimatedFrameOfText:text
                                                           font:[UIFont fontWithName:@"HelveticaNeue" size:18]
                                                    parrentSize:boundingSize];
-
+    
     CGSize estimatedSize = estimatedFrame.size;
     if (estimatedSize.height > editTextBoxHeight && estimatedSize.height <= editTextBoxHeight * 2) {
         _editTextContainerHeight.constant = editTextBoxHeight * 2;
+        self.frame = CGRectMake(_initialFrame.origin.x, _initialFrame.origin.y - 30, _initialFrame.size.width, _initialFrame.size.height + 30);
+        
+        
     } else if (estimatedSize.height > editTextBoxHeight * 2) {
         _editTextContainerHeight.constant = maxEditTextBoxHeight;
+        self.frame = CGRectMake(_initialFrame.origin.x, _initialFrame.origin.y - 50, _initialFrame.size.width, _initialFrame.size.height + 50);
+        
+    } else {
+        _editTextContainerHeight.constant = editTextBoxHeight;
+        self.frame = self.initialFrame;
     }
 }
 
@@ -162,12 +172,17 @@ static const NSUInteger maxEditTextBoxHeight = 250;
         }
     }
 }
+
 - (IBAction)sendButtonTapped:(id)sender {
     if (self.editing) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewSendButtonTapped:withMessageText:)]) {
             [self.delegate messageInputViewSendButtonTapped:self withMessageText:_textInput.text];
         }
+        
         _textInput.text = @"";
+        
+        self.frame = self.initialFrame;
+        self.editTextContainerHeight.constant = editTextBoxHeight;
         
     } else {
         if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputViewSendLike:)]) {
