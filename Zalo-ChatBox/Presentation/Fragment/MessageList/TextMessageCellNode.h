@@ -7,6 +7,7 @@
 //
 
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
+#import "MessageCellNode.h"
 #import "Message.h"
 #import "AppConsts.h"
 #import "CellNodeObject.h"
@@ -25,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface TextMessageCellNode : ASCellNode <CellNode>
+@interface TextMessageCellNode : MessageCellNode
 
 @property (nonatomic, assign) id<TextMessageCellNodeDelegate> delegate;
 

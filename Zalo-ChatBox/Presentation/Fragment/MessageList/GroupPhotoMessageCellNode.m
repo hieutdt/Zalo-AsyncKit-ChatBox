@@ -83,7 +83,7 @@ static const GroupPhotoMessageCellConfigure *configure;
         }
     }
     
-    if (_messageStyle == MessageCellStyleImageSend) {
+    if (_messageStyle == MessageCellStyleSend) {
         ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec
                                             stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
                                             spacing:configure.verticalSpace
@@ -94,7 +94,7 @@ static const GroupPhotoMessageCellConfigure *configure;
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, INFINITY, configure.verticalPadding, configure.horizontalPadding)
                 child:verticalStack];
         
-    } else if (_messageStyle == MessageCellStyleImageReceive) {
+    } else if (_messageStyle == MessageCellStyleReceive) {
         ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec
                                             stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
                                             spacing:configure.verticalSpace
@@ -156,14 +156,14 @@ static const GroupPhotoMessageCellConfigure *configure;
 - (void)setMessage:(Message *)message {
     _message = message;
     if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
-        _messageStyle = MessageCellStyleImageSend;
+        _messageStyle = MessageCellStyleSend;
     } else {
-        _messageStyle = MessageCellStyleImageReceive;
+        _messageStyle = MessageCellStyleReceive;
     }
 }
 
 - (void)showAvatarImage:(UIImage *)image {
-    if (!image || _messageStyle != MessageCellStyleImageReceive)
+    if (!image || _messageStyle != MessageCellStyleReceive)
         return;
     
     [_avatarNode setAvatar:image];
@@ -172,7 +172,7 @@ static const GroupPhotoMessageCellConfigure *configure;
 
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName {
-    if (!shortName || _messageStyle != MessageCellStyleImageReceive)
+    if (!shortName || _messageStyle != MessageCellStyleReceive)
         return;
     
     [_avatarNode setGradientAvatarWithColorCode:gradientColorCode

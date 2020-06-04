@@ -44,6 +44,8 @@
 		042978B82473E67F0030EE56 /* TimeSectionCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 042978B62473E67F0030EE56 /* TimeSectionCellNode.m */; };
 		0430C88B2486003100853F0F /* MessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430C88A2486003100853F0F /* MessageCellConfigure.m */; };
 		0430C88C2486003100853F0F /* MessageCellConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430C88A2486003100853F0F /* MessageCellConfigure.m */; };
+		043B1BB72488FA4A00FB4C06 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 043B1BB62488FA4A00FB4C06 /* MessageCellNode.m */; };
+		043B1BB82488FA4A00FB4C06 /* MessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 043B1BB62488FA4A00FB4C06 /* MessageCellNode.m */; };
 		04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475806247CCB3A003EF581 /* CellNodeFactory.m */; };
 		0447580C247CCCA8003EF581 /* TableNodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0447580B247CCCA8003EF581 /* TableNodeModel.m */; };
 		04475814247D0163003EF581 /* TimeSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04475813247D0163003EF581 /* TimeSectionHeader.m */; };
@@ -141,6 +143,8 @@
 		042978B62473E67F0030EE56 /* TimeSectionCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSectionCellNode.m; sourceTree = "<group>"; };
 		0430C8892486003100853F0F /* MessageCellConfigure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCellConfigure.h; sourceTree = "<group>"; };
 		0430C88A2486003100853F0F /* MessageCellConfigure.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCellConfigure.m; sourceTree = "<group>"; };
+		043B1BB52488FA4A00FB4C06 /* MessageCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCellNode.h; sourceTree = "<group>"; };
+		043B1BB62488FA4A00FB4C06 /* MessageCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCellNode.m; sourceTree = "<group>"; };
 		04475805247CCB3A003EF581 /* CellNodeFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellNodeFactory.h; sourceTree = "<group>"; };
 		04475806247CCB3A003EF581 /* CellNodeFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellNodeFactory.m; sourceTree = "<group>"; };
 		0447580A247CCCA8003EF581 /* TableNodeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableNodeModel.h; sourceTree = "<group>"; };
@@ -420,6 +424,8 @@
 				0430C8882485FFBB00853F0F /* Configure */,
 				04516EF824728B1F005603C8 /* MessageTableNode.h */,
 				04516EF924728B1F005603C8 /* MessageTableNode.m */,
+				043B1BB52488FA4A00FB4C06 /* MessageCellNode.h */,
+				043B1BB62488FA4A00FB4C06 /* MessageCellNode.m */,
 				04E2D0962472DF92004B1BE9 /* TextMessageCellNode.h */,
 				04E2D0972472DF92004B1BE9 /* TextMessageCellNode.m */,
 				042978B52473E67F0030EE56 /* TimeSectionCellNode.h */,
@@ -692,6 +698,7 @@
 				048F2743247CB8B500C3F9D0 /* SinglePhotoMessage.m in Sources */,
 				0456AECF2480BA54004BCD1B /* MessageInputView.m in Sources */,
 				04997753247FAD70001F0736 /* GroupPhotoMessage.m in Sources */,
+				043B1BB72488FA4A00FB4C06 /* MessageCellNode.m in Sources */,
 				0426C37E246E75950090E1EC /* main.m in Sources */,
 				041CB1F8246E8D3800D09B58 /* Contact.m in Sources */,
 				04475814247D0163003EF581 /* TimeSectionHeader.m in Sources */,
@@ -737,6 +744,7 @@
 				041CB221246E96E400D09B58 /* ContactTableNode.m in Sources */,
 				04FA55DD24769597005ED189 /* PhotoMessageCellNode.m in Sources */,
 				041CB1F9246E8D3800D09B58 /* Contact.m in Sources */,
+				043B1BB82488FA4A00FB4C06 /* MessageCellNode.m in Sources */,
 				04FA55D524766102005ED189 /* ContactAvatarNode.m in Sources */,
 				04516EFB24728B1F005603C8 /* MessageTableNode.m in Sources */,
 				042978B42473B9250030EE56 /* LayoutHelper.m in Sources */,

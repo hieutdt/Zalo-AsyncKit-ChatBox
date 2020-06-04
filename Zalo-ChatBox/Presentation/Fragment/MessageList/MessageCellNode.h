@@ -1,0 +1,39 @@
+//
+//  MessageCellNode.h
+//  Zalo-ChatBox
+//
+//  Created by Trần Đình Tôn Hiếu on 6/4/20.
+//  Copyright © 2020 Trần Đình Tôn Hiếu. All rights reserved.
+//
+
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
+#import "Message.h"
+#import "AppConsts.h"
+#import "CellNodeObject.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MessageCellNode : ASCellNode <CellNode>
+
+- (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize;
+
+- (ASLayoutSpec *)contentLayoutSpec:(ASSizeRange)constrainedSize;
+
+- (MessageCellStyle)messageCellStyle;
+
+- (BOOL)choosing;
+
+- (void)setMessage:(Message *)message;
+
+- (void)showAvatarImage:(UIImage *)image;
+
+- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
+                               shortName:(NSString *)shortName;
+
+#pragma mark - Action
+
+- (void)touchUpInside;
+
+@end
+
+NS_ASSUME_NONNULL_END

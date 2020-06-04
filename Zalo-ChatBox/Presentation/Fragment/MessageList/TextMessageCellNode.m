@@ -22,16 +22,11 @@ static const int kHorizontalPadding = 15;
 @interface TextMessageCellNode ()
 
 @property (nonatomic, strong) TextMessage *message;
-@property (nonatomic, assign) MessageCellStyle messageStyle;
 
 @property (nonatomic, strong) ASEditableTextNode *editTextNode;
 @property (nonatomic, strong) ASImageNode *backgroundNode;
-@property (nonatomic, strong) ASControlNode *controlNode;
-@property (nonatomic, strong) ContactAvatarNode *avatarNode;
-@property (nonatomic, strong) ASTextNode *timeTextNode;
 
 @property (nonatomic, assign) BOOL showTail;
-@property (nonatomic, assign) BOOL choosing;
 
 @property (nonatomic, assign) int bottomPadding;
 
@@ -49,8 +44,6 @@ static const int kHorizontalPadding = 15;
         self.backgroundColor = [UIColor clearColor];
         self.automaticallyManagesSubnodes = YES;
         
-        _messageStyle = MessageCellStyleTextSend;
-        
         _estimatedSize = CGSizeMake(200, 100);
         
         _editTextNode = [[ASEditableTextNode alloc] init];
@@ -61,40 +54,21 @@ static const int kHorizontalPadding = 15;
         _backgroundNode = [[ASImageNode alloc] init];
         _backgroundNode.style.preferredSize = _estimatedSize;
         
-        _avatarNode = [[ContactAvatarNode alloc] init];
-        _avatarNode.hidden = YES;
-        
-        _timeTextNode = [[ASTextNode alloc] init];
-        
-        _choosing = NO;
         _showTail = NO;
         
         _bottomPadding = kIngroupVerticalPadding;
-        
-        _controlNode = [[ASControlNode alloc] init];
-        [_controlNode addTarget:self
-                         action:@selector(touchUpInside)
-               forControlEvents:ASControlNodeEventTouchUpInside];
         
         _configure = [MessageCellConfigure globalConfigure];
     }
     return self;
 }
 
-- (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
-    CGSize maxConstrainedSize = constrainedSize.max;
-    
-    _timeTextNode.style.width = ASDimensionMakeWithPoints(maxConstrainedSize.width);
-    _timeTextNode.style.height = ASDimensionMakeWithPoints(40);
-    
+- (ASLayoutSpec *)contentLayoutSpec:(ASSizeRange)constrainedSize {
     _backgroundNode.style.width = ASDimensionMakeWithPoints(_estimatedSize.width + 30);
     _backgroundNode.style.height = ASDimensionMakeWithPoints(_estimatedSize.height + 20);
     
-    _controlNode.style.width = ASDimensionMakeWithPoints(_estimatedSize.width + 30);
-    _controlNode.style.height = ASDimensionMakeWithPoints(_estimatedSize.height + 20);
-    
     ASInsetLayoutSpec *textInsetSpec;
-    if (_messageStyle == MessageCellStyleTextSend) {
+    if ([super messageCellStyle] == MessageCellStyleSend) {
         textInsetSpec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:_configure.sendMessageTextInsets
                                                                child:_editTextNode];
     } else {
@@ -108,61 +82,13 @@ static const int kHorizontalPadding = 15;
                                                  insetLayoutSpecWithInsets:_configure.contentInsets
                                                  child:textInsetSpec]];
     
-    ASOverlayLayoutSpec *overlayControlSpec = [ASOverlayLayoutSpec
-                                                overlayLayoutSpecWithChild:overlayTextSpec
-                                                overlay:_controlNode];
-    
-    ASStackLayoutAlignItems alignItems = ASStackLayoutAlignItemsStart;
-    if (_messageStyle == MessageCellStyleTextSend) {
-        alignItems = ASStackLayoutAlignItemsEnd;
-    }
-    
-    if (_messageStyle == MessageCellStyleTextSend) {
-        NSArray *childs = @[];
-        if (_choosing) {
-            childs = @[_timeTextNode, overlayControlSpec];
-        } else {
-            childs = @[overlayControlSpec];
-        }
-        ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
-                                                stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                                spacing:2
-                                                justifyContent:ASStackLayoutJustifyContentCenter
-                                                alignItems:alignItems
-                                                children:childs];
-        return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(kIngroupVerticalPadding, INFINITY, self.bottomPadding, kHorizontalPadding)
-                child:verticalStackSpec];
-        
-    } else if (_messageStyle == MessageCellStyleTextReceive) {
-        _avatarNode.style.preferredSize = CGSizeMake(25, 25);
-        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
-                                        stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                        spacing:10
-                                        justifyContent:ASStackLayoutJustifyContentStart
-                                        alignItems:ASStackLayoutAlignItemsEnd
-                                        children:@[_avatarNode, overlayControlSpec]];
-        
-        if (_choosing) {
-            ASStackLayoutSpec *verticalStackSpec = [ASStackLayoutSpec
-                                                    stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                                    spacing:2
-                                                    justifyContent:ASStackLayoutJustifyContentCenter
-                                                    alignItems:alignItems
-                                                    children:@[_timeTextNode, stackSpec]];
-            return [ASInsetLayoutSpec
-                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kIngroupVerticalPadding, kHorizontalPadding, self.bottomPadding, INFINITY)
-                    child:verticalStackSpec];
-            
-        } else {
-            return [ASInsetLayoutSpec
-                    insetLayoutSpecWithInsets:UIEdgeInsetsMake(kIngroupVerticalPadding, kHorizontalPadding, self.bottomPadding, INFINITY)
-                    child:stackSpec];
-        }
-        
-    } else {
-        return nil;
-    }
+    return [ASInsetLayoutSpec
+            insetLayoutSpecWithInsets:UIEdgeInsetsMake(0, 0, self.bottomPadding, 0)
+            child:overlayTextSpec];
+}
+
+- (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
+    return [super layoutSpecThatFits:constrainedSize];
 }
 
 - (void)didLoad {
@@ -170,46 +96,46 @@ static const int kHorizontalPadding = 15;
     _editTextNode.textView.editable = NO;
 }
 
-#pragma mark - CellNode
-
-- (void)updateCellNodeWithObject:(id)object {
-    if ([object isKindOfClass:[TextMessage class]]) {
-        TextMessage *textMessage = (TextMessage *)object;
-        [self setMessage:textMessage];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.showTail = textMessage.showTail;
-        
-        Message *mess = (Message *)textMessage;
-        if (mess.showAvatar) {
-            UIImage *avatarImage = [[ImageCache instance] imageForKey:mess.fromContact.identifier];
-            if (avatarImage) {
-                [self showAvatarImage:avatarImage];
-            } else {
-                [self showAvatarImageWithGradientColor:mess.fromContact.gradientColorCode
-                                             shortName:[StringHelper getShortName:mess.fromContact.name]];
-            }
-        }
-        
-        NSString *timeString = [StringHelper getTimeStringFromTimestamp:mess.timestamp];
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.alignment = NSTextAlignmentCenter;
-        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-            
-        NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15],
-                                          NSParagraphStyleAttributeName : paragraphStyle,
-                                          NSForegroundColorAttributeName : [UIColor grayColor]
-        };
-        
-        NSAttributedString *string = [[NSAttributedString alloc] initWithString:timeString
-                                                                     attributes:attributedText];
-        [_timeTextNode setAttributedText:string];
-        
-        [self updateUI];
-    }
-}
+//#pragma mark - CellNode
+//
+//- (void)updateCellNodeWithObject:(id)object {
+//    if ([object isKindOfClass:[TextMessage class]]) {
+//        TextMessage *textMessage = (TextMessage *)object;
+//        [self setMessage:textMessage];
+//        self.selectionStyle = UITableViewCellSelectionStyleNone;
+//        self.showTail = textMessage.showTail;
+//
+//        Message *mess = (Message *)textMessage;
+//        if (mess.showAvatar) {
+//            UIImage *avatarImage = [[ImageCache instance] imageForKey:mess.fromContact.identifier];
+//            if (avatarImage) {
+//                [self showAvatarImage:avatarImage];
+//            } else {
+//                [self showAvatarImageWithGradientColor:mess.fromContact.gradientColorCode
+//                                             shortName:[StringHelper getShortName:mess.fromContact.name]];
+//            }
+//        }
+//
+//        NSString *timeString = [StringHelper getTimeStringFromTimestamp:mess.timestamp];
+//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//        paragraphStyle.alignment = NSTextAlignmentCenter;
+//        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+//
+//        NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15],
+//                                          NSParagraphStyleAttributeName : paragraphStyle,
+//                                          NSForegroundColorAttributeName : [UIColor grayColor]
+//        };
+//
+//        NSAttributedString *string = [[NSAttributedString alloc] initWithString:timeString
+//                                                                     attributes:attributedText];
+//        [_timeTextNode setAttributedText:string];
+//
+//        [self updateUI];
+//    }
+//}
 
 - (void)updateUI {
-    if (self.messageStyle == MessageCellStyleTextSend) {
+    if ([self messageCellStyle] == MessageCellStyleSend) {
         UIImage *bubbleImage = nil;
         
         if (self.showTail) {
@@ -220,7 +146,7 @@ static const int kHorizontalPadding = 15;
             self.bottomPadding = kIngroupVerticalPadding;
         }
         
-        if (_choosing) {
+        if ([self choosing]) {
             [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(_configure.highlightSendMessageColor)
             ( [bubbleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         } else {
@@ -238,7 +164,7 @@ static const int kHorizontalPadding = 15;
             self.bottomPadding = kIngroupVerticalPadding;
         }
         
-        if (_choosing) {
+        if ([self choosing]) {
             [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(_configure.highlightReceiveMessageColor)
             ( [bubbleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         } else {
@@ -250,18 +176,15 @@ static const int kHorizontalPadding = 15;
 #pragma mark - Setter
 
 - (void)setMessage:(TextMessage *)message {
+    [super setMessage:message];
     _message = message;
-    if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
-        _messageStyle = MessageCellStyleTextSend;
-    } else {
-        _messageStyle = MessageCellStyleTextReceive;
-    }
+    self.showTail = message.showTail;
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentLeft;
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         
-    UIColor *textColor = _messageStyle == MessageCellStyleTextSend ? [UIColor whiteColor] : [UIColor blackColor];
+    UIColor *textColor = [super messageCellStyle] == MessageCellStyleSend ? [UIColor whiteColor] : [UIColor blackColor];
     NSDictionary *attributedText = @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:18],
                                       NSParagraphStyleAttributeName : paragraphStyle,
                                       NSForegroundColorAttributeName : textColor
@@ -279,28 +202,11 @@ static const int kHorizontalPadding = 15;
     [_editTextNode setAttributedText:string];
 }
 
-- (void)showAvatarImage:(UIImage *)image {
-    if (!image || _messageStyle != MessageCellStyleTextReceive)
-        return;
-    
-    [_avatarNode setAvatar:image];
-    _avatarNode.hidden = NO;
-}
-
-- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
-                               shortName:(NSString *)shortName {
-    if (!shortName || _messageStyle != MessageCellStyleTextReceive)
-        return;
-    
-    [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
-                                   andShortName:shortName];
-    _avatarNode.hidden = NO;
-}
-
 #pragma mark - Action
 
 - (void)touchUpInside {
-    self.choosing = !self.choosing;
+    [super touchUpInside];
+    
     [self updateUI];
     [self.backgroundNode setNeedsLayout];
     [self setNeedsLayout];

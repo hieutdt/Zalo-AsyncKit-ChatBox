@@ -23,10 +23,8 @@ typedef NS_ENUM(NSInteger, ContactAuthorState) {
 };
 
 typedef NS_ENUM(NSInteger, MessageCellStyle) {
-    MessageCellStyleTextSend,
-    MessageCellStyleTextReceive,
-    MessageCellStyleImageSend,
-    MessageCellStyleImageReceive,
+    MessageCellStyleSend,
+    MessageCellStyleReceive,
     MessageCellStyleTimeSection
 };
 

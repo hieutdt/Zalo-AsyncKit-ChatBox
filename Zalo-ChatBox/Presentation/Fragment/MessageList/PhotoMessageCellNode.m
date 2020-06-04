@@ -61,12 +61,12 @@ static const int kHorizontalSpace = 10;
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
-    if (_messageStyle == MessageCellStyleImageSend) {
+    if (_messageStyle == MessageCellStyleSend) {
         return [ASInsetLayoutSpec
                 insetLayoutSpecWithInsets:UIEdgeInsetsMake(kVerticalPadding, INFINITY, kVerticalPadding, kHorizontalPadding)
                 child:_imageNode];
         
-    } else if (_messageStyle == MessageCellStyleImageReceive) {
+    } else if (_messageStyle == MessageCellStyleReceive) {
         ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
                                         stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
                                         spacing:kHorizontalSpace
@@ -109,9 +109,9 @@ static const int kHorizontalSpace = 10;
 - (void)setMessage:(Message *)message {
     _message = message;
     if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
-        _messageStyle = MessageCellStyleImageSend;
+        _messageStyle = MessageCellStyleSend;
     } else {
-        _messageStyle = MessageCellStyleImageReceive;
+        _messageStyle = MessageCellStyleReceive;
     }
 }
 
@@ -121,7 +121,7 @@ static const int kHorizontalSpace = 10;
 }
 
 - (void)showAvatarImage:(UIImage *)image {
-    if (!image || _messageStyle != MessageCellStyleImageReceive)
+    if (!image || _messageStyle != MessageCellStyleReceive)
         return;
     
     [_avatarNode setAvatar:image];
@@ -130,7 +130,7 @@ static const int kHorizontalSpace = 10;
 
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName {
-    if (!shortName || _messageStyle != MessageCellStyleImageReceive)
+    if (!shortName || _messageStyle != MessageCellStyleReceive)
         return;
     
     [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
