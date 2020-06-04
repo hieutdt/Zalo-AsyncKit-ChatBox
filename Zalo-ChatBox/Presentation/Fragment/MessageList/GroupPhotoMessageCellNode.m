@@ -8,21 +8,15 @@
 
 #import "GroupPhotoMessageCellNode.h"
 #import "GroupPhotoMessageCellConfigure.h"
-#import "ContactAvatarNode.h"
-#import "ImageCache.h"
-#import "UIImage+Additions.h"
+#import "GroupPhotoMessage.h"
 
 static const GroupPhotoMessageCellConfigure *configure;
 
 @interface GroupPhotoMessageCellNode () <ASNetworkImageNodeDelegate>
 
-@property (nonatomic, strong) Message *message;
-@property (nonatomic, assign) MessageCellStyle messageStyle;
+@property (nonatomic, strong) GroupPhotoMessage *message;
 
 @property (nonatomic, strong) NSMutableArray<ASNetworkImageNode *> *imageNodes;
-@property (nonatomic, strong) ASControlNode *controlNode;
-@property (nonatomic, strong) ContactAvatarNode *avatarNode;
-
 @property (nonatomic, strong) NSArray<NSString *> *imageUrls;
 
 @end
@@ -36,12 +30,6 @@ static const GroupPhotoMessageCellConfigure *configure;
         self.automaticallyManagesSubnodes = YES;
         
         _imageNodes = [[NSMutableArray alloc] init];
-        
-        _controlNode = [[ASControlNode alloc] init];
-        
-        _avatarNode = [[ContactAvatarNode alloc] init];
-        _avatarNode.style.preferredSize = CGSizeMake(25, 25);
-        _avatarNode.hidden = YES;
         
         configure = [[GroupPhotoMessageCellConfigure alloc] init];
     }
@@ -62,6 +50,10 @@ static const GroupPhotoMessageCellConfigure *configure;
 }
 
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
+    return [super layoutSpecThatFits:constrainedSize];
+}
+
+- (ASLayoutSpec *)contentLayoutSpec:(ASSizeRange)constrainedSize {
 #if DEBUG
     assert(self.imageNodes.count == self.imageUrls.count);
 #endif
@@ -83,101 +75,36 @@ static const GroupPhotoMessageCellConfigure *configure;
         }
     }
     
-    if (_messageStyle == MessageCellStyleSend) {
-        ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec
-                                            stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                            spacing:configure.verticalSpace
-                                            justifyContent:ASStackLayoutJustifyContentStart
-                                            alignItems:ASStackLayoutAlignItemsEnd
-                                            children:verticalChilds];
-        return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, INFINITY, configure.verticalPadding, configure.horizontalPadding)
-                child:verticalStack];
+    if ([self messageCellStyle] == MessageCellStyleSend) {
+        return [ASStackLayoutSpec
+                stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                spacing:configure.verticalSpace
+                justifyContent:ASStackLayoutJustifyContentStart
+                alignItems:ASStackLayoutAlignItemsEnd
+                children:verticalChilds];
         
-    } else if (_messageStyle == MessageCellStyleReceive) {
-        ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec
-                                            stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
-                                            spacing:configure.verticalSpace
-                                            justifyContent:ASStackLayoutJustifyContentStart
-                                            alignItems:ASStackLayoutAlignItemsStart
-                                            children:verticalChilds];
-        
-        ASStackLayoutSpec *stackSpec = [ASStackLayoutSpec
-                                        stackLayoutSpecWithDirection:ASStackLayoutDirectionHorizontal
-                                        spacing:configure.horizontalPadding
-                                        justifyContent:ASStackLayoutJustifyContentStart
-                                        alignItems:ASStackLayoutAlignItemsEnd
-                                        children:@[_avatarNode, verticalStack]];
-        
-        return [ASInsetLayoutSpec
-                insetLayoutSpecWithInsets:UIEdgeInsetsMake(configure.verticalPadding, configure.horizontalPadding, configure.verticalPadding, INFINITY)
-                child:stackSpec];
-    }
-    
-    return nil;
-}
-
-- (void)didLoad {
-    [super didLoad];
-}
-
-#pragma mark - CellNode
-
-- (void)updateCellNodeWithObject:(id)object {
-    if ([object isKindOfClass:[GroupPhotoMessage class]]) {
-        GroupPhotoMessage *groupPhoto = (GroupPhotoMessage *)object;
-#if DEBUG
-        assert(groupPhoto.urls.count > 0);
-#endif
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self setMessage:groupPhoto];
-        [self initImageNodesWithCount:groupPhoto.urls.count];
-        self.imageUrls = groupPhoto.urls;
-        
-        for (int i = 0; i < _imageUrls.count; i++) {
-            [_imageNodes[i] setURL:[NSURL URLWithString:_imageUrls[i]]];
-        }
-        
-        Message *message = (Message *)groupPhoto;
-        if (message.showAvatar) {
-            UIImage *avatarImage = [[ImageCache instance] imageForKey:message.fromContact.identifier];
-            if (avatarImage) {
-                [self showAvatarImage:avatarImage];
-            } else {
-                [self showAvatarImageWithGradientColor:message.fromContact.gradientColorCode
-                                             shortName:message.fromContact.name];
-            }
-        }
+    } else {
+        return [ASStackLayoutSpec
+                stackLayoutSpecWithDirection:ASStackLayoutDirectionVertical
+                spacing:configure.verticalSpace
+                justifyContent:ASStackLayoutJustifyContentStart
+                alignItems:ASStackLayoutAlignItemsStart
+                children:verticalChilds];
     }
 }
 
 #pragma mark - Setter
 
-- (void)setMessage:(Message *)message {
+- (void)setMessage:(GroupPhotoMessage *)message {
+    [super setMessage:message];
     _message = message;
-    if ([_message.fromContact.phoneNumber isEqualToString:kCurrentUser]) {
-        _messageStyle = MessageCellStyleSend;
-    } else {
-        _messageStyle = MessageCellStyleReceive;
+    
+    [self initImageNodesWithCount:message.urls.count];
+    [self setImageUrls:message.urls];
+    
+    for (int i = 0; i < _imageUrls.count; i++) {
+        [_imageNodes[i] setURL:[NSURL URLWithString:_imageUrls[i]]];
     }
-}
-
-- (void)showAvatarImage:(UIImage *)image {
-    if (!image || _messageStyle != MessageCellStyleReceive)
-        return;
-    
-    [_avatarNode setAvatar:image];
-    _avatarNode.hidden = NO;
-}
-
-- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
-                               shortName:(NSString *)shortName {
-    if (!shortName || _messageStyle != MessageCellStyleReceive)
-        return;
-    
-    [_avatarNode setGradientAvatarWithColorCode:gradientColorCode
-                                   andShortName:shortName];
-    _avatarNode.hidden = NO;
 }
 
 @end

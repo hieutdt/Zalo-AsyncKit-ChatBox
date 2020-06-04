@@ -16,7 +16,6 @@
 #import "StringHelper.h"
 
 static const int kIngroupVerticalPadding = 1;
-static const int kOutgroupVerticalPadding = 10;
 static const int kHorizontalPadding = 15;
 
 @interface MessageCellNode ()
@@ -125,8 +124,18 @@ static const int kHorizontalPadding = 15;
 }
 
 - (ASLayoutSpec *)contentLayoutSpec:(ASSizeRange)constrainedSize {
-    // Override this method
+    //TODO: Override this method or die :]
     return nil;
+}
+
+- (void)didLoad {
+    [super didLoad];
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]
+                                                      initWithTarget:self
+                                                      action:@selector(longPressHandle)];
+    
+    [self.controlNode.view addGestureRecognizer:longPressGesture];
 }
 
 #pragma mark - CellNode
@@ -166,7 +175,7 @@ static const int kHorizontalPadding = 15;
 }
 
 - (void)updateUI {
-    // Override this method if needed
+    //TODO: Override this method if needed :]
 }
 
 #pragma mark - Setter
@@ -178,7 +187,7 @@ static const int kHorizontalPadding = 15;
         _messageStyle = MessageCellStyleReceive;
     }
     
-    // Override this method
+    //TODO: Override this method, remember to call super :]
 }
 
 - (void)showAvatarImage:(UIImage *)image {
@@ -214,6 +223,10 @@ static const int kHorizontalPadding = 15;
 - (void)touchUpInside {
     self.choosing = !self.choosing;
     [self setNeedsLayout];
+}
+
+- (void)longPressHandle {
+    
 }
 
 @end

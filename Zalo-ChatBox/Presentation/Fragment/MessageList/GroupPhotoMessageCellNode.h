@@ -8,24 +8,21 @@
 
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 
+#import "MessageCellNode.h"
 #import "Message.h"
 #import "AppConsts.h"
 
 #import "CellNodeObject.h"
-#import "GroupPhotoMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GroupPhotoMessageCellNode : ASCellNode <CellNode>
+@class GroupPhotoMessage;
 
-- (void)setMessage:(Message *)message;
+@interface GroupPhotoMessageCellNode : MessageCellNode
+
+- (void)setMessage:(GroupPhotoMessage *)message;
 
 - (void)setImageUrls:(NSArray<NSString *> *)urls;
-
-- (void)showAvatarImage:(UIImage *)image;
-
-- (void)showAvatarImageWithGradientColor:(int)gradientColorCode
-                               shortName:(NSString *)shortName;
 
 @end
 

@@ -17,7 +17,6 @@
 
 static const int kIngroupVerticalPadding = 1;
 static const int kOutgroupVerticalPadding = 10;
-static const int kHorizontalPadding = 15;
 
 @interface TextMessageCellNode ()
 
