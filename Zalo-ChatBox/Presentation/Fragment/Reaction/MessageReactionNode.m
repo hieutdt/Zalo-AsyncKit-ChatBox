@@ -31,37 +31,38 @@
         self.backgroundColor = [UIColor whiteColor];
         self.cornerRadius = 25;
         self.shadowColor = [UIColor blackColor].CGColor;
-        self.shadowOpacity = 0.3;
+        self.shadowOpacity = 0.4;
         self.shadowRadius = 1.5;
+        self.shadowOffset = CGSizeZero;
         
         _likeReactImg = [[ASImageNode alloc] init];
         _likeReactImg.style.preferredSize = CGSizeMake(40, 40);
-        _likeReactImg.contentMode = UIViewContentModeScaleToFill;
+        _likeReactImg.contentMode = UIViewContentModeScaleAspectFit;
         [_likeReactImg setImage:[UIImage imageNamed:@"img_1"]];
         
         _loveReactImg = [[ASImageNode alloc] init];
         _loveReactImg.style.preferredSize = CGSizeMake(40, 40);
-        _loveReactImg.contentMode = UIViewContentModeScaleToFill;
+        _loveReactImg.contentMode = UIViewContentModeScaleAspectFit;
         [_loveReactImg setImage:[UIImage imageNamed:@"img_2"]];
         
         _hahaReactImg = [[ASImageNode alloc] init];
         _hahaReactImg.style.preferredSize = CGSizeMake(40, 40);
-        _hahaReactImg.contentMode = UIViewContentModeScaleToFill;
+        _hahaReactImg.contentMode = UIViewContentModeScaleAspectFit;
         [_hahaReactImg setImage:[UIImage imageNamed:@"img_3"]];
         
         _wowReactImg = [[ASImageNode alloc] init];
         _wowReactImg.style.preferredSize = CGSizeMake(40, 40);
-        _wowReactImg.contentMode = UIViewContentModeScaleToFill;
+        _wowReactImg.contentMode = UIViewContentModeScaleAspectFit;
         [_wowReactImg setImage:[UIImage imageNamed:@"img_4"]];
         
         _sadReactImg = [[ASImageNode alloc] init];
         _sadReactImg.style.preferredSize = CGSizeMake(40, 40);
-        _sadReactImg.contentMode = UIViewContentModeScaleToFill;
+        _sadReactImg.contentMode = UIViewContentModeScaleAspectFit;
         [_sadReactImg setImage:[UIImage imageNamed:@"img_5"]];
         
         _angryReactImg = [[ASImageNode alloc] init];
         _angryReactImg.style.preferredSize = CGSizeMake(40, 40);
-        _angryReactImg.contentMode = UIViewContentModeScaleToFill;
+        _angryReactImg.contentMode = UIViewContentModeScaleAspectFit;
         [_angryReactImg setImage:[UIImage imageNamed:@"img_6"]];
         
         _reacts = @[_likeReactImg, _loveReactImg, _hahaReactImg, _wowReactImg, _sadReactImg, _angryReactImg];
