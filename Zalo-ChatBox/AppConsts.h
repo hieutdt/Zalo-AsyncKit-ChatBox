@@ -67,6 +67,7 @@ typedef NS_ENUM(NSInteger, ReactionType) {
 #define kFacebookLikeUrl @"https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102011/like_icon.png?itok=zDK11Mej"
 
 #define kMessageLongPressNotification @"MessageCellLongPress"
+#define kMessageTappedNotification @"MessageCellTapped"
 
 static const int FIRST_ALPHABET_ASCII_CODE = 97;
 static const int ALPHABET_SECTIONS_NUMBER = 27;

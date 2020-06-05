@@ -173,9 +173,12 @@ withRectOfCellNode:(CGRect)rectOfCell {
 - (void)tableNode:(MessageTableNode *)tableNode didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.messageInputView endEditingWithKeepText:YES];
     [self animatedHideKeyboard];
+    [self endReaction];
 }
 
 - (void)animatedShowKeyboardWithHeight:(CGFloat)keyboardHeight {
+    [self endReaction];
+    
     _contentNode.view.transform = CGAffineTransformIdentity;
     [UIView animateWithDuration:0.5 animations:^{
         self->_contentNode.view.transform = CGAffineTransformTranslate(self->_messageInputView.transform, 0, -keyboardHeight);
@@ -253,9 +256,25 @@ withRectOfCellNode:(CGRect)rectOfCell {
         [self.reactingCellNode reaction:reactionType];
     }
     
-    self.reactionNode.hidden = YES;
-    [self.reactingCellNode focusEndHandle];
-    self.reactingCellNode = nil;
+    [self endReaction];
+}
+
+#pragma mark -
+
+- (void)endReaction {
+    if (!self.reactionNode.hidden) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.reactionNode.view.transform = CGAffineTransformScale(self.reactionNode.view.transform, 0.2, 0.2);
+        } completion:^(BOOL finished) {
+            self.reactionNode.hidden = YES;
+            self.reactionNode.view.transform = CGAffineTransformIdentity;
+        }];
+    }
+    
+    if (self.reactingCellNode) {
+        [self.reactingCellNode focusEndHandle];
+        self.reactingCellNode = nil;
+    }
 }
 
 @end

@@ -93,6 +93,11 @@ static const int kMaxNodes = 300;
                                              selector:@selector(handleMessageLongPress:)
                                                  name:kMessageLongPressNotification
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleMessageTapped:)
+                                                 name:kMessageTappedNotification
+                                               object:nil];
 }
 
 - (void)dealloc {
@@ -383,7 +388,7 @@ static const int kMaxNodes = 300;
 //    });
 }
 
-#pragma mark - HandleMessageLongPress
+#pragma mark - HandleMessageNotification
 
 - (void)handleMessageLongPress:(NSNotification *)notification {
     NSDictionary *userInfo = notification.userInfo;
@@ -398,6 +403,16 @@ static const int kMaxNodes = 300;
                didHoldInCellNode:cellNode
                      atIndexPath:indexPath
               withRectOfCellNode:rectInScreen];
+    }
+}
+
+- (void)handleMessageTapped:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    ASCellNode *cellNode = userInfo.allValues[0];
+    NSIndexPath *indexPath = [self.tableNode indexPathForNode:cellNode];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didSelectItemAtIndexPath:)]) {
+        [self.delegate tableNode:self didSelectItemAtIndexPath:indexPath];
     }
 }
 

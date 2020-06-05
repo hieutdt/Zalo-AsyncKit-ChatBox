@@ -100,8 +100,6 @@
     if (index < 0 || index >= self.reacts.count)
         return;
     
-    ASImageNode *focusNode = self.reacts[index];
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(messageReactionNode:didSelectReactionType:)]) {
         [self.delegate messageReactionNode:self didSelectReactionType:index + 1];
     }

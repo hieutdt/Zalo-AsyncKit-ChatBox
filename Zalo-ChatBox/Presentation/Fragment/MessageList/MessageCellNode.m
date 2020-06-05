@@ -270,6 +270,10 @@ static const int kHorizontalPadding = 15;
 - (void)touchUpInside {
     self.choosing = !self.choosing;
     [self setNeedsLayout];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kMessageTappedNotification
+                                                        object:self
+                                                      userInfo:@{ @"cellNode" : self }];
 }
 
 - (void)longPressHandle {
