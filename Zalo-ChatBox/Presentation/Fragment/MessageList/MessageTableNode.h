@@ -44,6 +44,8 @@ withRectOfCellNode:(CGRect)rectOfCell;
 
 - (void)sendMessage:(Message *)message;
 
+- (void)enableScroll:(BOOL)enable;
+
 @end
 
 NS_ASSUME_NONNULL_END

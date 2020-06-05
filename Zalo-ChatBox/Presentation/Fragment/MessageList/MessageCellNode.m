@@ -29,6 +29,7 @@ static const int kHorizontalPadding = 15;
 @property (nonatomic, strong) ASImageNode *reactionNode;
 
 @property (nonatomic, assign) BOOL choosing;
+@property (nonatomic, assign) BOOL holding;
 @property (nonatomic, assign) ReactionType reactionType;
 
 @end
@@ -53,10 +54,12 @@ static const int kHorizontalPadding = 15;
         _reactionNode = [[ASImageNode alloc] init];
         _reactionNode.contentMode = UIViewContentModeScaleAspectFit;
         _reactionNode.backgroundColor = [UIColor clearColor];
-        _reactionNode.style.preferredSize = CGSizeMake(40, 40);
+        _reactionNode.style.width = ASDimensionMakeWithPoints(40);
+        _reactionNode.style.height = ASDimensionMakeWithPoints(40);
         _reactionNode.hidden = YES;
         
         _choosing = NO;
+        _holding = NO;
         
         _controlNode = [[ASControlNode alloc] init];
         [_controlNode addTarget:self
@@ -261,6 +264,10 @@ static const int kHorizontalPadding = 15;
     return _choosing;
 }
 
+- (BOOL)holding {
+    return _holding;
+}
+
 - (ReactionType)reactionType {
     return _reactionType;
 }
@@ -277,10 +284,10 @@ static const int kHorizontalPadding = 15;
 }
 
 - (void)longPressHandle {
-    if (self.choosing)
+    if (self.holding)
         return;
     
-    self.choosing = YES;
+    self.holding = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:kMessageLongPressNotification
                                                         object:self
                                                       userInfo:@{ @"cellNode" : self }];
@@ -288,6 +295,7 @@ static const int kHorizontalPadding = 15;
 
 - (void)focusEndHandle {
     self.choosing = NO;
+    self.holding = NO;
 }
 
 @end

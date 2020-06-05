@@ -107,7 +107,7 @@ static const int kOutgroupVerticalPadding = 10;
             self.bottomPadding = kIngroupVerticalPadding;
         }
         
-        if ([self choosing]) {
+        if ([self choosing] || [self holding]) {
             [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(_configure.highlightSendMessageColor)
             ( [bubbleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         } else {
@@ -125,7 +125,7 @@ static const int kOutgroupVerticalPadding = 10;
             self.bottomPadding = kIngroupVerticalPadding;
         }
         
-        if ([self choosing]) {
+        if ([self choosing] || [self holding]) {
             [_backgroundNode setImage:ASImageNodeTintColorModificationBlock(_configure.highlightReceiveMessageColor)
             ( [bubbleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate])];
         } else {
@@ -182,6 +182,7 @@ static const int kOutgroupVerticalPadding = 10;
 
 - (void)focusEndHandle {
     [super focusEndHandle];
+    
     [self updateUI];
     [self.backgroundNode setNeedsLayout];
     [self setNeedsLayout];

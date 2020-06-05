@@ -144,6 +144,7 @@ withRectOfCellNode:(CGRect)rectOfCell {
     if (!tableNode || !cellNode || !indexPath)
         return;
     
+    [self.tableNode enableScroll:NO];
     self.reactingCellNode = (MessageCellNode *)cellNode;
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
@@ -262,6 +263,8 @@ withRectOfCellNode:(CGRect)rectOfCell {
 #pragma mark -
 
 - (void)endReaction {
+    [_tableNode enableScroll:YES];
+    
     if (!self.reactionNode.hidden) {
         [UIView animateWithDuration:0.25 animations:^{
             self.reactionNode.view.transform = CGAffineTransformScale(self.reactionNode.view.transform, 0.2, 0.2);

@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)choosing;
 
+- (BOOL)holding;
+
 - (void)setMessage:(Message *)message;
 
 - (void)showAvatarImage:(UIImage *)image;

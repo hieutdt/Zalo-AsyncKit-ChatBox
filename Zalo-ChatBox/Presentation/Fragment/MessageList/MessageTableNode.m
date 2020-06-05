@@ -274,6 +274,10 @@ static const int kMaxNodes = 300;
     _friendAvatarImage = nil;
 }
 
+- (void)enableScroll:(BOOL)enable {
+    _tableNode.view.scrollEnabled = enable;
+}
+
 #pragma mark - ASTableDelegate
 
 - (void)tableNode:(ASTableNode *)tableNode didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
