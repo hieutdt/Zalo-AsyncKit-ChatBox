@@ -77,6 +77,8 @@
 		04997754247FAD70001F0736 /* GroupPhotoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04997752247FAD70001F0736 /* GroupPhotoMessage.m */; };
 		04E2D0982472DF92004B1BE9 /* TextMessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* TextMessageCellNode.m */; };
 		04E2D0992472DF92004B1BE9 /* TextMessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E2D0972472DF92004B1BE9 /* TextMessageCellNode.m */; };
+		04F74CF824893C4800FB550D /* MessageReactionNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F74CF724893C4800FB550D /* MessageReactionNode.m */; };
+		04F74CF924893C4800FB550D /* MessageReactionNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F74CF724893C4800FB550D /* MessageReactionNode.m */; };
 		04FA55D424766102005ED189 /* ContactAvatarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D324766101005ED189 /* ContactAvatarNode.m */; };
 		04FA55D524766102005ED189 /* ContactAvatarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55D324766101005ED189 /* ContactAvatarNode.m */; };
 		04FA55DC24769597005ED189 /* PhotoMessageCellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA55DB24769597005ED189 /* PhotoMessageCellNode.m */; };
@@ -181,6 +183,8 @@
 		04D6A426248000500004986F /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E2D0962472DF92004B1BE9 /* TextMessageCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextMessageCellNode.h; sourceTree = "<group>"; };
 		04E2D0972472DF92004B1BE9 /* TextMessageCellNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextMessageCellNode.m; sourceTree = "<group>"; };
+		04F74CF624893C4800FB550D /* MessageReactionNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageReactionNode.h; sourceTree = "<group>"; };
+		04F74CF724893C4800FB550D /* MessageReactionNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageReactionNode.m; sourceTree = "<group>"; };
 		04FA55D224766101005ED189 /* ContactAvatarNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactAvatarNode.h; sourceTree = "<group>"; };
 		04FA55D324766101005ED189 /* ContactAvatarNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactAvatarNode.m; sourceTree = "<group>"; };
 		04FA55DA24769597005ED189 /* PhotoMessageCellNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoMessageCellNode.h; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 		041CB20F246E909800D09B58 /* Fragment */ = {
 			isa = PBXGroup;
 			children = (
+				04F74CF524893C2200FB550D /* Reaction */,
 				04516EF22472893F005603C8 /* MessageInput */,
 				04516EF124728935005603C8 /* ContactList */,
 				04516EF724728AFB005603C8 /* MessageList */,
@@ -482,6 +487,15 @@
 				04475806247CCB3A003EF581 /* CellNodeFactory.m */,
 			);
 			path = NodeModel;
+			sourceTree = "<group>";
+		};
+		04F74CF524893C2200FB550D /* Reaction */ = {
+			isa = PBXGroup;
+			children = (
+				04F74CF624893C4800FB550D /* MessageReactionNode.h */,
+				04F74CF724893C4800FB550D /* MessageReactionNode.m */,
+			);
+			path = Reaction;
 			sourceTree = "<group>";
 		};
 		8E06C0F317C472BB0061391B /* Pods */ = {
@@ -681,6 +695,7 @@
 				048F273F247CB8A400C3F9D0 /* TextMessage.m in Sources */,
 				04475807247CCB3A003EF581 /* CellNodeFactory.m in Sources */,
 				041CB20D246E904C00D09B58 /* ContactBusiness.m in Sources */,
+				04F74CF824893C4800FB550D /* MessageReactionNode.m in Sources */,
 				041CB21C246E925C00D09B58 /* UIImage+Additions.m in Sources */,
 				042780D52486424C00161E6B /* PhotoMessageCellConfigure.m in Sources */,
 				042780D9248648F500161E6B /* GroupPhotoMessageCellConfigure.m in Sources */,
@@ -734,6 +749,7 @@
 				041CB213246E90EA00D09B58 /* ContactTableCellNode.m in Sources */,
 				0430C88C2486003100853F0F /* MessageCellConfigure.m in Sources */,
 				046AD7552476255B0062A856 /* MessageAdapter.m in Sources */,
+				04F74CF924893C4800FB550D /* MessageReactionNode.m in Sources */,
 				048F2740247CB8A400C3F9D0 /* TextMessage.m in Sources */,
 				041CB1E1246E79E400D09B58 /* ContactListViewController.m in Sources */,
 				042780DA248648F500161E6B /* GroupPhotoMessageCellConfigure.m in Sources */,

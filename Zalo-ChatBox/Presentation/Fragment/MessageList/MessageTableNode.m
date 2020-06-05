@@ -24,7 +24,7 @@
 static NSString *kFontName = @"HelveticaNeue";
 static const int kMaxNodes = 300;
 
-@interface MessageTableNode () <ASTableDelegate, ASTableDataSource, TextMessageCellNodeDelegate>
+@interface MessageTableNode () <ASTableDelegate, ASTableDataSource>
 
 @property (nonatomic, strong) NSMutableArray<Message *> *rawMessages;
 @property (nonatomic, strong) NSMutableArray<id<CellNodeObject>> *messageModels;
@@ -88,6 +88,15 @@ static const int kMaxNodes = 300;
     CGFloat inset = 80;
     _tableNode.contentInset = UIEdgeInsetsMake(-inset + kMessageInputHeight, 0, inset, 0);
     _tableNode.view.scrollIndicatorInsets = UIEdgeInsetsMake(-inset + kMessageInputHeight + 10, 0, inset, 0);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleMessageLongPress:)
+                                                 name:kMessageLongPressNotification
+                                               object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - GenerateSectionsData
@@ -374,9 +383,22 @@ static const int kMaxNodes = 300;
 //    });
 }
 
-- (void)loadBottomMessage {
-    
-}
+#pragma mark - HandleMessageLongPress
 
+- (void)handleMessageLongPress:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    ASCellNode *cellNode = userInfo.allValues[0];
+    
+    NSIndexPath *indexPath = [self.tableNode indexPathForNode:cellNode];
+    CGRect rect = [self.tableNode rectForRowAtIndexPath:indexPath];
+    CGRect rectInScreen = [self.tableNode convertRect:rect toNode:self];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tableNode:didHoldInCellNode:atIndexPath:withRectOfCellNode:)]) {
+        [self.delegate tableNode:self
+               didHoldInCellNode:cellNode
+                     atIndexPath:indexPath
+              withRectOfCellNode:rectInScreen];
+    }
+}
 
 @end

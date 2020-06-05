@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)tableNode:(MessageTableNode *)tableNode
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 
+- (void)tableNode:(MessageTableNode *)tableNode
+didHoldInCellNode:(ASCellNode *)cellNode
+      atIndexPath:(NSIndexPath *)indexPath
+withRectOfCellNode:(CGRect)rectOfCell;
+
 @end
 
 @interface MessageTableNode : ASDisplayNode

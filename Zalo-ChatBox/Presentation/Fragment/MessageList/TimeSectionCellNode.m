@@ -33,9 +33,10 @@
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize {
     self.style.preferredSize = constrainedSize.max;
     self.style.maxSize = constrainedSize.max;
-    ASCenterLayoutSpec *centerSpec = [ASCenterLayoutSpec centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
-                                                                                sizingOptions:ASCenterLayoutSpecSizingOptionDefault
-                                                                                        child:_textNode];
+    ASCenterLayoutSpec *centerSpec = [ASCenterLayoutSpec
+                                      centerLayoutSpecWithCenteringOptions:ASCenterLayoutSpecCenteringXY
+                                      sizingOptions:ASCenterLayoutSpecSizingOptionDefault
+                                      child:_textNode];
     return [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsMake(15, 0, 10, 0)
                                                   child:centerSpec];
 }
@@ -53,7 +54,6 @@
                                       NSForegroundColorAttributeName : textColor
     };
     
-    
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:[StringHelper getTimeStringFromTimestamp:_timestamp]
                                                                  attributes:attributedText];
     
@@ -66,6 +66,7 @@
     if ([object isKindOfClass:[TimeSectionHeader class]]) {
         TimeSectionHeader *timeObj = (TimeSectionHeader *)object;
         [self setTimestamp:timeObj.timestamp];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 }
 

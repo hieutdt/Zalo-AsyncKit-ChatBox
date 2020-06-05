@@ -34,6 +34,16 @@ typedef NS_ENUM(NSInteger, MessageStyle) {
     MessageStyleSection
 };
 
+typedef NS_ENUM(NSInteger, ReactionType) {
+    ReactionTypeNull = 0,
+    ReactionTypeLike,
+    ReactionTypeLove,
+    ReactionTypeHaha,
+    ReactionTypeWow,
+    ReactionTypeSad,
+    ReactionTypeAngry
+};
+
 #define AVATAR_IMAGE_HEIHGT     60
 #define CHECKER_IMAGE_HEIGHT    30
 
@@ -55,6 +65,8 @@ typedef NS_ENUM(NSInteger, MessageStyle) {
 #define kPhotoMessageSizeHeight         100
 
 #define kFacebookLikeUrl @"https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102011/like_icon.png?itok=zDK11Mej"
+
+#define kMessageLongPressNotification @"MessageCellLongPress"
 
 static const int FIRST_ALPHABET_ASCII_CODE = 97;
 static const int ALPHABET_SECTIONS_NUMBER = 27;

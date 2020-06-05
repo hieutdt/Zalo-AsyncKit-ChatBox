@@ -49,6 +49,13 @@ static const int kFontSize = 15;
                                                    overlay:centerTextSpec];
 }
 
+- (void)setHidden:(BOOL)hidden {
+    [super setHidden:hidden];
+    if (hidden) {
+        [_imageNode setImage:nil];
+    }
+}
+
 - (void)setAvatar:(UIImage *)image {
     if (image) {
         [_imageNode setImage:image];

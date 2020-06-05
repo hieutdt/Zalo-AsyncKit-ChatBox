@@ -30,9 +30,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAvatarImageWithGradientColor:(int)gradientColorCode
                                shortName:(NSString *)shortName;
 
+- (void)reaction:(ReactionType)reactionType;
+
+- (ReactionType)reactionType;
+
 #pragma mark - Action
 
 - (void)touchUpInside;
+
+- (void)longPressHandle;
+
+- (void)focusEndHandle;
 
 @end
 

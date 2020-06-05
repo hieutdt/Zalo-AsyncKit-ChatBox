@@ -170,6 +170,20 @@ static const int kOutgroupVerticalPadding = 10;
     
     [self updateUI];
     [self.backgroundNode setNeedsLayout];
+}
+
+- (void)longPressHandle {
+    [super longPressHandle];
+    
+    [self updateUI];
+    [self.backgroundNode setNeedsLayout];
+    [self setNeedsLayout];
+}
+
+- (void)focusEndHandle {
+    [super focusEndHandle];
+    [self updateUI];
+    [self.backgroundNode setNeedsLayout];
     [self setNeedsLayout];
 }
 

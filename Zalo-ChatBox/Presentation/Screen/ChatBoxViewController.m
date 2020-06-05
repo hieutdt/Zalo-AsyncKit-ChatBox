@@ -10,6 +10,7 @@
 
 #import "MessageTableNode.h"
 #import "MessageInputView.h"
+#import "MessageReactionNode.h"
 
 #import "MessageBusiness.h"
 #import "ContactBusiness.h"
@@ -21,16 +22,18 @@
 #import "ImageCache.h"
 #import "StringHelper.h"
 
-@interface ChatBoxViewController () <MessageTableNodeDelegate, MessageInputViewDelegate>
+@interface ChatBoxViewController () <MessageTableNodeDelegate, MessageInputViewDelegate, MessageReactionNodeDelegate>
 
 @property (nonatomic, strong) ASDisplayNode *contentNode;
 @property (nonatomic, strong) MessageTableNode *tableNode;
 @property (nonatomic, strong) MessageInputView *messageInputView;
+@property (nonatomic, strong) MessageReactionNode *reactionNode;
 
 @property (nonatomic, strong) Conversation *conversation;
 @property (nonatomic, strong) MessageBusiness *messageBusiness;
 
 @property (nonatomic, strong) Contact *owner;
+@property (nonatomic, strong) MessageCellNode *reactingCellNode;
 
 @end
 
@@ -51,6 +54,9 @@
         _owner.name = @"Trần Hiếu";
         _owner.phoneNumber = kCurrentUser;
         
+        _reactionNode = [[MessageReactionNode alloc] init];
+        _reactionNode.delegate = self;
+        
         _contentNode.automaticallyManagesSubnodes = YES;
         _contentNode.layoutSpecBlock = ^ASLayoutSpec *(__kindof ASDisplayNode * _Nonnull node, ASSizeRange constrainedSize) {
             weakSelf.tableNode.style.preferredSize = CGSizeMake(constrainedSize.max.width, constrainedSize.max.height - 50);
@@ -65,6 +71,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.node addSubnode:self.reactionNode];
+    self.reactionNode.hidden = YES;
     
     _messageInputView = [[MessageInputView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - kMessageInputHeight,
                                                                            self.view.bounds.size.width, kMessageInputHeight)];
@@ -81,6 +90,22 @@
                             andShortName:shortName];
     }
     
+    [self loadMessagesForConversation];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleKeyboardNotification:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)loadMessagesForConversation {
     Contact *currentUser = [[Contact alloc] init];
     currentUser.phoneNumber = kCurrentUser;
     
@@ -98,14 +123,6 @@
             });
         }
     }];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleKeyboardNotification:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
 }
 
 #pragma mark - MessageTableNodeDelegate
@@ -117,6 +134,27 @@
         if (!error && messages) {
             completionHandler(messages);
         }
+    }];
+}
+
+- (void)tableNode:(MessageTableNode *)tableNode
+didHoldInCellNode:(ASCellNode *)cellNode
+      atIndexPath:(NSIndexPath *)indexPath
+withRectOfCellNode:(CGRect)rectOfCell {
+    if (!tableNode || !cellNode || !indexPath)
+        return;
+    
+    self.reactingCellNode = (MessageCellNode *)cellNode;
+    
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    CGFloat y = screenSize.height -  rectOfCell.origin.y - rectOfCell.size.height - 50;
+    CGFloat x = (screenSize.width - 320) / 2.f;
+    self.reactionNode.frame = CGRectMake(x, y, 320, 50);
+    self.reactionNode.hidden = NO;
+    
+    self.reactionNode.view.transform = CGAffineTransformScale(self.reactionNode.view.transform, 0.3, 0.3);
+    [UIView animateWithDuration:0.25 animations:^{
+        self.reactionNode.view.transform = CGAffineTransformIdentity;
     }];
 }
 
@@ -204,6 +242,20 @@
 - (void)messageInputViewSendSticker:(MessageInputView *)inputView {
     NSString *stickerUrl = [self.messageBusiness getRandomStickerUrl];
     [self sendImage:stickerUrl];
+}
+
+#pragma mark - MessageReactionNodeDelegate
+
+- (void)messageReactionNode:(MessageReactionNode *)reactionNode didSelectReactionType:(NSInteger)reactionType {
+    if ([self.reactingCellNode reactionType] == reactionType) {
+        [self.reactingCellNode reaction:ReactionTypeNull];
+    } else {
+        [self.reactingCellNode reaction:reactionType];
+    }
+    
+    self.reactionNode.hidden = YES;
+    [self.reactingCellNode focusEndHandle];
+    self.reactingCellNode = nil;
 }
 
 @end
