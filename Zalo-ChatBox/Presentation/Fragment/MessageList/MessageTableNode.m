@@ -22,7 +22,6 @@
 #import "UIImage+Additions.h"
 
 static NSString *kFontName = @"HelveticaNeue";
-static const int kMaxNodes = 300;
 
 @interface MessageTableNode () <ASTableDelegate, ASTableDataSource>
 
@@ -340,56 +339,6 @@ static const int kMaxNodes = 300;
                                   withRowAnimation:UITableViewRowAnimationNone];
         } completion:nil];
     });
-    
-//    // Add new value to topLoadedModels
-//    for (NSInteger i = currentModelsSize; i < self.messageModels.count; i++) {
-//        [self.topLoadedModels addObject:self.messageModels[i]];
-//    }
-//
-//    NSInteger currentSize = [self.tableModel dataSourceCount];
-//    NSInteger addingSize = self.topLoadedModels.count >= 30 ? 30 : self.topLoadedModels.count;
-//    NSInteger removeNodeSize = 0;
-//
-//    if (currentSize + addingSize > kMaxNodes) {
-//        removeNodeSize = currentSize + addingSize - kMaxNodes;
-//    }
-//
-//    NSMutableArray<id<CellNodeObject>> *addObjects = [[NSMutableArray alloc] init];
-//    NSMutableArray<id<CellNodeObject>> *removeObjects = [[NSMutableArray alloc] init];
-//
-//    NSMutableArray<NSIndexPath *> *addIndexPaths = [[NSMutableArray alloc] init];
-//    NSMutableArray<NSIndexPath *> *removeIndexPaths = [[NSMutableArray alloc] init];
-//
-//    // Build remove changeset
-//    for (NSInteger i = self.bottomLoadedModels.count; i < self.bottomLoadedModels.count + removeNodeSize; i++) {
-//        [removeObjects addObject:self.messageModels[i]];
-//        [removeIndexPaths addObject:[NSIndexPath indexPathForRow:i - self.bottomLoadedModels.count
-//                                                       inSection:0]];
-//    }
-//    [self.tableModel remove:removeObjects];
-//
-//    // Build insert changeset
-//    for (NSInteger i = self.bottomLoadedModels.count + currentSize; i < self.bottomLoadedModels.count + currentSize + addingSize; i++) {
-//        [addObjects addObject:self.messageModels[i]];
-//        [addIndexPaths addObject:[NSIndexPath indexPathForRow:[self.tableModel dataSourceCount] + i - self.bottomLoadedModels.count - currentSize
-//                                                    inSection:0]];
-//    }
-//    [self.tableModel pushBack:addObjects];
-//
-//    [self.topLoadedModels removeObjectsInArray:addObjects];
-//    [self.bottomLoadedModels addObjectsFromArray:removeObjects];
-//
-//    __weak MessageTableNode *weakSelf = self;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [weakSelf.tableNode performBatchAnimated:NO updates:^{
-//            [self.tableNode deleteRowsAtIndexPaths:removeIndexPaths
-//                                  withRowAnimation:UITableViewRowAnimationNone];
-//            [self.tableNode insertRowsAtIndexPaths:addIndexPaths
-//                                    withRowAnimation:UITableViewRowAnimationNone];
-//        } completion:^(BOOL finished) {
-//
-//        }];
-//    });
 }
 
 #pragma mark - HandleMessageNotification

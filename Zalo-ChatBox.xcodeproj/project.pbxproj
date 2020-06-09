@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -349,6 +349,7 @@
 		0426C36A246E75940090E1EC /* Zalo-ChatBox */ = {
 			isa = PBXGroup;
 			children = (
+				044908A5248F3C7600CB02AB /* Framework */,
 				041CB1DB246E782500D09B58 /* Presentation */,
 				041CB1DA246E781F00D09B58 /* Business */,
 				041CB1D9246E781600D09B58 /* DataAccess */,
@@ -389,6 +390,13 @@
 				042780D8248648F500161E6B /* GroupPhotoMessageCellConfigure.m */,
 			);
 			path = Configure;
+			sourceTree = "<group>";
+		};
+		044908A5248F3C7600CB02AB /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Framework;
 			sourceTree = "<group>";
 		};
 		04516EF02472892D005603C8 /* Image */ = {
@@ -532,7 +540,7 @@
 				0426C364246E75940090E1EC /* Sources */,
 				0426C365246E75940090E1EC /* Frameworks */,
 				0426C366246E75940090E1EC /* Resources */,
-				A3868956A951384A10255059 /* [CP] Embed Pods Frameworks */,
+				6EC5ED895037012FBC1551BB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -645,7 +653,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A3868956A951384A10255059 /* [CP] Embed Pods Frameworks */ = {
+		6EC5ED895037012FBC1551BB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

@@ -3,4 +3,166 @@
    uuid = "5FF3BB8D-B1D5-4385-9253-8917544E9A7E"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DE4470E4-BF7D-4BE9-B58C-F8BFF1B3633B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Texture/Source/ASTableNode.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "704"
+            endingLineNumber = "704"
+            landmarkName = "-indexPathsForVisibleRows"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DE4470E4-BF7D-4BE9-B58C-F8BFF1B3633B - 92abcf87724bae32"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ASTableNode indexPathsForVisibleRows]"
+                  moduleName = "AsyncDisplayKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/trandinhtonhieu/Desktop/Zalo/Zalo-AsyncKit-ChatBox/Pods/Texture/Source/ASTableNode.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "704"
+                  endingLineNumber = "704"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "DE4470E4-BF7D-4BE9-B58C-F8BFF1B3633B - 92abcf87724bae32"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ASTableNode indexPathsForVisibleRows]"
+                  moduleName = "AsyncDisplayKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/trandinhtonhieu/Desktop/Zalo/Zalo-AsyncKit-ChatBox/Pods/Texture/Source/ASTableNode.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "704"
+                  endingLineNumber = "704"
+                  offsetFromSymbolStart = "100">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "71978C2F-4D1B-4AD4-A88F-0D6221DB8929"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Texture/Source/ASTableNode.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "677"
+            endingLineNumber = "677"
+            landmarkName = "-indexPathsForSelectedRows"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "71978C2F-4D1B-4AD4-A88F-0D6221DB8929 - 9dc925e08cb5fe96"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ASTableNode indexPathsForSelectedRows]"
+                  moduleName = "AsyncDisplayKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/trandinhtonhieu/Desktop/Zalo/Zalo-AsyncKit-ChatBox/Pods/Texture/Source/ASTableNode.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "677"
+                  endingLineNumber = "677"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "71978C2F-4D1B-4AD4-A88F-0D6221DB8929 - 9dc925e08cb5fe96"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ASTableNode indexPathsForSelectedRows]"
+                  moduleName = "AsyncDisplayKit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/trandinhtonhieu/Desktop/Zalo/Zalo-AsyncKit-ChatBox/Pods/Texture/Source/ASTableNode.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "677"
+                  endingLineNumber = "677"
+                  offsetFromSymbolStart = "71">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5703CBA5-B575-46CF-B7EF-7A6049CC8750"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Texture/Source/ASTableNode.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
+            landmarkName = "-tuningParametersForRangeType:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E076E7FF-5541-40AC-8B99-2930EF0A67C6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Texture/Source/ASTableNode.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "535"
+            endingLineNumber = "535"
+            landmarkName = "-setTuningParameters:forRangeType:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "90AC49F4-87DD-4807-8D66-6A5E7E09F9CE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Texture/Source/ASTableNode.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "540"
+            endingLineNumber = "540"
+            landmarkName = "-tuningParametersForRangeMode:rangeType:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CB83CE53-2E07-4F46-B381-AA148DC02D4C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Texture/Source/ASTableNode.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "-initWithStyle:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
